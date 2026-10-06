@@ -1,788 +1,1179 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>VyaghraGeoLab - Transformasi Geometri Kelas 9</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Font Rosalina Style (Playfair Display) & Inter -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- FontAwesome Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Tailwind CSS via CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-  :root {
-    --bg: #FFF8F0;
-    --surface: #FFFFFF;
-    --surface-2: #FFF0E0;
-    --text: #2C1A0E;
-    --muted: #8C6A53;
-    --accent: #EA580C; /* Tiger Orange */
-    --accent-dark: #C2410C;
-    --accent-light: #FFEDD5;
-    --border: #FED7AA;
-    --danger: #DC2626;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VyaghraGeoLab - Transformasi Geometri Kelas 9</title>
   
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg);
-    color: var(--text);
-  }
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            amber: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+            },
+            tiger: {
+              orange: '#ea580c',
+              dark: '#1c1917',
+              gold: '#f59e0b',
+              amber: '#fff7ed',
+              accent: '#9a3412',
+            }
+          },
+          fontFamily: {
+            rosalina: ['Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Playfair Display (Visual Rosalina style) & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  .font-rosalina {
-    font-family: 'Playfair Display', Georgia, serif;
-  }
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  .hidden { display: none !important; }
-
-  @keyframes viewIn { 
-    from { opacity: 0; transform: translateY(10px); } 
-    to { opacity: 1; transform: translateY(0); } 
-  }
-  .view-anim { animation: viewIn .38s cubic-bezier(.2,.7,.3,1) both; }
-
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.55);
-    transform: scale(0);
-    animation: rippleAnim .55s ease-out;
-    pointer-events: none;
-  }
-  @keyframes rippleAnim { to { transform: scale(2.6); opacity: 0; } }
-
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: #FDBA74; border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-</style>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #fdfbf7;
+    }
+    .font-rosalina {
+      font-family: 'Playfair Display', serif;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(234, 88, 12, 0.15);
+    }
+    .tiger-gradient {
+      background: linear-gradient(135deg, #1c1917 0%, #431407 40%, #c2410c 100%);
+    }
+    .orange-gradient {
+      background: linear-gradient(135deg, #ea580c 0%, #d97706 50%, #b45309 100%);
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #fff7ed;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ea580c;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #c2410c;
+    }
+  </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="text-slate-800 antialiased flex flex-col min-h-screen">
 
-  <!-- ==================== VIEW 1: AUTH LOGIN ==================== -->
-  <section id="view-login" class="min-h-screen flex flex-wrap bg-orange-50">
-    <div class="flex-1 min-w-[320px] bg-gradient-to-br from-orange-600 via-amber-600 to-amber-800 p-8 md:p-14 flex flex-col justify-between text-white relative overflow-hidden">
-      <!-- Tiger Pattern Overlay -->
-      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div>
-      <div class="relative z-10">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-white text-orange-600 flex items-center justify-center font-bold font-rosalina text-2xl shadow-lg">V</div>
-          <span class="font-rosalina text-2xl font-bold tracking-wide">VyaghraGeoLab</span>
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-50 bg-stone-900/95 text-white shadow-xl border-b border-orange-500/30 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Logo Branding -->
+      <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchTab('beranda')">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-stone-950 font-black text-2xl shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
+          🐅
         </div>
-        <div class="mt-16">
-          <span class="bg-amber-400 text-orange-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Matematika Kelas 9</span>
-          <h1 class="font-rosalina text-4xl md:text-5xl font-bold leading-tight mt-4">Jelajahi Dunia Transformasi Geometri</h1>
-          <p class="text-orange-100 text-base mt-4 max-w-md">Masuk ke arena belajar interaktif berbasis petualangan Vyaghra untuk menguasai Translasi, Refleksi, Rotasi, dan Dilatasi!</p>
+        <div>
+          <span class="font-rosalina text-2xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-500">
+            VyaghraGeoLab
+          </span>
+          <span class="block text-[10px] tracking-widest uppercase text-orange-300 font-bold">Matematika Kelas 9</span>
         </div>
       </div>
-      <div class="relative z-10 mt-12 text-xs text-orange-200">
-        &copy; 2026 VyaghraGeoLab &bull; Disusun oleh Rifki Wildan
-      </div>
-    </div>
 
-    <div class="flex-1 min-w-[320px] flex items-center justify-center p-8 bg-white">
-      <form id="form-login" class="w-full max-w-sm space-y-5">
-        <div>
-          <h2 class="font-rosalina text-3xl font-bold text-slate-800">Selamat Datang!</h2>
-          <p class="text-slate-500 text-sm mt-1">Masukkan nama pengguna untuk memulai web ini</p>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Pengguna</label>
-          <input id="li-user" required placeholder="Contoh: rifki_wildan" class="w-full px-4 py-2.5 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Kata Sandi</label>
-          <input id="li-pass" type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition">
-        </div>
-        <p id="login-error" class="text-xs text-red-500 min-h-[16px]"></p>
-        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-xl shadow-lg shadow-orange-500/30 transition transform active:scale-95">Masuk Sekarang</button>
-        <p class="text-xs text-center text-slate-500">Belum punya akun? <button type="button" id="go-signup" class="text-orange-600 font-bold hover:underline">Daftar Akun Baru</button></p>
-      </form>
-    </div>
-  </section>
-
-  <!-- ==================== VIEW 2: AUTH SIGNUP ==================== -->
-  <section id="view-signup" class="min-h-screen flex flex-wrap bg-orange-50 hidden">
-    <div class="flex-1 min-w-[320px] bg-gradient-to-br from-amber-700 via-orange-600 to-amber-900 p-8 md:p-14 flex flex-col justify-between text-white">
-      <div>
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-white text-orange-600 flex items-center justify-center font-bold font-rosalina text-2xl shadow-lg">V</div>
-          <span class="font-rosalina text-2xl font-bold tracking-wide">VyaghraGeoLab</span>
-        </div>
-        <div class="mt-16">
-          <h1 class="font-rosalina text-4xl font-bold leading-tight">Registrasi Siswa</h1>
-          <p class="text-orange-100 text-base mt-4 max-w-md">Buat akun belajar gratis untuk menyimpan progres pengerjaan kuis, puzzle, dan permainan Ular Tangga kamu.</p>
-        </div>
-      </div>
-      <div class="text-xs text-orange-200 mt-12">&copy; 2026 VyaghraGeoLab</div>
-    </div>
-
-    <div class="flex-1 min-w-[320px] flex items-center justify-center p-8 bg-white">
-      <form id="form-signup" class="w-full max-w-sm space-y-4">
-        <div>
-          <h2 class="font-rosalina text-3xl font-bold text-slate-800">Daftar Akun</h2>
-          <p class="text-slate-500 text-sm mt-1">Lengkapi data diri singkat di bawah ini.</p>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap</label>
-          <input id="su-name" required placeholder="Nama lengkap siswa" class="w-full px-4 py-2.5 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Pengguna</label>
-          <input id="su-user" required placeholder="Buat username unik" class="w-full px-4 py-2.5 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Kata Sandi</label>
-          <input id="su-pass" type="password" required placeholder="Minimal 4 karakter" class="w-full px-4 py-2.5 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition">
-        </div>
-        <p id="signup-error" class="text-xs text-red-500 min-h-[16px]"></p>
-        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-xl shadow-lg shadow-orange-500/30 transition transform active:scale-95">Selesaikan Pendaftaran</button>
-        <p class="text-xs text-center text-slate-500">Sudah punya akun? <button type="button" id="go-login" class="text-orange-600 font-bold hover:underline">Kembali ke Log In</button></p>
-      </form>
-    </div>
-  </section>
-
-  <!-- ==================== VIEW 3: APP SHELL ==================== -->
-  <div id="view-app" class="flex-col min-h-screen hidden">
-    <!-- TOP NAVBAR -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-orange-200 shadow-sm px-4 md:px-8 py-3.5 flex items-center justify-between">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="showPage('home')">
-        <div class="w-9 h-9 rounded-xl bg-orange-600 text-white flex items-center justify-center font-bold font-rosalina text-xl shadow-md">
-          <i class="fa-solid fa-shield-cat"></i>
-        </div>
-        <span class="font-rosalina text-2xl font-bold text-orange-950 tracking-wide">VyaghraGeoLab</span>
-      </div>
-
-      <div class="hidden lg:flex items-center space-x-1 font-medium text-sm">
-        <button id="nav-home" onclick="showPage('home')" class="px-4 py-2 rounded-xl text-slate-700 hover:text-orange-600 hover:bg-orange-50 transition">Beranda</button>
-        <button id="nav-materi" onclick="showPage('materi')" class="px-4 py-2 rounded-xl text-slate-700 hover:text-orange-600 hover:bg-orange-50 transition">Materi & Video</button>
-        <button id="nav-games" onclick="showPage('games')" class="px-4 py-2 rounded-xl text-slate-700 hover:text-orange-600 hover:bg-orange-50 transition">Arena Games</button>
-        <button id="nav-tts" onclick="showPage('tts')" class="px-4 py-2 rounded-xl text-slate-700 hover:text-orange-600 hover:bg-orange-50 transition">Aktivitas Interaktif TTS</button>
-        <button id="nav-about" onclick="showPage('about')" class="px-4 py-2 rounded-xl text-slate-700 hover:text-orange-600 hover:bg-orange-50 transition">Tentang Pengembang</button>
-      </div>
-
-      <div class="flex items-center space-x-3">
-        <span class="hidden sm:inline-block text-xs font-semibold bg-orange-100 text-orange-800 px-3 py-1.5 rounded-full border border-orange-200">
-          <i class="fa-solid fa-user-ninja mr-1"></i> <span id="user-display">Siswa</span>
-        </span>
-        <button id="nav-logout" class="bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold px-3 py-2 rounded-xl border border-red-200 transition">
-          <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Keluar
+      <!-- Desktop Menu -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 font-medium text-sm">
+        <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-orange-400 bg-orange-950/40 border border-orange-500/30 font-semibold">
+          <i class="fa-solid fa-house mr-1.5"></i> Beranda
         </button>
-      </div>
-    </nav>
+        <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+          <i class="fa-solid fa-book-open-reader mr-1.5"></i> Video Pembelajaran
+        </button>
+        <button onclick="switchTab('games')" id="nav-games" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+          <i class="fa-solid fa-gamepad mr-1.5"></i> Games Seru2an
+        </button>
+        <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+          <i class="fa-solid fa-user-graduate mr-1.5"></i> Tentang
+        </button>
+      </nav>
 
-    <!-- MAIN CONTAINER -->
-    <main class="flex-grow max-w-6xl w-full mx-auto px-4 md:px-8 py-8">
+      <!-- Mobile Menu Toggle Button -->
+      <button onclick="toggleMobileMenu()" class="md:hidden text-stone-300 hover:text-orange-400 p-2 rounded-lg text-xl">
+        <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+      </button>
+    </div>
 
-      <!-- SLIDE 1: BERANDA -->
-      <section id="page-home" class="space-y-10">
-        <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-orange-600 via-amber-600 to-amber-700 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between">
-          <div class="relative z-10 max-w-xl space-y-4">
-            <span class="inline-block bg-amber-300 text-orange-950 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wide">
-              <i class="fa-solid fa-crown mr-1"></i> Website Pembelajaran Matematika SMP Kelas 9
-            </span>
-            <h1 class="font-rosalina text-3xl md:text-5xl font-bold leading-tight">
-              Selamat Datang, <span id="home-username" class="text-amber-200 underline">Siswa</span>!
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-stone-950 border-b border-orange-500/30 px-4 py-4 space-y-2">
+      <button onclick="switchTab('beranda'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-orange-400 font-semibold bg-stone-900 flex items-center">
+        <i class="fa-solid fa-house w-6"></i> Beranda
+      </button>
+      <button onclick="switchTab('materi'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center">
+        <i class="fa-solid fa-book-open-reader w-6"></i> Video Pembelajaran
+      </button>
+      <button onclick="switchTab('games'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center">
+        <i class="fa-solid fa-gamepad w-6"></i> Games Seru2an
+      </button>
+      <button onclick="switchTab('tentang'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center">
+        <i class="fa-solid fa-user-graduate w-6"></i> Tentang
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- TAB 1: BERANDA -->
+    <section id="tab-beranda" class="tab-content space-y-12">
+      
+      <!-- HERO SECTION -->
+      <div class="relative overflow-hidden rounded-3xl tiger-gradient text-white shadow-2xl border border-orange-500/30">
+        <!-- Background Tiger Stripe Accent Pattern Overlay -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ea580c_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        
+        <div class="relative z-10 grid lg:grid-cols-12 gap-8 p-8 sm:p-12 items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-500/20 to-amber-500/20 border border-orange-400/40 px-4 py-2 rounded-full backdrop-blur-md">
+              <span class="text-xl">🐅</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Vyaghra • Sang Harimau Geometri</span>
+            </div>
+            
+            <h1 class="font-rosalina text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-orange-300">
+              Kuasai Transformasi Geometri Lebih Elegan & Menarik
             </h1>
-            <p class="text-orange-100 text-base leading-relaxed">
-              Kuasai konsep Transformasi Geometri secara elegan bersama maskot Vyaghra melalui simulasi visual, video interaktif, dan wahana permainan seru!
+            
+            <p class="text-stone-300 text-base sm:text-lg leading-relaxed font-normal">
+              Selamat datang para petualang matematika Kelas 9! Lets Go menjelajahi perubahan bentuk, pergeseran, pencerminan, perputaran, serta perkalian ukuran bangun datar didampingi oleh Sang Harimau "Vyaghra".
             </p>
-            <div class="flex flex-wrap gap-3 pt-2">
-              <button onclick="showPage('materi')" class="bg-amber-400 hover:bg-amber-300 text-orange-950 font-bold px-6 py-3 rounded-xl shadow-md transition transform active:scale-95">
-                <i class="fa-solid fa-book-open mr-2"></i>Materi Dulu Yuk
-              </button>
-              <button onclick="showPage('games')" class="bg-white/20 hover:bg-white/30 text-white font-semibold px-6 py-3 rounded-xl backdrop-blur-md transition">
-                <i class="fa-solid fa-gamepad mr-2"></i>Letsgoo Main Games
-              </button>
-            </div>
-          </div>
-          <!-- Maskot Visual Harimau -->
-          <div class="mt-8 md:mt-0 relative z-10 text-center">
-            <div class="w-48 h-48 md:w-56 md:h-56 bg-white/10 backdrop-blur-md border-4 border-amber-300/40 rounded-full flex items-center justify-center shadow-2xl mx-auto">
-              <i class="fa-solid fa-cat text-8xl md:text-9xl text-amber-300 drop-shadow-lg"></i>
-            </div>
-            <p class="text-xs text-amber-200 font-semibold tracking-widest uppercase mt-3">Vyaghra - Sang Harimau Geometri</p>
-          </div>
-        </div>
 
-        <!-- Kotak Kutipan Motivasi Belajar -->
-        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-orange-500 p-6 md:p-8 rounded-2xl shadow-sm">
-          <div class="flex items-start space-x-4">
-            <div class="text-orange-600 text-3xl">
-              <i class="fa-solid fa-quote-left"></i>
+            <div class="flex flex-wrap gap-4 pt-2">
+              <button onclick="switchTab('materi')" class="orange-gradient hover:brightness-110 text-white font-bold px-7 py-3.5 rounded-2xl shadow-lg shadow-orange-600/30 flex items-center space-x-2 transition transform hover:-translate-y-0.5">
+                <span>Materi Dulu Yuk</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+              <button onclick="switchTab('games')" class="bg-stone-800/80 hover:bg-stone-800 text-amber-400 border border-amber-500/40 font-semibold px-7 py-3.5 rounded-2xl backdrop-blur-sm transition transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-dice-five mr-2"></i> Langsung Main Games
+              </button>
             </div>
-            <div class="space-y-2">
-              <h3 class="font-rosalina text-xl font-bold text-orange-950">Inspirasi Belajar Matematika</h3>
-              <p class="text-slate-700 italic text-sm md:text-base leading-relaxed">
-                "Matematika bukanlah tentang angka, persamaan, atau algoritma; melainkan tentang pemahaman. Ketika kita memahami pola transformasi geometri, kita sedang melatih ketajaman berpikir untuk menaklukkan setiap tantangan kehidupan."
+          </div>
+
+          <!-- Hero Mascot Card Graphic -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-sm bg-gradient-to-b from-orange-500/20 to-stone-900/80 p-6 rounded-3xl border border-orange-400/30 text-center shadow-2xl backdrop-blur-sm">
+              <div class="w-36 h-36 mx-auto rounded-full orange-gradient p-1 shadow-2xl mb-4 relative">
+                <div class="w-full h-full bg-stone-950 rounded-full flex items-center justify-center text-7xl shadow-inner">
+                  🐅
+                </div>
+                <div class="absolute -bottom-2 -right-2 bg-amber-400 text-stone-950 font-black text-xs px-3 py-1 rounded-full shadow-lg">
+                  VERSI 9.0
+                </div>
+              </div>
+              <h3 class="font-rosalina text-2xl font-bold text-amber-300">Vyaghra</h3>
+              <p class="text-xs text-stone-300 mt-2 italic">
+                "Pahami prinsip dasar koordinat, kuasai rumusnya, dan taklukkan setiap soal dengan ketelitian seekor Harimau!"
               </p>
-              <p class="text-xs font-bold text-orange-800 uppercase tracking-wider">&mdash; VyaghraGeoLab Philosophy</p>
+              <div class="mt-4 pt-4 border-t border-stone-800 flex justify-around text-xs font-semibold text-orange-300">
+                <div><span class="block text-lg font-bold text-white">4</span> Sub-Bab</div>
+                <div><span class="block text-lg font-bold text-white">7</span> Video YT</div>
+                <div><span class="block text-lg font-bold text-white">65+</span> Soal Game</div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Ringkasan 4 Sub-Bab Utama Kelas 9 -->
-        <div>
-          <div class="text-center max-w-2xl mx-auto mb-8">
-            <h2 class="font-rosalina text-3xl font-bold text-slate-800">4 Pilar Transformasi Geometri</h2>
-            <p class="text-slate-600 text-sm mt-2">Ringkasan konsep utama kurikulum matematika kelas 9 SMP.</p>
-          </div>
+      <!-- SECTION PENJELASAN 4 SUB-BAB TANGKAS & RAPI -->
+      <div class="space-y-6">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Ringkasan Kurikulum Kelas 9</span>
+          <h2 class="font-rosalina text-3xl sm:text-4xl font-extrabold text-stone-900">4 Konsep Utama Transformasi Geometri</h2>
+          <p class="text-stone-600">Pelajari perubahan posisi titik P(x,y) menjadi titik bayangan P'(x',y') berikut ini:</p>
+        </div>
 
-          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Translasi -->
-            <div class="bg-white p-6 rounded-2xl border border-orange-100 shadow-md hover:shadow-xl transition">
-              <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-xl font-bold mb-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- 1. TRANSLASI -->
+          <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-arrows-up-down-left-right"></i>
               </div>
-              <h3 class="font-rosalina text-xl font-bold mb-2 text-slate-800">1. Translasi</h3>
-              <p class="text-slate-600 text-xs leading-relaxed mb-4">Pergeseran setiap titik pada bidang koordinat sejauh jarak dan arah tertentu.</p>
-              <div class="bg-orange-50 p-2.5 rounded-lg text-xs font-mono text-orange-900 border border-orange-200">
-                P(x,y) &rarr; P'(x+a, y+b)
-              </div>
+              <span class="text-xs font-bold text-orange-600 uppercase tracking-wider">Sub-Bab 1</span>
+              <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Translasi (Pergeseran)</h3>
+              <p class="text-stone-600 text-sm leading-relaxed mb-4">
+                Memindahkan setiap titik pada bidang koordinat sejarak dan searah vektor T(a,b) tanpa mengubah bentuk dan ukurannya.
+              </p>
             </div>
+            <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 font-mono text-xs text-stone-800">
+              <span class="text-orange-700 font-bold">Rumus:</span><br>
+              P(x, y) &rarr; T(a,b) &rarr; P'(x + a, y + b)
+            </div>
+          </div>
 
-            <!-- Refleksi -->
-            <div class="bg-white p-6 rounded-2xl border border-orange-100 shadow-md hover:shadow-xl transition">
-              <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-xl font-bold mb-4">
+          <!-- 2. REFLEKSI -->
+          <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-object-ungroup"></i>
               </div>
-              <h3 class="font-rosalina text-xl font-bold mb-2 text-slate-800">2. Refleksi</h3>
-              <p class="text-slate-600 text-xs leading-relaxed mb-4">Pencerminan posisi titik terhadap cermin datar (Sumbu X, Sumbu Y, Titik Asal, dll).</p>
-              <div class="bg-amber-50 p-2.5 rounded-lg text-xs font-mono text-amber-900 border border-amber-200">
-                Sumbu X: P(x, y) &rarr; P'(x, -y)
-              </div>
+              <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Sub-Bab 2</span>
+              <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Refleksi (Pencerminan)</h3>
+              <p class="text-stone-600 text-sm leading-relaxed mb-4">
+                Memindahkan titik dengan sifat cermin datar: jarak objek asli ke cermin sama persis dengan jarak bayangan ke cermin.
+              </p>
             </div>
-
-            <!-- Rotasi -->
-            <div class="bg-white p-6 rounded-2xl border border-orange-100 shadow-md hover:shadow-xl transition">
-              <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-xl font-bold mb-4">
-                <i class="fa-solid fa-rotate"></i>
-              </div>
-              <h3 class="font-rosalina text-xl font-bold mb-2 text-slate-800">3. Rotasi</h3>
-              <p class="text-slate-600 text-xs leading-relaxed mb-4">Perputaran titik pada pusat koordinat tertentu sebesar sudut α.</p>
-              <div class="bg-red-50 p-2.5 rounded-lg text-xs font-mono text-red-900 border border-red-200">
-                [O, 90&deg;]: P(x, y) &rarr; P'(-y, x)
-              </div>
+            <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 font-mono text-xs text-stone-800 space-y-1">
+              <div><span class="text-amber-800 font-bold">Cermin Sumbu X:</span> (x, -y)</div>
+              <div><span class="text-amber-800 font-bold">Cermin Sumbu Y:</span> (-x, y)</div>
+              <div><span class="text-amber-800 font-bold">Garis y = x:</span> (y, x)</div>
             </div>
+          </div>
 
-            <!-- Dilatasi -->
-            <div class="bg-white p-6 rounded-2xl border border-orange-100 shadow-md hover:shadow-xl transition">
-              <div class="w-12 h-12 bg-yellow-100 text-yellow-700 rounded-xl flex items-center justify-center text-xl font-bold mb-4">
+          <!-- 3. ROTASI -->
+          <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-rotate-right"></i>
+              </div>
+              <span class="text-xs font-bold text-orange-700 uppercase tracking-wider">Sub-Bab 3</span>
+              <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Rotasi (Perputaran)</h3>
+              <p class="text-stone-600 text-sm leading-relaxed mb-4">
+                Memutar titik/bangun sejauh sudut x terhadap titik pusat. Arah berlawanan jarum jam bernilai positif (+).
+              </p>
+            </div>
+            <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 font-mono text-xs text-stone-800 space-y-1">
+              <div><span class="text-orange-800 font-bold">[O, +90&deg;]:</span> (-y, x)</div>
+              <div><span class="text-orange-800 font-bold">[O, 180&deg;]:</span> (-x, -y)</div>
+              <div><span class="text-orange-800 font-bold">[O, +270&deg;]:</span> (y, -x)</div>
+            </div>
+          </div>
+
+          <!-- 4. DILATASI -->
+          <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-stone-900 text-amber-400 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-expand"></i>
               </div>
-              <h3 class="font-rosalina text-xl font-bold mb-2 text-slate-800">4. Dilatasi</h3>
-              <p class="text-slate-600 text-xs leading-relaxed mb-4">Perubahan ukuran (pembesaran/pengecilan) bentuk objek berdasarkan faktor skala k.</p>
-              <div class="bg-yellow-50 p-2.5 rounded-lg text-xs font-mono text-yellow-900 border border-yellow-200">
-                [O, k]: P(x, y) &rarr; P'(kx, ky)
-              </div>
+              <span class="text-xs font-bold text-stone-900 uppercase tracking-wider">Sub-Bab 4</span>
+              <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Dilatasi (Perkalian)</h3>
+              <p class="text-stone-600 text-sm leading-relaxed mb-4">
+                Transformasi yang memperbesar atau memperkecil ukuran bangun datar dengan faktor skala k tanpa mengubah bentuknya.
+              </p>
+            </div>
+            <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 font-mono text-xs text-stone-800">
+              <span class="text-stone-900 font-bold">Pusat O(0,0) Faktor k:</span><br>
+              P(x, y) &rarr; [O, k] &rarr; P'(k &middot; x, k &middot; y)
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- SLIDE 2: MATERI & VIDEO -->
-      <section id="page-materi" class="space-y-8 hidden">
-        <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-200 shadow-sm space-y-6">
+        </div>
+      </div>
+
+      <!-- VISUAL INFOGRAFIK BERSAMA HARIMAU -->
+      <div class="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-3xl p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-3 md:w-3/4">
+          <h3 class="font-rosalina text-2xl sm:text-3xl font-black">Siap Menguji Kemampuan Matematikamu?</h3>
+          <p class="text-orange-100 text-sm sm:text-base">
+            Tonton 7 video penjelasan materi lengkap dan uji ketangkasanmu dalam 3 mode game seru: Kuis 20 Soal, 15 Puzzle Match, dan 30 Soal Ular Tangga!
+          </p>
+        </div>
+        <div>
+          <button onclick="switchTab('games')" class="bg-stone-950 hover:bg-stone-900 text-amber-400 font-bold px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 whitespace-nowrap">
+            <i class="fa-solid fa-gamepad mr-2"></i> Siap Main Games?
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: MATERI & VIDEO -->
+    <section id="tab-materi" class="tab-content hidden space-y-10">
+      
+      <!-- Section Title -->
+      <div class="bg-white p-8 rounded-3xl border border-orange-200 shadow-sm text-center max-w-4xl mx-auto space-y-3">
+        <div class="inline-flex items-center space-x-2 bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-xs font-bold">
+          <i class="fa-brands fa-youtube text-red-600 text-base"></i>
+          <span>7 Video Pembelajaran Terstruktur</span>
+        </div>
+        <h2 class="font-rosalina text-3xl sm:text-4xl font-extrabold text-stone-900">Modul Pembelajaran & Video YouTube</h2>
+        <p class="text-stone-600 text-sm sm:text-base">
+          Saksikan pembahasan materi dasar Transformasi Geometri Kelas 9 yang disajikan secara komunikatif dan sistematis.
+        </p>
+      </div>
+
+      <!-- Grid 7 Video Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Video 1 -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col">
+          <div class="relative aspect-video bg-stone-900">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/2av7ogY0Iek" title="Part 1 Translasi" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-2.5 py-1 rounded-md">Video 1 • Part 1</span>
+              <h3 class="font-bold text-stone-900 text-base mt-2 line-clamp-2">TRANSFORMASI GEOMETRI (TRANSLASI / PERGESERAN)</h3>
+              <p class="text-xs text-stone-500 mt-1">Konsep dasar pergeseran titik dan bangun datar beserta contoh soal dalam koordinat Kartesius.</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=2av7ogY0Iek" target="_blank" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center pt-2 border-t border-stone-100">
+              <i class="fa-brands fa-youtube text-red-600 mr-1.5 text-sm"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col">
+          <div class="relative aspect-video bg-stone-900">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/PqIJVk7tkA0" title="Part 2 Refleksi" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">Video 2 • Part 2</span>
+              <h3 class="font-bold text-stone-900 text-base mt-2 line-clamp-2">TRANSFORMASI GEOMETRI (REFLEKSI / PENCERMINAN) PART 1</h3>
+              <p class="text-xs text-stone-500 mt-1">Pencerminan terhadap sumbu-X, sumbu-Y, titik asal O(0,0), garis y=x, dan y=-x secara detail.</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=PqIJVk7tkA0" target="_blank" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center pt-2 border-t border-stone-100">
+              <i class="fa-brands fa-youtube text-red-600 mr-1.5 text-sm"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col">
+          <div class="relative aspect-video bg-stone-900">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/yCCYinb4bQg" title="Part 3 Rotasi" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-orange-700 bg-orange-50 px-2.5 py-1 rounded-md">Video 3 • Part 3</span>
+              <h3 class="font-bold text-stone-900 text-base mt-2 line-clamp-2">TRANSFORMASI GEOMETRI (REFLEKSI / PENCERMINAN) PART 2</h3>
+              <p class="text-xs text-stone-500 mt-1">Pencerminan terhadap sumbu-X, sumbu-Y, titik asal O(0,0), garis y=x, dan y=-x secara detail.</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=yCCYinb4bQg" target="_blank" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center pt-2 border-t border-stone-100">
+              <i class="fa-brands fa-youtube text-red-600 mr-1.5 text-sm"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 4 -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col">
+          <div class="relative aspect-video bg-stone-900">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/IIzTgkwatqc" title="Part 4 Dilatasi" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-stone-900 bg-stone-100 px-2.5 py-1 rounded-md">Video 4 • Part 4</span>
+              <h3 class="font-bold text-stone-900 text-base mt-2 line-clamp-2">TRANSFORMASI GEOMETRI (REFLEKSI / PENCERMINAN) PART 3</h3>
+              <p class="text-xs text-stone-500 mt-1">Pencerminan terhadap sumbu-X, sumbu-Y, titik asal O(0,0), garis y=x, dan y=-x secara detail.</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=IIzTgkwatqc" target="_blank" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center pt-2 border-t border-stone-100">
+              <i class="fa-brands fa-youtube text-red-600 mr-1.5 text-sm"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 5 -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col">
+          <div class="relative aspect-video bg-stone-900">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/wteGqABuc6U" title="Latihan Soal Part 1" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-2.5 py-1 rounded-md">Video 5 • Part 5</span>
+              <h3 class="font-bold text-stone-900 text-base mt-2 line-clamp-2">TRANSFORMASI GEOMETRI (ROTASI / PERPUTARAN) PART 1</h3>
+              <p class="text-xs text-stone-500 mt-1">Pembahasan rotasi dengan sudut 90°, 180°, dan 270° baik searah maupun berlawanan jarum jam.</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=wteGqABuc6U" target="_blank" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center pt-2 border-t border-stone-100">
+              <i class="fa-brands fa-youtube text-red-600 mr-1.5 text-sm"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 6 -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col">
+          <div class="relative aspect-video bg-stone-900">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/2G2A067arYo" title="Latihan Soal Part 2" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">Video 6 • Part 6</span>
+              <h3 class="font-bold text-stone-900 text-base mt-2 line-clamp-2">TRANSFORMASI GEOMETRI (ROTASI / PERPUTARAN) PART 2</h3>
+              <p class="text-xs text-stone-500 mt-1">Pembahasan rotasi dengan sudut 90°, 180°, dan 270° baik searah maupun berlawanan jarum jam.</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=2G2A067arYo" target="_blank" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center pt-2 border-t border-stone-100">
+              <i class="fa-brands fa-youtube text-red-600 mr-1.5 text-sm"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 7 -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col lg:col-span-1 md:col-span-2 lg:col-start-2">
+          <div class="relative aspect-video bg-stone-900">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/fKS55LxdcTI" title="Latihan Soal Part 3" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-orange-700 bg-orange-50 px-2.5 py-1 rounded-md">Video 7 • Part 7</span>
+              <h3 class="font-bold text-stone-900 text-base mt-2 line-clamp-2">TRANSFORMASI GEOMETRI (DILATASI / PERKALIAN)</h3>
+              <p class="text-xs text-stone-500 mt-1">Faktor skala perkalian k pada pusat O(0,0) dan pusat P(a,b) untuk perkalian ukuran luas bangun.</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=fKS55LxdcTI" target="_blank" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center pt-2 border-t border-stone-100">
+              <i class="fa-brands fa-youtube text-red-600 mr-1.5 text-sm"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 3: GAMES INTERAKTIF -->
+    <section id="tab-games" class="tab-content hidden space-y-8">
+      
+      <!-- Games Header Navigation -->
+      <div class="bg-stone-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-orange-500/30 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Arena Bermain Vyaghra</span>
+          <h2 class="font-rosalina text-3xl font-bold text-white">Tiga Arena Bermain Matematika</h2>
+          <p class="text-stone-400 text-sm">Pilih mode tantangan yang ingin kamu mainkan sekarang!</p>
+        </div>
+
+        <div class="flex flex-wrap gap-3 justify-center">
+          <button onclick="activateGame('quiz')" id="btn-mode-quiz" class="game-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition orange-gradient text-white shadow-lg">
+            <i class="fa-solid fa-list-check mr-2"></i> Kuis 
+          </button>
+          <button onclick="activateGame('puzzle')" id="btn-mode-puzzle" class="game-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition bg-stone-800 text-stone-300 hover:bg-stone-700">
+            <i class="fa-solid fa-puzzle-piece mr-2"></i> Puzzle Match
+          </button>
+          <button onclick="activateGame('snake')" id="btn-mode-snake" class="game-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition bg-stone-800 text-stone-300 hover:bg-stone-700">
+            <i class="fa-solid fa-dice mr-2"></i> Ular Tangga
+          </button>
+        </div>
+      </div>
+
+      <!-- GAME CONTAINER 1: KUIS INTERAKTIF (20 SOAL) -->
+      <div id="game-quiz-section" class="bg-white p-6 sm:p-10 rounded-3xl border border-stone-200 shadow-xl space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-4 gap-4">
           <div>
-            <h2 class="font-rosalina text-3xl font-bold text-orange-950">Materi Lengkap & Video Pembelajaran</h2>
-            <p class="text-slate-600 text-sm mt-1">Pelajari 7 video pembahasan Transformasi Geometri Indonesia untuk SMP Kelas 9 secara sistematis.</p>
+            <h3 class="font-rosalina text-2xl font-bold text-stone-900">Ujian Ketangkasan Vyaghra (20 Soal Pilihan Ganda)</h3>
+            <p class="text-xs text-stone-500">Pilih salah satu jawaban A, B, C, atau D. Feedback pembahasan akan langsung muncul!</p>
           </div>
-
-          <!-- Rangkaian Video Embed -->
-          <div class="grid md:grid-cols-2 gap-6">
-            <div class="space-y-2 bg-orange-50 p-4 rounded-2xl border border-orange-100">
-              <h3 class="font-bold text-sm text-orange-950"><i class="fa-solid fa-play text-orange-600 mr-2"></i>1. Konsep Dasar Translasi</h3>
-              <div class="aspect-video w-full rounded-xl overflow-hidden shadow-sm">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/2av7ogY0Iek" title="Translasi Geometri" frameborder="0" allowfullscreen></iframe>
-              </div>
-            </div>
-
-            <div class="space-y-2 bg-orange-50 p-4 rounded-2xl border border-orange-100">
-              <h3 class="font-bold text-sm text-orange-950"><i class="fa-solid fa-play text-orange-600 mr-2"></i>2. Refleksi (Pencerminan) Part 1</h3>
-              <div class="aspect-video w-full rounded-xl overflow-hidden shadow-sm">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/PqIJVk7tkA0" title="Refleksi Part 1" frameborder="0" allowfullscreen></iframe>
-              </div>
-            </div>
-
-            <div class="space-y-2 bg-orange-50 p-4 rounded-2xl border border-orange-100">
-              <h3 class="font-bold text-sm text-orange-950"><i class="fa-solid fa-play text-orange-600 mr-2"></i>3. Refleksi (Pencerminan) Part 2</h3>
-              <div class="aspect-video w-full rounded-xl overflow-hidden shadow-sm">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/yCCYinb4bQg" title="Refleksi Part 2" frameborder="0" allowfullscreen></iframe>
-              </div>
-            </div>
-
-            <div class="space-y-2 bg-orange-50 p-4 rounded-2xl border border-orange-100">
-              <h3 class="font-bold text-sm text-orange-950"><i class="fa-solid fa-play text-orange-600 mr-2"></i>4. Refleksi (Pencerminan) Part 3</h3>
-              <div class="aspect-video w-full rounded-xl overflow-hidden shadow-sm">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/IIzTgkwatqc" title="Rotasi Geometri" frameborder="0" allowfullscreen></iframe>
-              </div>
-            </div>
-
-            <div class="space-y-2 bg-orange-50 p-4 rounded-2xl border border-orange-100">
-              <h3 class="font-bold text-sm text-orange-950"><i class="fa-solid fa-play text-orange-600 mr-2"></i>5. Rotasi (Perputaran Titik) Part 3</h3>
-              <div class="aspect-video w-full rounded-xl overflow-hidden shadow-sm">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/wteGqABuc6U" title="Dilatasi Geometri" frameborder="0" allowfullscreen></iframe>
-              </div>
-            </div>
-
-            <div class="space-y-2 bg-orange-50 p-4 rounded-2xl border border-orange-100">
-              <h3 class="font-bold text-sm text-orange-950"><i class="fa-solid fa-play text-orange-600 mr-2"></i>6. Rotasi (Perputaran) Part 2</h3>
-              <div class="aspect-video w-full rounded-xl overflow-hidden shadow-sm">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/2G2A067arYo" title="Latihan Soal 1" frameborder="0" allowfullscreen></iframe>
-              </div>
-            </div>
-          </div>
-
-          <!-- Video Lanjutan Single Full Width -->
-          <div class="space-y-2 bg-orange-50 p-4 rounded-2xl border border-orange-100">
-            <h3 class="font-bold text-sm text-orange-950"><i class="fa-solid fa-play text-orange-600 mr-2"></i>7. Dilatasi (Perkalian)</h3>
-            <div class="aspect-video max-w-2xl mx-auto w-full rounded-xl overflow-hidden shadow-sm">
-              <iframe class="w-full h-full" src="https://www.youtube.com/embed/fKS55LxdcTI" title="HOTS Transformasi Geometri" frameborder="0" allowfullscreen></iframe>
-            </div>
+          <div class="bg-orange-50 border border-orange-200 px-4 py-2 rounded-2xl text-xs font-bold text-orange-700 flex items-center space-x-2">
+            <span>Skor Kamu:</span>
+            <span id="quiz-score-num" class="text-lg font-black text-orange-600">0</span>
+            <span>/ 100</span>
           </div>
         </div>
-      </section>
 
-      <!-- SLIDE 3: ARENA GAMES INTERAKTIF -->
-      <section id="page-games" class="space-y-8 hidden">
-        <div class="text-center max-w-2xl mx-auto">
-          <h2 class="font-rosalina text-3xl font-bold text-orange-950">Arena Permainan Vyaghra</h2>
-          <p class="text-slate-600 text-sm mt-2">Pilih mode permainan interaktif berikut untuk melatih ketangkasan berhitungmu!</p>
+        <!-- Question Counter Progress -->
+        <div class="flex justify-between items-center text-xs text-stone-500 font-bold">
+          <span id="quiz-progress-text">Soal 1 dari 20</span>
+          <span id="quiz-badge-cat" class="bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-md">Translasi</span>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
-          <!-- Game 1: Kuis 20 Soal -->
-          <div class="bg-white p-6 rounded-2xl border border-orange-200 shadow-md flex flex-col justify-between">
+        <div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+          <div id="quiz-progress-bar" class="bg-gradient-to-r from-orange-500 to-amber-500 h-full w-[5%] transition-all duration-300"></div>
+        </div>
+
+        <!-- Question Box -->
+        <div class="bg-stone-50 p-6 rounded-2xl border border-stone-200 space-y-4">
+          <h4 id="quiz-question-text" class="text-base sm:text-lg font-bold text-stone-900 leading-snug">
+            1. Titik A(3, 4) ditranslasikan oleh T(2, -5). Berapakah koordinat bayangan titik A'?
+          </h4>
+          
+          <div id="quiz-options-container" class="grid sm:grid-cols-2 gap-3 pt-2">
+            <!-- Options rendered via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Instant Feedback Box -->
+        <div id="quiz-feedback-box" class="hidden p-5 rounded-2xl border text-sm leading-relaxed space-y-2">
+          <!-- Feedback Content -->
+        </div>
+
+        <!-- Quiz Navigation Controls -->
+        <div class="flex justify-between items-center pt-4 border-t border-stone-100">
+          <button onclick="prevQuizQuestion()" id="btn-quiz-prev" class="px-5 py-2.5 rounded-xl border border-stone-300 text-stone-600 font-semibold text-xs hover:bg-stone-100 disabled:opacity-40">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Sebelumnya
+          </button>
+          <button onclick="nextQuizQuestion()" id="btn-quiz-next" class="orange-gradient text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md hover:brightness-110">
+            Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- GAME CONTAINER 2: PUZZLE MATCHING (15 SOAL) -->
+      <div id="game-puzzle-section" class="hidden bg-white p-6 sm:p-10 rounded-3xl border border-stone-200 shadow-xl space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-4 gap-4">
+          <div>
+            <h3 class="font-rosalina text-2xl font-bold text-stone-900">Puzzle Matching Geometri (15 Tantangan Pasangan)</h3>
+            <p class="text-xs text-stone-500">Pilih bayangan/rumus yang paling tepat untuk mencocokkan soal geometri!</p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-2xl text-xs font-bold text-emerald-700">
+            Cocok: <span id="puzzle-score-num" class="text-lg font-black text-emerald-600">0</span> / 15
+          </div>
+        </div>
+
+        <!-- Puzzle Question Card -->
+        <div class="max-w-2xl mx-auto bg-gradient-to-br from-amber-50 to-orange-50 p-6 sm:p-8 rounded-3xl border border-amber-200 text-center space-y-6">
+          <div class="inline-block bg-white border border-amber-300 px-4 py-1.5 rounded-full text-xs font-extrabold text-orange-600">
+            Tantangan Puzzle <span id="puzzle-index-text">1</span> / 15
+          </div>
+
+          <div id="puzzle-prompt-box" class="space-y-2">
+            <span class="text-xs font-bold text-stone-400 uppercase tracking-widest">Objek Asal / Pertanyaan</span>
+            <h4 id="puzzle-question-prompt" class="text-2xl sm:text-3xl font-black text-stone-900 font-mono">
+              Titik P(-3, 7) direfleksikan terhadap Sumbu-X
+            </h4>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-stone-600">Pilih Pasangan Bayangan yang Tepat:</label>
+            <select id="puzzle-user-select" class="w-full max-w-md mx-auto p-3.5 rounded-2xl border-2 border-orange-300 bg-white font-bold text-stone-800 text-sm focus:outline-none focus:border-orange-500 shadow-sm">
+              <!-- Options populated by JS -->
+            </select>
+          </div>
+
+          <button onclick="checkPuzzleAnswer()" class="orange-gradient text-white font-bold px-8 py-3.5 rounded-2xl text-sm shadow-lg hover:brightness-110">
+            <i class="fa-solid fa-puzzle-piece mr-2"></i> Uji Pasangan Puzzle
+          </button>
+
+          <div id="puzzle-feedback" class="hidden p-4 rounded-2xl text-xs font-bold"></div>
+        </div>
+      </div>
+
+      <!-- GAME CONTAINER 3: ULAR TANGGA (30 SOAL & BOARD 10x10) -->
+      <div id="game-snake-section" class="hidden bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-xl space-y-6">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-stone-100 pb-4 gap-4">
+          <div>
+            <h3 class="font-rosalina text-2xl font-bold text-stone-900">Petualangan Ular Tangga Vyaghra (Papan 30 Petak)</h3>
+            <p class="text-xs text-stone-500">Lempar dadu, jawab pertanyaan di setiap petak untuk melangkah menuju garis finish!</p>
+          </div>
+
+          <!-- Player Status Box -->
+          <div class="flex items-center space-x-4 bg-stone-900 text-white px-5 py-2.5 rounded-2xl border border-orange-500/30">
+            <div class="text-2xl">🐅</div>
             <div>
-              <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-2xl mb-4">
-                <i class="fa-solid fa-list-check"></i>
-              </div>
-              <h3 class="font-bold text-lg text-slate-800">Kuis Evaluasi (20 Soal)</h3>
-              <p class="text-slate-500 text-xs mt-2">Kumpulan 20 soal pilihan ganda lengkap dengan umpan balik dan penjelasan instan.</p>
+              <span class="text-[10px] text-orange-400 uppercase font-bold block">Posisi Pemain</span>
+              <span class="text-base font-black text-amber-300">Petak <span id="snake-player-pos">1</span> / 30</span>
             </div>
-            <button onclick="startQuizGame()" class="mt-6 w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 rounded-xl shadow-md transition">Mulai Kuis</button>
-          </div>
-
-          <!-- Game 2: Puzzle Match 15 Soal -->
-          <div class="bg-white p-6 rounded-2xl border border-orange-200 shadow-md flex flex-col justify-between">
-            <div>
-              <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl mb-4">
-                <i class="fa-solid fa-puzzle-piece"></i>
-              </div>
-              <h3 class="font-bold text-lg text-slate-800">Puzzle Matching (15 Soal)</h3>
-              <p class="text-slate-500 text-xs mt-2">Cocokkan titik asal objek dengan hasil titik bayangan transformasi yang tepat.</p>
-            </div>
-            <button onclick="startPuzzleGame()" class="mt-6 w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow-md transition">Mulai Puzzle</button>
-          </div>
-
-          <!-- Game 3: Ular Tangga 30 Soal -->
-          <div class="bg-white p-6 rounded-2xl border border-orange-200 shadow-md flex flex-col justify-between">
-            <div>
-              <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-4">
-                <i class="fa-solid fa-dice"></i>
-              </div>
-              <h3 class="font-bold text-lg text-slate-800">Ular Tangga (30 Soal)</h3>
-              <p class="text-slate-500 text-xs mt-2">Kocok dadu dan hadapi tantangan matematika di setiap petak untuk menaklukkan papan permainan!</p>
-            </div>
-            <button onclick="startSnakeGame()" class="mt-6 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl shadow-md transition">Mulai Ular Tangga</button>
+            <button onclick="rollSnakeDice()" id="btn-roll-dice" class="ml-4 orange-gradient hover:brightness-110 text-white font-bold px-4 py-2 rounded-xl text-xs shadow-md">
+              <i class="fa-solid fa-dice mr-1"></i> Lempar Dadu
+            </button>
           </div>
         </div>
 
-        <!-- Wadah Tampilan Permainan Aktif -->
-        <div id="game-active-container" class="bg-white p-6 md:p-8 rounded-3xl border-2 border-orange-300 shadow-xl hidden">
-          <div id="game-active-content"></div>
+        <!-- Board Game Layout Grid (30 Petak) -->
+        <div id="snake-board-grid" class="grid grid-cols-5 sm:grid-cols-6 gap-2 sm:gap-3 p-4 bg-amber-50 rounded-3xl border border-amber-200">
+          <!-- 30 Board Tiles generated dynamically in JS -->
         </div>
-      </section>
 
-      <!-- SLIDE 4: AKTIVITAS INTERAKTIF TTS -->
-      <section id="page-tts" class="space-y-6 hidden">
-        <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-200 shadow-md space-y-4">
-          <div class="flex items-center space-x-3 border-b border-orange-100 pb-4">
-            <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl font-bold">
-              <i class="fa-solid fa-gamepad"></i>
+        <!-- Snake Question Modal Container -->
+        <div id="snake-modal" class="hidden bg-stone-950 text-white p-6 rounded-3xl border-2 border-orange-500 space-y-4 shadow-2xl">
+          <div class="flex justify-between items-center border-b border-stone-800 pb-2">
+            <span class="text-xs font-bold text-orange-400 uppercase tracking-widest">Tantangan Petak <span id="snake-tile-num">0</span></span>
+            <span class="text-xs bg-orange-950 text-orange-300 border border-orange-500/30 px-2.5 py-1 rounded-md">Soal Ular Tangga</span>
+          </div>
+
+          <h4 id="snake-modal-question" class="text-base sm:text-lg font-bold text-amber-100 leading-snug">
+            <!-- Question text -->
+          </h4>
+
+          <div id="snake-modal-options" class="grid sm:grid-cols-2 gap-2 pt-2">
+            <!-- Options buttons -->
+          </div>
+
+          <div id="snake-modal-feedback" class="hidden p-3 rounded-xl text-xs font-bold"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 4: TENTANG PENGEMBANG -->
+    <section id="tab-tentang" class="tab-content hidden space-y-10">
+      
+      <!-- Developer Profile Header Banner -->
+      <div class="relative overflow-hidden rounded-3xl tiger-gradient text-white p-8 sm:p-12 border border-orange-500/30 shadow-2xl">
+        <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+          
+          <!-- Avatar / Profile Photo Visual -->
+          <div class="relative group">
+            <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-3xl orange-gradient p-1.5 shadow-2xl transition transform group-hover:scale-105">
+              <div class="w-full h-full bg-stone-950 rounded-2xl flex flex-col items-center justify-center text-center p-4 border border-orange-400/30">
+                <span class="text-6xl mb-1">👨‍💻</span>
+                <span class="text-xs font-black text-amber-400 uppercase tracking-widest">Rifki Wildan</span>
+                <span class="text-[10px] text-stone-400">Teknologi Pendidikan</span>
+              </div>
             </div>
-            <div>
-              <h2 class="font-rosalina text-2xl font-bold text-orange-950">Aktivitas Interaktif Teka-Teki Silang</h2>
-              <p class="text-slate-500 text-xs">Uji wawasan kosakata dan istilah matematika pada materi Transformasi Geometri.</p>
+            <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-amber-400 text-stone-950 text-[10px] font-black px-3 py-1 rounded-full whitespace-nowrap shadow-md">
+              SEMESTER 5 UPI
             </div>
           </div>
 
-          <!-- Embed H5P Container -->
-          <div class="w-full overflow-hidden rounded-2xl border border-orange-200 bg-orange-50/50 p-2">
-            <iframe 
-              src="https://h5p.org/h5p/embed/1568813" 
-              width="100%" 
-              height="820" 
-              frameborder="0" 
-              allowfullscreen="allowfullscreen" 
-              allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" 
-              title="Teka-Teki Silang: Transformasi Geometri"
-              class="rounded-xl w-full">
-            </iframe>
-            <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js" charset="UTF-8"></script>
-          </div>
-        </div>
-      </section>
+          <!-- Bio & Background -->
+          <div class="space-y-4 text-center md:text-left flex-1">
+            <div class="inline-flex items-center space-x-2 bg-orange-500/20 border border-orange-400/30 px-3 py-1 rounded-full text-xs font-bold text-amber-300">
+              <i class="fa-solid fa-university"></i>
+              <span>Universitas Pendidikan Indonesia</span>
+            </div>
 
-      <!-- SLIDE 5: TENTANG PENGEMBANG -->
-      <section id="page-about" class="space-y-8 hidden">
-        <div class="bg-white p-8 md:p-12 rounded-3xl border border-orange-200 shadow-lg max-w-4xl mx-auto space-y-8">
-          <div class="text-center space-y-3">
-            <span class="bg-orange-100 text-orange-800 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-orange-200">
-              Tentang
-            </span>
-            <h2 class="font-rosalina text-4xl font-bold text-orange-950">Mengenal VyaghraGeoLab Lebih Dekat</h2>
-            <p class="text-slate-600 text-sm max-w-2xl mx-auto leading-relaxed">
-              Website ini dirancang secara khusus sebagai platform laboratorium pembelajaran digital interaktif untuk membantu siswa Sekolah Menengah Pertama Kelas 9 menguasai materi Transformasi Geometri secara mendalam, dan menyenangkan.
+            <h2 class="font-rosalina text-3xl sm:text-4xl font-extrabold text-white">
+              Rifki Wildan
+            </h2>
+
+            <p class="text-amber-200 text-sm sm:text-base font-semibold">
+              Mahasiswa S1 Program Studi Teknologi Pendidikan • Kurikulum & Media Pembelajaran Digital
             </p>
-          </div>
 
-          <!-- Profil Keren Rifki Wildan -->
-          <div class="bg-gradient-to-r from-orange-500 to-amber-600 p-8 rounded-3xl text-white shadow-xl flex flex-col md:flex-row items-center gap-8">
-            <div class="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-white p-1.5 shadow-2xl flex-shrink-0">
-              <div class="w-full h-full bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 text-6xl font-bold font-rosalina">
-                RW
-              </div>
-            </div>
-            <div class="space-y-3 text-center md:text-left">
-              <h3 class="font-rosalina text-3xl font-bold">Rifki Wildan</h3>
-              <p class="text-amber-200 font-medium text-sm">
-                Mahasiswa Teknologi Pendidikan Semester 5 &bull; Universitas Pendidikan Indonesia (UPI)
-              </p>
-              <p class="text-orange-100 text-xs leading-relaxed max-w-xl">
-                Seorang pengembang media yang memiliki ketertarikan pada teknologi pembelajaran digital, gamifikasi edukasi, serta perancangan pembelajaran yang imersif dan estetis. Melalui latar belakang keilmuannya di Teknologi Pendidikan UPI, Rifki mendedikasikan diri untuk menciptakan inovasi media pembelajaran yang efektif menjembatani konsep abstrak matematika menjadi konkret dan interaktif bagi siswa.
-              </p>
-              <div class="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
-                <span class="bg-white/20 text-xs px-3 py-1 rounded-lg backdrop-blur-md">Instructional Design</span>
-                <span class="bg-white/20 text-xs px-3 py-1 rounded-lg backdrop-blur-md">Educational Technology</span>
-                <span class="bg-white/20 text-xs px-3 py-1 rounded-lg backdrop-blur-md">Web Gamification</span>
-              </div>
+            <p class="text-stone-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
+              Platform **VyaghraGeoLab** diciptakan khusus sebagai media pembelajaran interaktif berbasis web untuk membantu siswa Kelas 9 memahami materi Transformasi Geometri secara visual, menyenangkan, dan berorientasi pada peningkatan hasil belajar siswa melalui pendekatan gamifikasi.
+            </p>
+
+            <div class="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
+              <span class="bg-stone-900 border border-stone-700 text-stone-300 text-xs px-3 py-1.5 rounded-xl"><i class="fa-solid fa-code text-orange-400 mr-1"></i> Instructional Designer</span>
+              <span class="bg-stone-900 border border-stone-700 text-stone-300 text-xs px-3 py-1.5 rounded-xl"><i class="fa-solid fa-gamepad text-amber-400 mr-1"></i> Gamification Specialist</span>
+              <span class="bg-stone-900 border border-stone-700 text-stone-300 text-xs px-3 py-1.5 rounded-xl"><i class="fa-solid fa-users text-orange-400 mr-1"></i> Pengalaman Organisasi & Kaderisasi</span>
             </div>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-6 pt-4">
-            <div class="bg-orange-50/60 p-6 rounded-2xl border border-orange-100 space-y-2">
-              <h4 class="font-bold text-orange-900 text-base"><i class="fa-solid fa-bullseye text-orange-600 mr-2"></i>Tujuan Website</h4>
-              <p class="text-slate-600 text-xs leading-relaxed">
-                Menyediakan sarana belajar mandiri yang komprehensif bagi siswa SMP kelas 9 lewat kombinasi materi terstruktur, video pembelajaran pilihan, dan berbagai mini games interaktif (kuis, puzzle, dan ular tangga) agar motivasi serta pemahaman konsep siswa meningkat secara signifikan.
-              </p>
-            </div>
-            <div class="bg-orange-50/60 p-6 rounded-2xl border border-orange-100 space-y-2">
-              <h4 class="font-bold text-orange-900 text-base"><i class="fa-solid fa-graduation-cap text-orange-600 mr-2"></i>Kompetensi & Visi Pengembang</h4>
-              <p class="text-slate-600 text-xs leading-relaxed">
-                Berbekal keahlian di bidang Teknologi Pendidikan UPI, pengembang berkomitmen untuk terus merancang solusi digital edukatif yang memadukan prinsip pedagogi dengan visual elegan.
-              </p>
-            </div>
+        </div>
+      </div>
+
+      <!-- Detail Card Pengembang & Filosofi Media -->
+      <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Kartu Visi Pembelajaran -->
+        <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-lg space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <h3 class="font-rosalina text-2xl font-bold text-stone-900">Visi Media VyaghraGeoLab</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">
+            Pembelajaran matematika seringkali dianggap abstrak oleh siswa SMP/SMA. Melalui integrasi maskot Harimau Vyaghra yang merepresentasikan keberanian dan ketelitian, media ini dirancang untuk mengubah paradigma belajar menjadi lebih intuitif, menyenangkan, dan dapat diakses secara mandiri kapan saja.
+          </p>
+          <ul class="space-y-2 text-xs font-semibold text-stone-700 pt-2">
+            <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Menggabungkan 7 Video YouTube Terstruktur</li>
+            <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Evaluasi Interaktif dengan Feedback Pembahasan Seketika</li>
+            <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Tampilan Visual Elegan Bertema Harimau (Vyaghra)</li>
+          </ul>
+        </div>
+
+        <!-- Kartu Profil Organisasi & Prestasi -->
+        <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-lg space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <h3 class="font-rosalina text-2xl font-bold text-stone-900">Komitmen Akademik & Organisasi</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">
+            Sebagai mahasiswa semester 5 Teknologi Pendidikan Universitas Pendidikan Indonesia (UPI), Rifki Wildan aktif dalam pengembangan kepemimpinan, kepengurusan divisi kaderisasi organisasi mahasiswa, serta riset inovasi teknologi kurikulum berbasis digital.
+          </p>
+          <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 italic">
+            "Teknologi tidak menggantikan peran guru, tetapi teknologi di tangan pengembang media yang tepat akan mentransformasi pengalaman belajar siswa menjadi luar biasa."
           </div>
         </div>
-      </section>
 
-    </main>
+      </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-orange-950 text-orange-200 py-6 text-center text-xs border-t border-orange-900 mt-auto">
-      <p>&copy; 2026 VyaghraGeoLab &bull; Didesain & Dikembangkan oleh <strong>Rifki Wildan</strong> (Teknologi Pendidikan UPI)</p>
-    </footer>
-  </div>
+    </section>
 
-  <!-- ==================== JAVASCRIPT SYSTEM ==================== -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-stone-950 text-stone-400 py-10 border-t border-orange-500/20 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">🐅</span>
+        <div>
+          <span class="font-rosalina text-lg font-bold text-white">VyaghraGeoLab</span>
+          <span class="text-xs block text-stone-500">Platform Pembelajaran Transformasi Geometri Kelas 9</span>
+        </div>
+      </div>
+
+      <div class="text-center md:text-right text-xs text-stone-500 space-y-1">
+        <p>&copy; 2026 VyaghraGeoLab. Didesain & Dikembangkan oleh <span class="text-amber-400 font-bold">Rifki Wildan</span>.</p>
+        <p>Program Studi Teknologi Pendidikan • Universitas Pendidikan Indonesia (UPI)</p>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    // System State Management
-    let currentUser = "Siswa";
+    /* ==========================================================================
+       1. NAVIGATION & TAB SWITCHING LOGIC
+       ========================================================================== */
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      // Show selected tab
+      const target = document.getElementById('tab-' + tabName);
+      if(target) target.classList.remove('hidden');
 
-    // Elements
-    const viewLogin = document.getElementById('view-login');
-    const viewSignup = document.getElementById('view-signup');
-    const viewApp = document.getElementById('view-app');
-
-    const pages = {
-      home: document.getElementById('page-home'),
-      materi: document.getElementById('page-materi'),
-      games: document.getElementById('page-games'),
-      tts: document.getElementById('page-tts'),
-      about: document.getElementById('page-about')
-    };
-
-    const navBtns = {
-      home: document.getElementById('nav-home'),
-      materi: document.getElementById('nav-materi'),
-      games: document.getElementById('nav-games'),
-      tts: document.getElementById('nav-tts'),
-      about: document.getElementById('nav-about')
-    };
-
-    // Navigation Switcher
-    function showPage(pageName) {
-      Object.keys(pages).forEach(key => {
-        if (pages[key]) pages[key].classList.add('hidden');
-        if (navBtns[key]) {
-          navBtns[key].classList.remove('text-orange-600', 'bg-orange-50', 'font-bold');
-        }
+      // Update Nav Button Styles
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.className = 'nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800';
       });
 
-      if (pages[pageName]) {
-        pages[pageName].classList.remove('hidden');
-        pages[pageName].classList.add('view-anim');
+      const activeBtn = document.getElementById('nav-' + tabName);
+      if(activeBtn) {
+        activeBtn.className = 'nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-orange-400 bg-orange-950/40 border border-orange-500/30 font-semibold';
       }
-      if (navBtns[pageName]) {
-        navBtns[pageName].classList.add('text-orange-600', 'bg-orange-50', 'font-bold');
-      }
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Auth Flows
-    document.getElementById('go-signup').addEventListener('click', () => {
-      viewLogin.classList.add('hidden');
-      viewSignup.classList.remove('hidden');
-    });
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
 
-    document.getElementById('go-login').addEventListener('click', () => {
-      viewSignup.classList.add('hidden');
-      viewLogin.classList.remove('hidden');
-    });
+    function activateGame(mode) {
+      // Hide all game sections
+      document.getElementById('game-quiz-section').classList.add('hidden');
+      document.getElementById('game-puzzle-section').classList.add('hidden');
+      document.getElementById('game-snake-section').classList.add('hidden');
 
-    document.getElementById('form-login').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const userVal = document.getElementById('li-user').value.trim();
-      if (userVal) {
-        currentUser = userVal;
-        document.getElementById('user-display').innerText = currentUser;
-        document.getElementById('home-username').innerText = currentUser;
-        viewLogin.classList.add('hidden');
-        viewApp.classList.remove('hidden');
-        showPage('home');
+      // Reset button styles
+      document.querySelectorAll('.game-tab-btn').forEach(b => {
+        b.className = 'game-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition bg-stone-800 text-stone-300 hover:bg-stone-700';
+      });
+
+      // Show selected game section
+      document.getElementById(`game-${mode}-section`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`btn-mode-${mode}`);
+      if(activeBtn) {
+        activeBtn.className = 'game-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition orange-gradient text-white shadow-lg';
       }
-    });
+    }
 
-    document.getElementById('form-signup').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const nameVal = document.getElementById('su-name').value.trim();
-      const userVal = document.getElementById('su-user').value.trim();
-      if (nameVal && userVal) {
-        currentUser = userVal;
-        document.getElementById('user-display').innerText = currentUser;
-        document.getElementById('home-username').innerText = currentUser;
-        viewSignup.classList.add('hidden');
-        viewApp.classList.remove('hidden');
-        showPage('home');
+    /* ==========================================================================
+       2. KUIS INTERAKTIF DATA & LOGIC (20 SOAL)
+       ========================================================================== */
+    const quizQuestions = [
+      {
+        q: "1. Titik A(3, 4) ditranslasikan oleh T(2, -5). Berapakah koordinat bayangan titik A'?",
+        opts: ["A. A'(5, -1)", "B. A'(1, 9)", "C. A'(-1, 1)", "D. A'(5, 1)"],
+        ans: 0,
+        cat: "Translasi",
+        exp: "Penyelesaian Translasi: A'(x+a, y+b) = A'(3+2, 4+(-5)) = A'(5, -1)."
+      },
+      {
+        q: "2. Bayangan titik B(-2, 6) oleh translasi T(4, 3) adalah...",
+        opts: ["A. B'(2, 9)", "B. B'(-6, 3)", "C. B'(2, 3)", "D. B'(6, 9)"],
+        ans: 0,
+        cat: "Translasi",
+        exp: "B'(-2+4, 6+3) = B'(2, 9)."
+      },
+      {
+        q: "3. Jika titik C(1, -3) ditranslasikan oleh T(a, b) menghasilkan C'(5, 2), nilai a dan b adalah...",
+        opts: ["A. a = 4, b = 5", "B. a = -4, b = -5", "C. a = 6, b = -1", "D. a = 4, b = -1"],
+        ans: 0,
+        cat: "Translasi",
+        exp: "1 + a = 5 -> a = 4; -3 + b = 2 -> b = 5."
+      },
+      {
+        q: "4. Titik D(5, -2) direfleksikan terhadap Sumbu-X. Koordinat D' adalah...",
+        opts: ["A. D'(-5, -2)", "B. D'(5, 2)", "C. D'(-2, 5)", "D. D'(2, -5)"],
+        ans: 1,
+        cat: "Refleksi",
+        exp: "Refleksi Sumbu-X: (x, y) -> (x, -y). Maka D'(5, -(-2)) = D'(5, 2)."
+      },
+      {
+        q: "5. Hasil pencerminan titik E(-4, -7) terhadap Sumbu-Y adalah...",
+        opts: ["A. E'(4, -7)", "B. E'(-4, 7)", "C. E'(4, 7)", "D. E'(-7, -4)"],
+        ans: 0,
+        cat: "Refleksi",
+        exp: "Refleksi Sumbu-Y: (x, y) -> (-x, y). Maka E'(-(-4), -7) = E'(4, -7)."
+      },
+      {
+        q: "6. Titik F(2, 8) dicerminkan terhadap garis y = x. Bayangannya F' adalah...",
+        opts: ["A. F'(-2, -8)", "B. F'(8, 2)", "C. F'(-8, -2)", "D. F'(2, -8)"],
+        ans: 1,
+        cat: "Refleksi",
+        exp: "Refleksi garis y = x: (x, y) -> (y, x). Maka F'(8, 2)."
+      },
+      {
+        q: "7. Pencerminan titik G(-3, 5) terhadap garis y = -x menghasilkan titik...",
+        opts: ["A. G'(5, -3)", "B. G'(-5, 3)", "C. G'(3, -5)", "D. G'(-3, -5)"],
+        ans: 1,
+        cat: "Refleksi",
+        exp: "Refleksi garis y = -x: (x, y) -> (-y, -x). Maka G'(-5, -(-3)) = G'(-5, 3)."
+      },
+      {
+        q: "8. Titik H(6, 2) diputar sebesar 90° berlawanan arah jarum jam terhadap O(0,0). Koordinat H' adalah...",
+        opts: ["A. H'(-2, 6)", "B. H'(2, -6)", "C. H'(-6, -2)", "D. H'(6, -2)"],
+        ans: 0,
+        cat: "Rotasi",
+        exp: "Rotasi +90° terhadap O(0,0): (x, y) -> (-y, x). Maka H'(-2, 6)."
+      },
+      {
+        q: "9. Bayangan titik I(-4, 3) oleh rotasi 180° terhadap pusat O(0,0) adalah...",
+        opts: ["A. I'(4, -3)", "B. I'(3, -4)", "C. I'(-3, 4)", "D. I'(-4, -3)"],
+        ans: 0,
+        cat: "Rotasi",
+        exp: "Rotasi 180° terhadap O(0,0): (x, y) -> (-x, -y). Maka I'(4, -3)."
+      },
+      {
+        q: "10. Rotasi sebesar 270° berlawanan arah jarum jam terhadap titik J(5, -1) menghasilkan...",
+        opts: ["A. J'(-1, -5)", "B. J'(1, 5)", "C. J'(-5, 1)", "D. J'(-1, 5)"],
+        ans: 0,
+        cat: "Rotasi",
+        exp: "Rotasi +270°: (x, y) -> (y, -x). Maka J'(-1, -5)."
+      },
+      {
+        q: "11. Titik K(2, 4) didilatasi dengan pusat O(0,0) dan faktor skala k = 3. Bayangannya K' adalah...",
+        opts: ["A. K'(6, 12)", "B. K'(5, 7)", "C. K'(6, 4)", "D. K'(2, 12)"],
+        ans: 0,
+        cat: "Dilatasi",
+        exp: "Dilatasi [O, k]: K'(k·x, k·y) = K'(3·2, 3·4) = K'(6, 12)."
+      },
+      {
+        q: "12. Bayangan titik L(-8, 12) oleh dilatasi [O, 1/4] adalah...",
+        opts: ["A. L'(-2, 3)", "B. L'(2, -3)", "C. L'(-32, 48)", "D. L'(-2, -3)"],
+        ans: 0,
+        cat: "Dilatasi",
+        exp: "L'(-8 / 4, 12 / 4) = L'(-2, 3)."
+      },
+      {
+        q: "13. Titik M(3, -2) dicerminkan terhadap garis x = 2. Koordinat M' adalah...",
+        opts: ["A. M'(1, -2)", "B. M'(7, -2)", "C. M'(3, 6)", "D. M'(-1, -2)"],
+        ans: 0,
+        cat: "Refleksi",
+        exp: "Cermin x = h: (2h - x, y) = (2(2) - 3, -2) = (1, -2)."
+      },
+      {
+        q: "14. Titik N(1, 5) dicerminkan terhadap garis y = 3. Bayangan N' adalah...",
+        opts: ["A. N'(1, 1)", "B. N'(1, 7)", "C. N'(5, 1)", "D. N'(-1, 3)"],
+        ans: 0,
+        cat: "Refleksi",
+        exp: "Cermin y = k: (x, 2k - y) = (1, 2(3) - 5) = (1, 1)."
+      },
+      {
+        q: "15. Titik P(2, 3) ditranslasikan T(1, 2) kemudian dilanjutkan translasi T(3, -1). Bayangan akhir P'' adalah...",
+        opts: ["A. P''(6, 4)", "B. P''(5, 4)", "C. P''(6, 5)", "D. P''(4, 6)"],
+        ans: 0,
+        cat: "Kombinasi",
+        exp: "T_total = (1+3, 2+(-1)) = (4, 1). P''(2+4, 3+1) = P''(6, 4)."
+      },
+      {
+        q: "16. Segitiga ABC dengan luas 10 cm² didilatasi dengan faktor skala k = 3. Luas bayangan segitiga A'B'C' adalah...",
+        opts: ["A. 90 cm²", "B. 30 cm²", "C. 60 cm²", "D. 100 cm²"],
+        ans: 0,
+        cat: "Dilatasi",
+        exp: "Luas Bayangan = k² × Luas Awal = 3² × 10 = 9 × 10 = 90 cm²."
+      },
+      {
+        q: "17. Rotasi -90° (searah jarum jam) terhadap O(0,0) sama artinya dengan rotasi berlawanan jarum jam sebesar...",
+        opts: ["A. +270°", "B. +180°", "C. +90°", "D. +360°"],
+        ans: 0,
+        cat: "Rotasi",
+        exp: "Arah searah jarum jam (-90°) ekuivalen dengan +270° berlawanan jarum jam."
+      },
+      {
+        q: "18. Titik Q(-2, 4) dicerminkan terhadap titik asal O(0,0). Koordinat Q' adalah...",
+        opts: ["A. Q'(2, -4)", "B. Q'(-2, -4)", "C. Q'(4, -2)", "D. Q'(-4, 2)"],
+        ans: 0,
+        cat: "Refleksi",
+        exp: "Refleksi pusat O(0,0): (x, y) -> (-x, -y). Maka Q'(2, -4)."
+      },
+      {
+        q: "19. Titik R(4, 8) didilatasi dengan pusat O(0,0) dan k = -1/2. Koordinat R' adalah...",
+        opts: ["A. R'(-2, -4)", "B. R'(2, 4)", "C. R'(-4, -8)", "D. R'(-2, 4)"],
+        ans: 0,
+        cat: "Dilatasi",
+        exp: "R'(4 · (-1/2), 8 · (-1/2)) = R'(-2, -4)."
+      },
+      {
+        q: "20. Bayangan titik S(3, 1) oleh rotasi +90° dilanjutkan pencerminan sumbu-X adalah...",
+        opts: ["A. S'(-1, -3)", "B. S'(-1, 3)", "C. S'(1, 3)", "D. S'(3, -1)"],
+        ans: 0,
+        cat: "Kombinasi",
+        exp: "Rotasi +90°: (3, 1) -> (-1, 3). Cermin sumbu-X: (-1, 3) -> (-1, -3)."
       }
-    });
+    ];
 
-    document.getElementById('nav-logout').addEventListener('click', () => {
-      viewApp.classList.add('hidden');
-      viewLogin.classList.remove('hidden');
-    });
+    let currentQuizIndex = 0;
+    let userAnswers = new Array(20).fill(null);
 
-    // Ripple effect on buttons
-    document.addEventListener('click', function(e) {
-      const btn = e.target.closest('button');
-      if (!btn) return;
-      const rect = btn.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      const ripple = document.createElement('span');
-      ripple.className = 'ripple';
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-      btn.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 550);
-    });
+    function renderQuizQuestion() {
+      const q = quizQuestions[currentQuizIndex];
+      document.getElementById('quiz-progress-text').innerText = `Soal ${currentQuizIndex + 1} dari 20`;
+      document.getElementById('quiz-badge-cat').innerText = q.cat;
+      document.getElementById('quiz-progress-bar').style.width = `${((currentQuizIndex + 1) / 20) * 100}%`;
+      document.getElementById('quiz-question-text').innerText = q.q;
 
-    // ==================== GAME LOGIC SYSTEMS ====================
-    const gameContainer = document.getElementById('game-active-container');
-    const gameContent = document.getElementById('game-active-content');
+      const optsContainer = document.getElementById('quiz-options-container');
+      optsContainer.innerHTML = '';
 
-    // GAME 1: KUIS 20 SOAL
-    const quizQuestions = Array.from({ length: 20 }, (_, i) => ({
-      q: `Soal Kuis ${i + 1}: Titik P(${i + 2}, ${i + 1}) ditranslasikan oleh T(${i + 1}, 2). Koordinat bayangan P' adalah...`,
-      opts: [
-        `P'(${i + 3}, ${i + 3})`,
-        `P'(${i + 2 + i + 1}, ${i + 1 + 2})`,
-        `P'(${i + 1}, ${i + 4})`,
-        `P'(${i + 5}, ${i + 1})`
-      ],
-      ans: 1,
-      exp: `Translasi menambah titik asal: (${i+2} + ${i+1}, ${i+1} + 2) = (${i+3+i}, ${i+3}).`
-    }));
+      q.opts.forEach((opt, idx) => {
+        const isSelected = userAnswers[currentQuizIndex] === idx;
+        const btn = document.createElement('button');
+        btn.className = `w-full text-left p-3.5 rounded-2xl border-2 text-xs font-semibold transition ${
+          isSelected ? 'border-orange-500 bg-orange-50 text-orange-950 font-bold' : 'border-stone-200 bg-white text-stone-700 hover:border-orange-300'
+        }`;
+        btn.innerText = opt;
+        btn.onclick = () => selectQuizAnswer(idx);
+        optsContainer.appendChild(btn);
+      });
 
-    let currentQuizIdx = 0;
-    let quizScore = 0;
+      // Render Feedback if answered
+      const fbBox = document.getElementById('quiz-feedback-box');
+      if (userAnswers[currentQuizIndex] !== null) {
+        const isCorrect = userAnswers[currentQuizIndex] === q.ans;
+        fbBox.classList.remove('hidden');
+        if (isCorrect) {
+          fbBox.className = "p-4 rounded-2xl border text-xs leading-relaxed space-y-1 bg-emerald-50 border-emerald-300 text-emerald-900";
+          fbBox.innerHTML = `<span class="font-bold text-emerald-700"><i class="fa-solid fa-circle-check"></i> JAWABAN BENAR!</span><br>${q.exp}`;
+        } else {
+          fbBox.className = "p-4 rounded-2xl border text-xs leading-relaxed space-y-1 bg-rose-50 border-rose-300 text-rose-900";
+          fbBox.innerHTML = `<span class="font-bold text-rose-700"><i class="fa-solid fa-circle-xmark"></i> JAWABAN KURANG TEPAT.</span><br>${q.exp}`;
+        }
+      } else {
+        fbBox.classList.add('hidden');
+      }
 
-    function startQuizGame() {
-      currentQuizIdx = 0;
-      quizScore = 0;
-      gameContainer.classList.remove('hidden');
+      document.getElementById('btn-quiz-prev').disabled = (currentQuizIndex === 0);
+    }
+
+    function selectQuizAnswer(optIdx) {
+      userAnswers[currentQuizIndex] = optIdx;
+      calculateQuizScore();
       renderQuizQuestion();
     }
 
-    function renderQuizQuestion() {
-      if (currentQuizIdx >= quizQuestions.length) {
-        gameContent.innerHTML = `
-          <div class="text-center space-y-4">
-            <h3 class="font-rosalina text-3xl font-bold text-orange-950">Kuis Selesai! 🎉</h3>
-            <p class="text-lg">Skor Akhir Kamu: <span class="font-bold text-orange-600 text-2xl">${quizScore} / ${quizQuestions.length}</span></p>
-            <button onclick="startQuizGame()" class="bg-orange-600 text-white font-bold px-6 py-2.5 rounded-xl shadow-md">Coba Lagi</button>
-          </div>
-        `;
+    function calculateQuizScore() {
+      let score = 0;
+      userAnswers.forEach((ans, idx) => {
+        if(ans === quizQuestions[idx].ans) score += 5;
+      });
+      document.getElementById('quiz-score-num').innerText = score;
+    }
+
+    function prevQuizQuestion() {
+      if(currentQuizIndex > 0) {
+        currentQuizIndex--;
+        renderQuizQuestion();
+      }
+    }
+
+    function nextQuizQuestion() {
+      if(currentQuizIndex < 19) {
+        currentQuizIndex++;
+        renderQuizQuestion();
+      } else {
+        alert("Kamu telah menyelesaikan 20 soal Kuis! Skor akhir kamu: " + document.getElementById('quiz-score-num').innerText);
+      }
+    }
+
+    /* ==========================================================================
+       3. PUZZLE MATCHING DATA & LOGIC (15 SOAL)
+       ========================================================================== */
+    const puzzleData = [
+      { prompt: "Titik P(-3, 7) direfleksikan terhadap Sumbu-X", target: "P'(-3, -7)" },
+      { prompt: "Titik A(2, 5) ditranslasikan T(4, -1)", target: "A'(6, 4)" },
+      { prompt: "Titik B(6, -2) diputar 180° pusat O(0,0)", target: "B'(-6, 2)" },
+      { prompt: "Titik C(4, 8) didilatasi [O, 1/2]", target: "C'(2, 4)" },
+      { prompt: "Titik D(-1, 4) dicerminkan terhadap garis y = x", target: "D'(4, -1)" },
+      { prompt: "Titik E(3, 1) diputar +90° pusat O(0,0)", target: "E'(-1, 3)" },
+      { prompt: "Titik F(5, -3) dicerminkan terhadap Sumbu-Y", target: "F'(-5, -3)" },
+      { prompt: "Titik G(-2, -6) didilatasi [O, 3]", target: "G'(-6, -18)" },
+      { prompt: "Titik H(0, 4) ditranslasikan T(-3, 5)", target: "H'(-3, 9)" },
+      { prompt: "Titik I(2, -4) dicerminkan terhadap garis y = -x", target: "I'(4, -2)" },
+      { prompt: "Titik J(7, 3) diputar +270° pusat O(0,0)", target: "J'(3, -7)" },
+      { prompt: "Titik K(-4, -2) dicerminkan terhadap titik O(0,0)", target: "K'(4, 2)" },
+      { prompt: "Titik L(5, 2) dicerminkan terhadap garis x = 3", target: "L'(1, 2)" },
+      { prompt: "Titik M(1, 4) dicerminkan terhadap garis y = 2", target: "M'(1, 0)" },
+      { prompt: "Titik N(-3, 9) didilatasi [O, -1]", target: "N'(3, -9)" }
+    ];
+
+    let currentPuzzleIdx = 0;
+    let puzzleScore = 0;
+
+    function renderPuzzleCard() {
+      const p = puzzleData[currentPuzzleIdx];
+      document.getElementById('puzzle-index-text').innerText = currentPuzzleIdx + 1;
+      document.getElementById('puzzle-question-prompt').innerText = p.prompt;
+
+      const sel = document.getElementById('puzzle-user-select');
+      sel.innerHTML = '<option value="">-- Pilih Bayangan --</option>';
+
+      // Generate shuffled target choices
+      let choices = puzzleData.map(d => d.target);
+      choices.sort(() => Math.random() - 0.5);
+
+      choices.forEach(ans => {
+        const opt = document.createElement('option');
+        opt.value = ans;
+        opt.innerText = ans;
+        sel.appendChild(opt);
+      });
+
+      document.getElementById('puzzle-feedback').className = "hidden p-4 rounded-2xl text-xs font-bold";
+    }
+
+    function checkPuzzleAnswer() {
+      const selVal = document.getElementById('puzzle-user-select').value;
+      const p = puzzleData[currentPuzzleIdx];
+      const fb = document.getElementById('puzzle-feedback');
+
+      if (!selVal) {
+        alert("Pilih salah satu bayangan terlebih dahulu!");
         return;
       }
 
-      const q = quizQuestions[currentQuizIdx];
-      gameContent.innerHTML = `
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b border-orange-100 pb-3">
-            <span class="font-bold text-orange-600 text-sm">Soal ${currentQuizIdx + 1} dari ${quizQuestions.length}</span>
-            <span class="text-xs bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-semibold">Skor: ${quizScore}</span>
-          </div>
-          <h3 class="text-lg font-bold text-slate-800">${q.q}</h3>
-          <div class="grid gap-3">
-            ${q.opts.map((opt, idx) => `
-              <button onclick="submitQuizAns(${idx})" class="text-left px-4 py-3 rounded-xl border border-orange-200 hover:bg-orange-50 font-medium transition text-sm">
-                ${opt}
-              </button>
-            `).join('')}
-          </div>
-          <div id="quiz-feedback" class="mt-4"></div>
-        </div>
-      `;
-    }
-
-    function submitQuizAns(selectedIdx) {
-      const q = quizQuestions[currentQuizIdx];
-      const feedbackEl = document.getElementById('quiz-feedback');
-      if (selectedIdx === q.ans) {
-        quizScore++;
-        feedbackEl.innerHTML = `<div class="p-3 bg-green-100 border border-green-300 text-green-800 rounded-xl text-xs font-bold">Benar! ${q.exp}</div>`;
+      fb.classList.remove('hidden');
+      if (selVal === p.target) {
+        puzzleScore++;
+        document.getElementById('puzzle-score-num').innerText = puzzleScore;
+        fb.className = "p-4 rounded-2xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+        fb.innerText = "✨ HEBAT! Pasangan Puzzle Sangat Tepat!";
       } else {
-        feedbackEl.innerHTML = `<div class="p-3 bg-red-100 border border-red-300 text-red-800 rounded-xl text-xs font-bold">Kurang tepat. ${q.exp}</div>`;
+        fb.className = "p-4 rounded-2xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300";
+        fb.innerText = `❌ Kurang Tepat. Bayangan yang benar adalah ${p.target}.`;
       }
 
       setTimeout(() => {
-        currentQuizIdx++;
-        renderQuizQuestion();
+        if (currentPuzzleIdx < 14) {
+          currentPuzzleIdx++;
+          renderPuzzleCard();
+        } else {
+          alert(`Game Puzzle Selesai! Skor Total Pasangan Tepat: ${puzzleScore} / 15`);
+        }
       }, 1500);
     }
 
-    // GAME 2: PUZZLE 15 SOAL
-    const puzzleQuestions = Array.from({ length: 15 }, (_, i) => ({
-      origin: `Titik A(${i + 2}, ${i + 3})`,
-      type: `Dicerminkan terhadap Sumbu-X`,
-      ans: `A'(${i + 2}, -${i + 3})`
-    }));
+    /* ==========================================================================
+       4. ULAR TANGGA EDUKASI DATA & LOGIC (30 SOAL & BOARD)
+       ========================================================================== */
+    const snakeQuestions = [
+      { tile: 1, q: "Apa rumus translasi titik P(x,y) oleh T(a,b)?", opts: ["P'(x+a, y+b)", "P'(x-a, y-b)", "P'(a, b)", "P'(x·a, y·b)"], ans: 0 },
+      { tile: 2, q: "Bayangan titik A(1, 2) oleh T(3, 4) adalah...", opts: ["A'(4, 6)", "A'(3, 8)", "A'(2, 2)", "A'(4, 2)"], ans: 0 },
+      { tile: 3, q: "Cermin sumbu-X mengubah P(x,y) menjadi...", opts: ["(x, -y)", "(-x, y)", "(-x, -y)", "(y, x)"], ans: 0 },
+      { tile: 4, q: "Pencerminan titik B(-3, 5) terhadap sumbu-Y adalah...", opts: ["B'(3, 5)", "B'(-3, -5)", "B'(5, -3)", "B'(3, -5)"], ans: 0 },
+      { tile: 5, q: "Rotasi 180° terhadap O(0,0) mengubah titik (x,y) menjadi...", opts: ["(-x, -y)", "(-y, x)", "(y, -x)", "(x, -y)"], ans: 0 },
+      { tile: 6, q: "Bayangan titik C(4, 1) oleh rotasi +90° terhadap O(0,0) adalah...", opts: ["C'(-1, 4)", "C'(1, -4)", "C'(-4, -1)", "C'(4, -1)"], ans: 0 },
+      { tile: 7, q: "Dilatasi [O, k] memperbesar ukuran jika nilai k...", opts: ["k > 1", "0 < k < 1", "k = 0", "k < -1 saja"], ans: 0 },
+      { tile: 8, q: "Titik D(3, -2) didilatasi [O, 2]. Bayangannya D' adalah...", opts: ["D'(6, -4)", "D'(5, 0)", "D'(1.5, -1)", "D'(6, 4)"], ans: 0 },
+      { tile: 9, q: "Bayangan titik E(2, 7) dicerminkan terhadap garis y = x adalah...", opts: ["E'(7, 2)", "E'(-2, -7)", "E'(-7, -2)", "E'(2, -7)"], ans: 0 },
+      { tile: 10, q: "Titik F(5, 3) ditranslasikan T(-2, -1) menghasilkan...", opts: ["F'(3, 2)", "F'(7, 4)", "F'(-10, -3)", "F'(3, 4)"], ans: 0 },
+      { tile: 11, q: "Rotasi +270° ekuivalen dengan rotasi searah jarum jam sebesar...", opts: ["-90°", "-180°", "-270°", "-360°"], ans: 0 },
+      { tile: 12, q: "Dilatasi [O, 1/3] pada titik G(9, -12) menghasilkan...", opts: ["G'(3, -4)", "G'(27, -36)", "G'(3, 4)", "G'(-3, 4)"], ans: 0 },
+      { tile: 13, q: "Pencerminan terhadap garis y = -x mengubah (x,y) menjadi...", opts: ["(-y, -x)", "(y, x)", "(-x, -y)", "(y, -x)"], ans: 0 },
+      { tile: 14, q: "Titik H(-4, -6) dicerminkan titik asal O(0,0) menjadi...", opts: ["H'(4, 6)", "H'(-4, 6)", "H'(4, -6)", "H'(6, 4)"], ans: 0 },
+      { tile: 15, q: "Titik I(3, 2) dicerminkan garis x = 4 menghasilkan...", opts: ["I'(5, 2)", "I'(1, 2)", "I'(3, 6)", "I'(3, 8)"], ans: 0 },
+      { tile: 16, q: "Titik J(1, 5) dicerminkan garis y = 2 menghasilkan...", opts: ["J'(1, -1)", "J'(1, 1)", "J'(3, 5)", "J'(1, 9)"], ans: 0 },
+      { tile: 17, q: "Luas persegi dengan sisi 4 cm didilatasi k = 2 menjadi...", opts: ["64 cm²", "32 cm²", "16 cm²", "128 cm²"], ans: 0 },
+      { tile: 18, q: "Rotasi 360° terhadap titik apapun akan menghasilkan bayangan...", opts: ["Tepat di titik asal", "Di sumbu X", "Di kuadran 2", "Di titik O(0,0)"], ans: 0 },
+      { tile: 19, q: "Translasi T1(2,3) dilanjut T2(1,1) ekuivalen dengan T...", opts: ["T(3, 4)", "T(2, 3)", "T(1, 2)", "T(3, 3)"], ans: 0 },
+      { tile: 20, q: "Bayangan titik K(6, -8) oleh dilatasi [O, -1/2] adalah...", opts: ["K'(-3, 4)", "K'(3, -4)", "K'(-12, 16)", "K'(3, 4)"], ans: 0 },
+      { tile: 21, q: "Titik L(-2, 3) diputar -90° (searah jarum jam). Bayangannya...", opts: ["L'(3, 2)", "L'(-3, -2)", "L'(2, -3)", "L'(-2, -3)"], ans: 0 },
+      { tile: 22, q: "Titik M(4, 5) dicerminkan sumbu-X lalu dicerminkan sumbu-Y menjadi...", opts: ["M'(-4, -5)", "M'(4, -5)", "M'(-4, 5)", "M'(5, 4)"], ans: 0 },
+      { tile: 23, q: "Sifat bayangan refleksi adalah...", opts: ["Sama bentuk dan ukuran", "Ukuran membesar", "Bentuk berubah", "Posisi selalu tetap"], ans: 0 },
+      { tile: 24, q: "Translasi T(a,b) memindahkan objek tanpa...", opts: ["Mengubah bentuk/ukuran", "Mengubah posisi", "Memindahkan titik", "Semua salah"], ans: 0 },
+      { tile: 25, q: "Titik N(8, 4) didilatasi k = 0.5 menjadi...", opts: ["N'(4, 2)", "N'(16, 8)", "N'(8, 2)", "N'(4, 4)"], ans: 0 },
+      { tile: 26, q: "Pencerminan garis y = x pada titik O(0,0) hasilnya...", opts: ["O'(0,0)", "O'(1,1)", "O'(-1,-1)", "O'(0,1)"], ans: 0 },
+      { tile: 27, q: "Perubahan ukuran bangun datar disebut...", opts: ["Dilatasi", "Translasi", "Refleksi", "Rotasi"], ans: 0 },
+      { tile: 28, q: "Pergerakan memutar bangun datar disebut...", opts: ["Rotasi", "Dilatasi", "Translasi", "Refleksi"], ans: 0 },
+      { tile: 29, q: "Titik P(1, 1) ditranslasikan T(10, 10) menjadi...", opts: ["P'(11, 11)", "P'(10, 10)", "P'(1, 1)", "P'(9, 9)"], ans: 0 },
+      { tile: 30, q: "Selamat! Apa rumus dasar pencerminan sumbu Y?", opts: ["(-x, y)", "(x, -y)", "(-x, -y)", "(y, x)"], ans: 0 }
+    ];
 
-    let currentPuzzleIdx = 0;
-    function startPuzzleGame() {
-      currentPuzzleIdx = 0;
-      gameContainer.classList.remove('hidden');
-      renderPuzzleQuestion();
-    }
-
-    function renderPuzzleQuestion() {
-      if (currentPuzzleIdx >= puzzleQuestions.length) {
-        gameContent.innerHTML = `
-          <div class="text-center space-y-4">
-            <h3 class="font-rosalina text-3xl font-bold text-amber-800">Puzzle Selesai! 🧩</h3>
-            <p class="text-slate-600">Kamu berhasil mencocokkan seluruh 15 puzzle transformasi!</p>
-            <button onclick="startPuzzleGame()" class="bg-amber-600 text-white font-bold px-6 py-2.5 rounded-xl shadow-md">Main Lagi</button>
-          </div>
-        `;
-        return;
-      }
-
-      const p = puzzleQuestions[currentPuzzleIdx];
-      gameContent.innerHTML = `
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b border-amber-100 pb-3">
-            <span class="font-bold text-amber-700 text-sm">Puzzle ${currentPuzzleIdx + 1} dari ${puzzleQuestions.length}</span>
-          </div>
-          <p class="text-slate-700 font-medium">Cocokkan bayangan titik berikut:</p>
-          <div class="flex flex-wrap items-center gap-3 bg-amber-50 p-4 rounded-xl border border-amber-200">
-            <span class="font-bold text-amber-900 bg-white px-3 py-1.5 rounded-lg shadow-sm">${p.origin}</span>
-            <span class="text-xs font-semibold text-slate-500">&rarr; ${p.type} &rarr;</span>
-            <select id="puzzle-select" class="p-2 border border-amber-300 rounded-lg text-sm bg-white outline-none">
-              <option value="">-- Pilih Bayangan Tepat --</option>
-              <option value="correct">${p.ans}</option>
-              <option value="wrong1">A'(-${currentPuzzleIdx + 2}, ${currentPuzzleIdx + 3})</option>
-              <option value="wrong2">A'(${currentPuzzleIdx + 2}, ${currentPuzzleIdx + 3})</option>
-            </select>
-          </div>
-          <button onclick="checkPuzzleAns()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-2 rounded-xl text-sm transition">Cek Pasangan</button>
-          <div id="puzzle-feedback"></div>
-        </div>
-      `;
-    }
-
-    function checkPuzzleAns() {
-      const val = document.getElementById('puzzle-select').value;
-      const fb = document.getElementById('puzzle-feedback');
-      if (val === 'correct') {
-        fb.innerHTML = `<div class="p-3 bg-green-100 border border-green-300 text-green-800 rounded-xl text-xs font-bold mt-2">Cocok! Pencerminan Sumbu-X mengubah tanda nilai y.</div>`;
-        setTimeout(() => {
-          currentPuzzleIdx++;
-          renderPuzzleQuestion();
-        }, 1200);
-      } else {
-        fb.innerHTML = `<div class="p-3 bg-red-100 border border-red-300 text-red-800 rounded-xl text-xs font-bold mt-2">Belum tepat, coba periksa kembali posisi koordinatnya!</div>`;
-      }
-    }
-
-    // GAME 3: ULAR TANGGA 30 SOAL (Tanpa Membocorkan Jawaban Benar)
-    let snakePos = 1;
-    function startSnakeGame() {
-      snakePos = 1;
-      gameContainer.classList.remove('hidden');
-      renderSnakeBoard();
-    }
+    let playerBoardPos = 1;
 
     function renderSnakeBoard() {
-      gameContent.innerHTML = `
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b border-red-100 pb-3">
-            <h3 class="font-rosalina text-2xl font-bold text-red-950">Ular Tangga Vyaghra</h3>
-            <span class="text-sm font-bold bg-red-100 text-red-800 px-3 py-1 rounded-full">Posisi Petak: ${snakePos} / 30</span>
-          </div>
-          <p class="text-xs text-slate-500">Kocok dadu untuk melangkah dan hadapi tantangan tantangan matematika di setiap petaknya!</p>
-          <button onclick="rollSnakeDice()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition flex items-center space-x-2">
-            <i class="fa-solid fa-dice text-xl"></i>
-            <span>Lempar Dadu</span>
-          </button>
-          <div id="snake-result" class="mt-4"></div>
-        </div>
-      `;
+      const boardGrid = document.getElementById('snake-board-grid');
+      boardGrid.innerHTML = '';
+
+      for (let i = 1; i <= 30; i++) {
+        const tile = document.createElement('div');
+        const isPlayerHere = (i === playerBoardPos);
+        tile.className = `relative p-3 rounded-2xl border text-center font-bold text-xs flex flex-col items-center justify-between transition-all ${
+          isPlayerHere ? 'orange-gradient text-white shadow-lg scale-105 border-amber-300' : 'bg-white border-amber-200 text-stone-700'
+        }`;
+        
+        tile.innerHTML = `
+          <span class="text-[10px] opacity-70">#${i}</span>
+          <span class="text-base my-1">${isPlayerHere ? '🐅' : '🎯'}</span>
+          <span class="text-[9px] font-mono">${isPlayerHere ? 'POSISI' : 'Petak'}</span>
+        `;
+        boardGrid.appendChild(tile);
+      }
     }
 
     function rollSnakeDice() {
       const dice = Math.floor(Math.random() * 6) + 1;
-      snakePos += dice;
-      const res = document.getElementById('snake-result');
+      let nextPos = playerBoardPos + dice;
+      if (nextPos > 30) nextPos = 30;
 
-      if (snakePos >= 30) {
-        snakePos = 30;
-        res.innerHTML = `
-          <div class="p-4 bg-amber-100 border border-amber-300 text-amber-900 rounded-2xl font-bold space-y-2">
-            <p class="text-lg">Dadu: ${dice} 🎲 &bull; Selamat! Kamu berhasil menaklukkan seluruh tantangan dan mencapai petak 30 Finis!</p>
-            <button onclick="startSnakeGame()" class="bg-amber-600 text-white px-4 py-2 rounded-xl text-xs">Mainkan Lagi</button>
-          </div>
-        `;
-      } else {
-        res.innerHTML = `
-          <div class="p-4 bg-red-50 border border-red-200 rounded-2xl space-y-3">
-            <p class="font-bold text-red-900 text-sm">Dadu mendapatkan angka ${dice}. Kamu melangkah maju ke Petak ${snakePos}!</p>
-            <div class="bg-white p-3 rounded-xl border border-red-100 text-xs text-slate-700 space-y-2">
-              <strong>Tantangan Petak ${snakePos}:</strong><br>
-              Tentukan bayangan titik koordinat $A(2, 3)$ jika dikenakan aturan transformasi pada petak ${snakePos} (pikirkan dan hitung secara mandiri sebelum melangkah ke petak berikutnya!).
-            </div>
-            <button onclick="renderSnakeBoard()" class="bg-red-600 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-red-700 transition">Lanjut Lempar Dadu</button>
-          </div>
-        `;
-      }
+      playerBoardPos = nextPos;
+      document.getElementById('snake-player-pos').innerText = playerBoardPos;
+      renderSnakeBoard();
+
+      // Trigger question modal for the new tile
+      showSnakeQuestion(playerBoardPos);
     }
+
+    function showSnakeQuestion(tileNum) {
+      const qObj = snakeQuestions.find(q => q.tile === tileNum) || snakeQuestions[0];
+      const modal = document.getElementById('snake-modal');
+      modal.classList.remove('hidden');
+
+      document.getElementById('snake-tile-num').innerText = tileNum;
+      document.getElementById('snake-modal-question').innerText = qObj.q;
+
+      const optsBox = document.getElementById('snake-modal-options');
+      optsBox.innerHTML = '';
+
+      const fb = document.getElementById('snake-modal-feedback');
+      fb.className = "hidden p-3 rounded-xl text-xs font-bold";
+
+      qObj.opts.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3 rounded-xl bg-stone-900 border border-stone-800 hover:border-orange-500 text-xs text-stone-200 font-semibold";
+        btn.innerText = opt;
+        btn.onclick = () => {
+          fb.classList.remove('hidden');
+          if (idx === qObj.ans) {
+            fb.className = "p-3 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40";
+            fb.innerText = "✨ Jawaban Benar! Kamu aman di petak ini.";
+          } else {
+            fb.className = "p-3 rounded-xl text-xs font-bold bg-rose-950 text-rose-300 border border-rose-500/40";
+            fb.innerText = "❌ Jawaban Kurang Tepat. Tetap semangat!";
+          }
+          setTimeout(() => {
+            modal.classList.add('hidden');
+          }, 1800);
+        };
+        optsBox.appendChild(btn);
+      });
+    }
+
+    /* ==========================================================================
+       5. INITIALIZATION ON PAGE LOAD
+       ========================================================================== */
+    window.onload = function() {
+      // Render Initial Game State
+      renderQuizQuestion();
+      renderPuzzleCard();
+      renderSnakeBoard();
+    };
   </script>
 </body>
 </html>
