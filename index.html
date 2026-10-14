@@ -33,7 +33,7 @@ tailwind.config = {
   }
 }
 </script>
-<!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -61,7 +61,6 @@ body {
 .gold-gradient {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 }
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -78,10 +77,10 @@ body {
 </style>
 </head>
 <body class="text-slate-800 antialiased flex flex-col min-h-screen">
+
 <!-- NAVIGATION HEADER -->
 <header class="sticky top-0 z-50 bg-stone-900/95 text-white shadow-xl border-b border-orange-500/30 backdrop-blur-md">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-    <!-- Logo Branding -->
     <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchTab('beranda')">
       <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-stone-950 font-black text-2xl shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
         <i class="fa-solid fa-paw"></i>
@@ -93,7 +92,6 @@ body {
         <span class="block text-[10px] tracking-widest uppercase text-orange-300 font-bold">Matematika Kelas 9</span>
       </div>
     </div>
-    <!-- Desktop Menu -->
     <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 font-medium text-sm">
       <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-orange-400 bg-orange-950/40 border border-orange-500/30 font-semibold">
         <i class="fa-solid fa-house mr-1.5"></i> Beranda
@@ -111,12 +109,10 @@ body {
         <i class="fa-solid fa-user-graduate mr-1.5"></i> Tentang
       </button>
     </nav>
-    <!-- Mobile Menu Toggle Button -->
     <button onclick="toggleMobileMenu()" class="md:hidden text-stone-300 hover:text-orange-400 p-2 rounded-lg text-xl">
       <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
     </button>
   </div>
-  <!-- Mobile Navigation Drawer -->
   <div id="mobile-menu" class="hidden md:hidden bg-stone-950 border-b border-orange-500/30 px-4 py-4 space-y-2">
     <button onclick="switchTab('beranda'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-orange-400 font-semibold bg-stone-900 flex items-center">
       <i class="fa-solid fa-house w-6"></i> Beranda
@@ -138,9 +134,17 @@ body {
 
 <!-- MAIN CONTAINER -->
 <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  
+  <!-- FLOATING AUDIO CONTROL / NOTIFICATION -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button onclick="stopVoiceAudio()" id="btn-stop-audio" class="hidden bg-stone-900 text-amber-400 border border-amber-500/50 px-4 py-3 rounded-2xl shadow-2xl font-bold text-xs flex items-center space-x-2 animate-bounce">
+      <i class="fa-solid fa-volume-xmark text-lg"></i>
+      <span>Hentikan Suara</span>
+    </button>
+  </div>
+
   <!-- TAB 1: BERANDA -->
   <section id="tab-beranda" class="tab-content space-y-12">
-    <!-- HERO SECTION -->
     <div class="relative overflow-hidden rounded-3xl tiger-gradient text-white shadow-2xl border border-orange-500/30">
       <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ea580c_1px,transparent_1px)] [background-size:16px_16px]"></div>
       <div class="relative z-10 grid lg:grid-cols-12 gap-8 p-8 sm:p-12 items-center">
@@ -153,7 +157,7 @@ body {
             Kuasai Transformasi Geometri Lebih Elegan & Menarik
           </h1>
           <p class="text-stone-300 text-base sm:text-lg leading-relaxed font-normal">
-            Selamat datang para petualang matematika Kelas 9! Lets Go menjelajahi perubahan bentuk, pergeseran, pencerminan, perputaran, serta perkalian ukuran bangun datar didampingi oleh Sang Harimau "Vyaghra".
+            Selamat datang para petualang matematika Kelas 9! Jelajahi perubahan bentuk, pergeseran, pencerminan, perputaran, serta perkalian ukuran bangun datar didampingi oleh Sang Harimau "Vyaghra".
           </p>
           <div class="flex flex-wrap gap-4 pt-2">
             <button onclick="switchTab('materi')" class="orange-gradient hover:brightness-110 text-white font-bold px-7 py-3.5 rounded-2xl shadow-lg shadow-orange-600/30 flex items-center space-x-2 transition transform hover:-translate-y-0.5">
@@ -165,7 +169,6 @@ body {
             </button>
           </div>
         </div>
-        <!-- Hero Mascot Card Graphic -->
         <div class="lg:col-span-5 flex justify-center">
           <div class="relative w-full max-w-sm bg-gradient-to-b from-orange-500/20 to-stone-900/80 p-6 rounded-3xl border border-orange-400/30 text-center shadow-2xl backdrop-blur-sm">
             <div class="w-36 h-36 mx-auto rounded-full orange-gradient p-1 shadow-2xl mb-4 relative">
@@ -190,19 +193,24 @@ body {
       </div>
     </div>
 
-    <!-- SECTION 4 SUB-BAB -->
+    <!-- 4 SUB-BAB DENGAN TOMBOL AUDIO MAYER PRINCIPLE -->
     <div class="space-y-6">
       <div class="text-center max-w-3xl mx-auto space-y-2">
-        <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Ringkasan Kurikulum Kelas 9</span>
+        <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Kurikulum Kelas 9 (Prinsip Multimedia)</span>
         <h2 class="font-rosalina text-3xl sm:text-4xl font-extrabold text-stone-900">4 Konsep Utama Transformasi Geometri</h2>
-        <p class="text-stone-600">Pelajari perubahan posisi titik P(x,y) menjadi titik bayangan $P^{\prime}(x^{\prime},y^{\prime})$ berikut ini:</p>
+        <p class="text-stone-600">Klik tombol audio 🔊 pada setiap kartu untuk mendengarkan penjelasan suara materi (Modalitas Mayer).</p>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- 1. TRANSLASI -->
         <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-arrows-up-down-left-right"></i>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i>
+              </div>
+              <button onclick="playVoiceDescription('Translasi adalah pergeseran setiap titik pada bidang koordinat sejarak dan searah vektor T a b tanpa mengubah bentuk dan ukuran. Rumus titik P x y ditranslasikan T a b menjadi P aksen x ditambah a, y ditambah b.')" class="bg-orange-50 hover:bg-orange-100 text-orange-600 w-10 h-10 rounded-xl flex items-center justify-center shadow-sm transition" title="Dengarkan Penjelasan Suara">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
             </div>
             <span class="text-xs font-bold text-orange-600 uppercase tracking-wider">Sub-Bab 1</span>
             <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Translasi (Pergeseran)</h3>
@@ -218,8 +226,13 @@ body {
         <!-- 2. REFLEKSI -->
         <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-object-ungroup"></i>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-object-ungroup"></i>
+              </div>
+              <button onclick="playVoiceDescription('Refleksi atau pencerminan adalah memindahkan titik dengan sifat cermin datar, di mana jarak objek asli ke cermin sama persis dengan jarak bayangan ke cermin. Cermin sumbu X menghasilkan y negatif, cermin sumbu Y menghasilkan x negatif, dan garis y sama dengan x menukar posisi koordinat y, x.')" class="bg-amber-50 hover:bg-amber-100 text-amber-600 w-10 h-10 rounded-xl flex items-center justify-center shadow-sm transition" title="Dengarkan Penjelasan Suara">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
             </div>
             <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Sub-Bab 2</span>
             <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Refleksi (Pencerminan)</h3>
@@ -236,8 +249,13 @@ body {
         <!-- 3. ROTASI -->
         <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-rotate-right"></i>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-rotate-right"></i>
+              </div>
+              <button onclick="playVoiceDescription('Rotasi adalah perputaran titik atau bangun sejauh sudut tertentu terhadap titik pusat. Arah berlawanan jarum jam bernilai positif. Pusat O dengan sudut 90 derajat menghasilkan minus y koma x.')" class="bg-orange-50 hover:bg-orange-100 text-orange-700 w-10 h-10 rounded-xl flex items-center justify-center shadow-sm transition" title="Dengarkan Penjelasan Suara">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
             </div>
             <span class="text-xs font-bold text-orange-700 uppercase tracking-wider">Sub-Bab 3</span>
             <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Rotasi (Perputaran)</h3>
@@ -254,8 +272,13 @@ body {
         <!-- 4. DILATASI -->
         <div class="bg-white p-6 rounded-3xl border border-amber-200 shadow-md hover:shadow-xl hover:border-orange-400 transition-all group flex flex-col justify-between">
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-stone-900 text-amber-400 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-expand"></i>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-stone-900 text-amber-400 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-expand"></i>
+              </div>
+              <button onclick="playVoiceDescription('Dilatasi adalah transformasi yang memperbesar atau memperkecil ukuran bangun datar dengan faktor skala k tanpa mengubah bentuknya. Rumus pusat O dengan faktor skala k adalah P aksen k dikali x, k dikali y.')" class="bg-stone-100 hover:bg-stone-200 text-stone-900 w-10 h-10 rounded-xl flex items-center justify-center shadow-sm transition" title="Dengarkan Penjelasan Suara">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
             </div>
             <span class="text-xs font-bold text-stone-900 uppercase tracking-wider">Sub-Bab 4</span>
             <h3 class="font-rosalina text-xl font-bold text-stone-900 my-1">Dilatasi (Perkalian)</h3>
@@ -299,7 +322,6 @@ body {
         Saksikan pembahasan materi dasar Transformasi Geometri Kelas 9 yang disajikan secara komunikatif dan sistematis.
       </p>
     </div>
-    <!-- Grid 7 Video Cards -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Video 1 -->
       <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col">
@@ -437,12 +459,12 @@ body {
       </div>
     </div>
 
-    <!-- GAME CONTAINER 1: KUIS INTERAKTIF -->
+    <!-- GAME 1: KUIS INTERAKTIF -->
     <div id="game-quiz-section" class="bg-white p-6 sm:p-10 rounded-3xl border border-stone-200 shadow-xl space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-4 gap-4">
         <div>
           <h3 class="font-rosalina text-2xl font-bold text-stone-900">Ujian Ketangkasan Vyaghra (20 Soal Pilihan Ganda)</h3>
-          <p class="text-xs text-stone-500">Pilih salah satu jawaban A, B, C, atau D. Feedback pembahasan akan langsung muncul!</p>
+          <p class="text-xs text-stone-500">Pilih salah satu jawaban. Feedback dan suara pembahasan akan langsung muncul otomatis!</p>
         </div>
         <div class="bg-orange-50 border border-orange-200 px-4 py-2 rounded-2xl text-xs font-bold text-orange-700 flex items-center space-x-2">
           <span>Skor Kamu:</span>
@@ -474,7 +496,7 @@ body {
       </div>
     </div>
 
-    <!-- GAME CONTAINER 2: PUZZLE MATCHING -->
+    <!-- GAME 2: PUZZLE MATCHING -->
     <div id="game-puzzle-section" class="hidden bg-white p-6 sm:p-10 rounded-3xl border border-stone-200 shadow-xl space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-4 gap-4">
         <div>
@@ -506,7 +528,7 @@ body {
       </div>
     </div>
 
-    <!-- GAME CONTAINER 3: ULAR TANGGA -->
+    <!-- GAME 3: ULAR TANGGA -->
     <div id="game-snake-section" class="hidden bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-xl space-y-6">
       <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-stone-100 pb-4 gap-4">
         <div>
@@ -597,7 +619,6 @@ body {
         </div>
       </div>
     </div>
-    <!-- Detail Card Pengembang -->
     <div class="grid md:grid-cols-2 gap-8">
       <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-lg space-y-4">
         <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl font-bold">
@@ -609,8 +630,8 @@ body {
         </p>
         <ul class="space-y-2 text-xs font-semibold text-stone-700 pt-2">
           <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Menggabungkan 7 Video YouTube Terstruktur</li>
-          <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Evaluasi Interaktif dengan Feedback Pembahasan Seketika</li>
-          <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Tampilan Visual Elegan</li>
+          <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Evaluasi Interaktif dengan Feedback Suara & Visual Seketika</li>
+          <li class="flex items-center"><i class="fa-solid fa-circle-check text-orange-500 mr-2"></i> Tampilan Visual Elegan Berbasis Prinsip Mayer</li>
         </ul>
       </div>
       <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-lg space-y-4">
@@ -647,8 +668,38 @@ body {
 </footer>
 
 <script>
+/* ==================== WEB SPEECH API (AUDIO / SUARA - MAYER PRINCIPLE) ==================== */
+function playVoiceDescription(text) {
+  if (!('speechSynthesis' in window)) {
+    alert("Maaf, browser Anda tidak mendukung fitur suara interaktif.");
+    return;
+  }
+  window.speechSynthesis.cancel(); // Hentikan suara sebelumnya jika ada
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'id-ID';
+  utterance.rate = 0.95; // Kecepatan normal-nyaman
+  utterance.pitch = 1.0;
+  
+  utterance.onstart = function() {
+    document.getElementById('btn-stop-audio').classList.remove('hidden');
+  };
+  utterance.onend = function() {
+    document.getElementById('btn-stop-audio').classList.add('hidden');
+  };
+  
+  window.speechSynthesis.speak(utterance);
+}
+
+function stopVoiceAudio() {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    document.getElementById('btn-stop-audio').classList.add('hidden');
+  }
+}
+
 /* ==================== 1. NAVIGATION & TAB SWITCHING LOGIC ==================== */
 function switchTab(tabName) {
+  stopVoiceAudio();
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
   const target = document.getElementById('tab-' + tabName);
   if(target) target.classList.remove('hidden');
@@ -669,6 +720,7 @@ function toggleMobileMenu() {
 }
 
 function activateGame(mode) {
+  stopVoiceAudio();
   document.getElementById('game-quiz-section').classList.add('hidden');
   document.getElementById('game-puzzle-section').classList.add('hidden');
   document.getElementById('game-snake-section').classList.add('hidden');
@@ -705,56 +757,56 @@ const quizQuestions = [
     opts: ["A. a=4, b=5", "B. a=-4, b=-5", "C. a=6, b=-1", "D. a=4, b=-1"],
     ans: 0,
     cat: "Translasi",
-    exp: "1 + a = 5 -> a = 4; -3 + b = 2 -> b = 5."
+    exp: "1 + a = 5 maka a = 4, dan -3 + b = 2 maka b = 5."
   },
   {
     q: "4. Titik D(5,-2) direfleksikan terhadap Sumbu-X. Koordinat D' adalah...",
     opts: ["A. D'(-5,-2)", "B. D'(5,2)", "C. D'(-2,5)", "D. D'(2,-5)"],
     ans: 1,
     cat: "Refleksi",
-    exp: "Refleksi Sumbu-X: (x, y) -> (x, -y). Maka D'(5, -(-2)) = D'(5,2)."
+    exp: "Refleksi Sumbu-X: (x, y) menjadi (x, -y). Maka D'(5, -(-2)) = D'(5,2)."
   },
   {
     q: "5. Hasil pencerminan titik E(-4,-7) terhadap Sumbu-Y adalah...",
     opts: ["A. E'(4,-7)", "B. E'(-4,7)", "C. E'(4,7)", "D. E'(-7,-4)"],
     ans: 0,
     cat: "Refleksi",
-    exp: "Refleksi Sumbu-Y: (x, y) -> (-x, y). Maka E'(-(-4), -7) = E'(4,-7)."
+    exp: "Refleksi Sumbu-Y: (x, y) menjadi (-x, y). Maka E'(-(-4), -7) = E'(4,-7)."
   },
   {
     q: "6. Titik F(2,8) dicerminkan terhadap garis y=x. Bayangannya F' adalah...",
     opts: ["A. F'(-2,-8)", "B. F'(8,2)", "C. F'(-8,-2)", "D. F'(2,-8)"],
     ans: 1,
     cat: "Refleksi",
-    exp: "Refleksi garis y=x: (x, y) -> (y, x). Maka F'(8,2)."
+    exp: "Refleksi garis y=x menukar posisi koordinat (x, y) menjadi (y, x). Maka F'(8,2)."
   },
   {
     q: "7. Pencerminan titik G(-3,5) terhadap garis y=-x menghasilkan titik...",
     opts: ["A. G'(5,-3)", "B. G'(-5,3)", "C. G'(3,-5)", "D. G'(-3,-5)"],
     ans: 1,
     cat: "Refleksi",
-    exp: "Refleksi garis y=-x: (x, y) -> (-y, -x). Maka G'(-5, -(-3)) = G'(-5,3)."
+    exp: "Refleksi garis y=-x mengubah (x, y) menjadi (-y, -x). Maka G'(-5,3)."
   },
   {
     q: "8. Titik H(6,2) diputar sebesar 90&deg; berlawanan arah jarum jam terhadap O(0,0). Koordinat H' adalah...",
     opts: ["A. H'(-2,6)", "B. H'(2,-6)", "C. H'(-6,-2)", "D. H'(6,-2)"],
     ans: 0,
     cat: "Rotasi",
-    exp: "Rotasi +90&deg; terhadap O(0,0): (x, y) -> (-y, x). Maka H'(-2,6)."
+    exp: "Rotasi +90&deg;: (x, y) menjadi (-y, x). Maka H'(-2,6)."
   },
   {
     q: "9. Bayangan titik I(-4,3) oleh rotasi 180&deg; terhadap pusat O(0,0) adalah...",
     opts: ["A. I'(4,-3)", "B. I'(3,-4)", "C. I'(-3,4)", "D. I'(-4,-3)"],
     ans: 0,
     cat: "Rotasi",
-    exp: "Rotasi 180&deg; terhadap O(0,0): (x, y) -> (-x, -y). Maka I'(4,-3)."
+    exp: "Rotasi 180&deg;: (x, y) menjadi (-x, -y). Maka I'(4,-3)."
   },
   {
     q: "10. Rotasi sebesar 270&deg; berlawanan arah jarum jam terhadap titik J(5,-1) menghasilkan...",
     opts: ["A. J'(-1,-5)", "B. J'(1,5)", "C. J'(-5,1)", "D. J'(-1,5)"],
     ans: 0,
     cat: "Rotasi",
-    exp: "Rotasi +270&deg;: (x, y) -> (y, -x). Maka J'(-1,-5)."
+    exp: "Rotasi +270&deg;: (x, y) menjadi (y, -x). Maka J'(-1,-5)."
   },
   {
     q: "11. Titik K(2,4) didilatasi dengan pusat O(0,0) dan faktor skala k = 3. Bayangannya K' adalah...",
@@ -796,35 +848,35 @@ const quizQuestions = [
     opts: ["A. 90 cm&sup2;", "B. 30 cm&sup2;", "C. 60 cm&sup2;", "D. 100 cm&sup2;"],
     ans: 0,
     cat: "Dilatasi",
-    exp: "Luas Bayangan = k^2 * Luas Awal = 3^2 * 10 = 9 * 10 = 90 cm&sup2;."
+    exp: "Luas Bayangan = k kuadrat dikali luas awal = 9 dikali 10 = 90 cm persegi."
   },
   {
     q: "17. Rotasi -90&deg; (searah jarum jam) terhadap O(0,0) sama artinya dengan rotasi berlawanan jarum jam sebesar...",
     opts: ["A. +270&deg;", "B. +180&deg;", "C. +90&deg;", "D. +360&deg;"],
     ans: 0,
     cat: "Rotasi",
-    exp: "Arah searah jarum jam (-90&deg;) ekuivalen dengan +270&deg; berlawanan jarum jam."
+    exp: "Arah searah jarum jam -90 derajat ekuivalen dengan +270 derajat berlawanan jarum jam."
   },
   {
     q: "18. Titik Q(-2,4) dicerminkan terhadap titik asal O(0,0). Koordinat Q' adalah...",
     opts: ["A. Q'(2,-4)", "B. Q'(-2,-4)", "C. Q'(4,-2)", "D. Q'(-4,2)"],
     ans: 0,
     cat: "Refleksi",
-    exp: "Refleksi pusat O(0,0): (x,y) -> (-x,-y). Maka Q'(2,-4)."
+    exp: "Refleksi pusat O(0,0): (x,y) menjadi (-x,-y). Maka Q'(2,-4)."
   },
   {
     q: "19. Titik R(4, 8) didilatasi dengan pusat O(0,0) dan k=-1/2. Koordinat R' adalah...",
     opts: ["A. R'(-2,-4)", "B. R'(2,4)", "C. R'(-4,-8)", "D. R'(-2,4)"],
     ans: 0,
     cat: "Dilatasi",
-    exp: "R'(4 * -1/2, 8 * -1/2) = R'(-2, -4)."
+    exp: "R' (4 dikali minus setengah, 8 dikali minus setengah) = R'(-2, -4)."
   },
   {
     q: "20. Bayangan titik S(3,1) oleh rotasi +90&deg; dilanjutkan pencerminan sumbu-X adalah...",
     opts: ["A. S'(-1,-3)", "B. S'(-1,3)", "C. S'(1,3)", "D. S'(3,-1)"],
     ans: 0,
     cat: "Kombinasi",
-    exp: "Rotasi +90&deg;: (3,1) -> (-1,3). Cermin sumbu-X: (-1,3) -> (-1,-3)."
+    exp: "Rotasi +90 derajat: (-1,3). Dilanjut cermin sumbu-X menjadi (-1,-3)."
   }
 ];
 
@@ -872,6 +924,12 @@ function selectQuizAnswer(optIdx) {
   userAnswers[currentQuizIndex] = optIdx;
   calculateQuizScore();
   renderQuizQuestion();
+  
+  // Baca suara feedback otomatis (Prinsip Modality)
+  const q = quizQuestions[currentQuizIndex];
+  const isCorrect = optIdx === q.ans;
+  const audioText = isCorrect ? `Jawaban benar! ${q.exp}` : `Jawaban kurang tepat. ${q.exp}`;
+  playVoiceDescription(audioText);
 }
 
 function calculateQuizScore() {
@@ -883,6 +941,7 @@ function calculateQuizScore() {
 }
 
 function prevQuizQuestion() {
+  stopVoiceAudio();
   if(currentQuizIndex > 0) {
     currentQuizIndex--;
     renderQuizQuestion();
@@ -890,6 +949,7 @@ function prevQuizQuestion() {
 }
 
 function nextQuizQuestion() {
+  stopVoiceAudio();
   if(currentQuizIndex < 19) {
     currentQuizIndex++;
     renderQuizQuestion();
@@ -952,9 +1012,11 @@ function checkPuzzleAnswer() {
     document.getElementById('puzzle-score-num').innerText = puzzleScore;
     fb.className = "p-4 rounded-2xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
     fb.innerText = "HEBAT! Pasangan Puzzle Sangat Tepat!";
+    playVoiceDescription("Hebat! Pasangan puzzle sangat tepat.");
   } else {
     fb.className = "p-4 rounded-2xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300";
     fb.innerText = `Kurang Tepat. Bayangan yang benar adalah ${p.target}.`;
+    playVoiceDescription(`Kurang tepat. Bayangan yang benar adalah ${p.target}.`);
   }
   setTimeout(() => {
     if (currentPuzzleIdx < 14) {
@@ -1021,6 +1083,7 @@ function renderSnakeBoard() {
 }
 
 function rollSnakeDice() {
+  stopVoiceAudio();
   const dice = Math.floor(Math.random() * 6) + 1;
   let nextPos = playerBoardPos + dice;
   if (nextPos > 30) nextPos = 30;
@@ -1028,6 +1091,7 @@ function rollSnakeDice() {
   document.getElementById('snake-player-pos').innerText = playerBoardPos;
   renderSnakeBoard();
   showSnakeQuestion(playerBoardPos);
+  playVoiceDescription(`Anda melempar dadu angka ${dice}. Maju ke petak ${playerBoardPos}.`);
 }
 
 function showSnakeQuestion(tileNum) {
@@ -1051,9 +1115,11 @@ function showSnakeQuestion(tileNum) {
       if (idx === qObj.ans) {
         fb.className = "p-3 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40";
         fb.innerText = "✔ Jawaban Benar! Kamu aman di petak ini.";
+        playVoiceDescription("Jawaban benar! Kamu aman di petak ini.");
       } else {
         fb.className = "p-3 rounded-xl text-xs font-bold bg-rose-950 text-rose-300 border border-rose-500/40";
         fb.innerText = "✖ Jawaban Kurang Tepat. Tetap semangat!";
+        playVoiceDescription("Jawaban kurang tepat. Tetap semangat!");
       }
       setTimeout(() => {
         modal.classList.add('hidden');
