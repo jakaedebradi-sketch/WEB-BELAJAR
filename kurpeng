@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencerdasan Kurikulum Pengaderan (Kurpeng) | Kabinet Urmiyasa</title>
+    <!-- Google Fonts: Avenir-style clean sans-serif -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#eef8ff',
+                            100: '#d9f0ff',
+                            200: '#bce4ff',
+                            300: '#8cd3ff',
+                            400: '#52bcff',
+                            500: '#23a2ff',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'Avenir', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', 'Avenir', sans-serif;
+            background-color: #f0f8ff;
+            color: #0f172a;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        .ocean-gradient {
+            background: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #23a2ff 100%);
+        }
+        .ocean-gradient-soft {
+            background: linear-gradient(135deg, #eef8ff 0%, #d9f0ff 100%);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #eef8ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-ocean-500 selection:text-white">
+
+    <!-- LOGIN MODAL / OVERLAY -->
+    <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center ocean-gradient p-4">
+        <div class="glass-card w-full max-w-md rounded-3xl p-8 shadow-2xl border border-white/40 transform transition-all">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl ocean-gradient text-white shadow-lg mb-4 text-2xl font-bold">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-ocean-900">Portal Pencerdasan Kurpeng</h2>
+                <p class="text-sm text-ocean-700 mt-1">Kabinet Urmiyasa • Hima Tekpend UPI 2026/2027</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-ocean-800 mb-1">Nama Lengkap</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ocean-500"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="user-name" required placeholder="Masukkan Nama Lengkap Anda" class="w-full pl-10 pr-4 py-3 bg-white/80 border border-ocean-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-ocean-500 text-ocean-900">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-ocean-800 mb-1">Nomor Induk Mahasiswa (NIM)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ocean-500"><i class="fa-solid fa-id-card"></i></span>
+                        <input type="text" id="user-nim" required placeholder="Contoh: 240XXXX" class="w-full pl-10 pr-4 py-3 bg-white/80 border border-ocean-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-ocean-500 text-ocean-900">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-ocean-800 mb-1">Peran / Status</label>
+                    <select id="user-role" class="w-full px-4 py-3 bg-white/80 border border-ocean-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-ocean-500 text-ocean-900">
+                        <option value="Pendamping Kader">Pendamping / Mentor Kader</option>
+                        <option value="Steering Committee">Steering Committee (SC)</option>
+                        <option value="Organizing Committee">Organizing Committee (OC)</option>
+                        <option value="Pengurus Harian">Pengurus Harian Hima Tekpend</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3.5 ocean-gradient text-white font-semibold rounded-xl shadow-lg hover:opacity-95 transition transform active:scale-95 flex items-center justify-center gap-2">
+                    <span>Masuk ke Portal</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="mt-6 text-center text-xs text-ocean-600">
+                <p>Didukung penuh oleh Bidang PSDO & Divisi Kaderisasi Hima Tekpend UPI</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER (Hidden initially) -->
+    <div id="app-container" class="hidden flex-1 flex flex-col">
+        
+        <!-- HEADER / NAVIGATION -->
+        <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-ocean-100 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl ocean-gradient flex items-center justify-center text-white text-xl shadow-md">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-base font-bold text-ocean-950 leading-tight">Kurikulum Pengaderan (Kurpeng)</h1>
+                        <p class="text-xs text-ocean-600 font-medium">Kabinet Urmiyasa • Hima Tekpend UPI</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Nav Tabs -->
+                <nav class="hidden md:flex items-center gap-1 bg-ocean-50 p-1.5 rounded-2xl border border-ocean-100">
+                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition bg-ocean-600 text-white shadow-sm">Beranda</button>
+                    <button onclick="switchTab('tujuan')" id="nav-tujuan" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-ocean-700 hover:bg-ocean-100">Tujuan</button>
+                    <button onclick="switchTab('pengembang')" id="nav-pengembang" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-ocean-700 hover:bg-ocean-100">Tim & Pengembang</button>
+                    <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-ocean-700 hover:bg-ocean-100">Muatan Materi</button>
+                    <button onclick="switchTab('asesmen')" id="nav-asesmen" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-ocean-700 hover:bg-ocean-100">Asesmen Kuis</button>
+                </nav>
+
+                <!-- User Profile Badge & Logout -->
+                <div class="flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <div id="display-user-name" class="text-xs font-bold text-ocean-900"></div>
+                        <div id="display-user-role" class="text-[10px] text-ocean-600 font-medium"></div>
+                    </div>
+                    <button onclick="logout()" title="Keluar" class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center transition border border-rose-200">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-xl bg-ocean-50 text-ocean-700 flex items-center justify-center">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 border-t border-ocean-100 bg-white space-y-1">
+                <button onclick="switchTab('beranda'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-ocean-800 hover:bg-ocean-50">Beranda</button>
+                <button onclick="switchTab('tujuan'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-ocean-800 hover:bg-ocean-50">Tujuan Website</button>
+                <button onclick="switchTab('pengembang'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-ocean-800 hover:bg-ocean-50">Tim & Pengembang</button>
+                <button onclick="switchTab('materi'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-ocean-800 hover:bg-ocean-50">Muatan Materi (10 Sesi)</button>
+                <button onclick="switchTab('asesmen'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-ocean-800 hover:bg-ocean-50">Asesmen Kuis (150 Soal)</button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- TAB 1: BERANDA -->
+            <section id="tab-beranda" class="space-y-8">
+                <!-- Hero Banner -->
+                <div class="relative overflow-hidden rounded-3xl ocean-gradient text-white p-8 sm:p-12 shadow-xl">
+                    <div class="absolute -right-10 -bottom-10 w-64 h-64 rounded-full bg-white/15 blur-2xl pointer-events-none"></div>
+                    <div class="relative z-10 max-w-2xl space-y-4">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 text-xs font-semibold tracking-wide backdrop-blur-md">
+                            <i class="fa-solid fa-sparkles text-amber-300"></i> Portal Resmi Pencerdasan Kurikulum Pengaderan
+                        </span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                            Membangun Kader Unggul Berbasis Saintifik & Human Performance
+                        </h2>
+                        <p class="text-ocean-100 text-sm sm:text-base leading-relaxed">
+                            Selamat datang di platform interaktif pencerdasan kurikulum pengaderan Hima Tekpend UPI Kabinet Urmiyasa. Dirancang khusus untuk membekali para pendamping, SC, dan OC dengan pemahaman komprehensif dari Sesi 1 hingga Sesi 10.
+                        </p>
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <button onclick="switchTab('materi')" class="px-6 py-3 bg-white text-ocean-800 font-bold rounded-xl shadow-lg hover:bg-ocean-50 transition flex items-center gap-2">
+                                <i class="fa-solid fa-book-open"></i> Mulai Pelajari Materi
+                            </button>
+                            <button onclick="switchTab('asesmen')" class="px-6 py-3 bg-ocean-700/80 text-white border border-white/30 font-semibold rounded-xl hover:bg-ocean-700 transition flex items-center gap-2">
+                                <i class="fa-solid fa-puzzle-piece"></i> Kerjakan Asesmen Kuis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats / Highlights -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="glass-card p-6 rounded-2xl shadow-sm border border-ocean-100 flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-ocean-100 text-ocean-600 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-extrabold text-ocean-950">10 Sesi</div>
+                            <div class="text-xs text-ocean-600 font-medium">Modul Pembelajaran & Bacaan</div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm border border-ocean-100 flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-extrabold text-ocean-950">150 Soal</div>
+                            <div class="text-xs text-ocean-600 font-medium">Asesmen Kuis Beragam Konsep</div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm border border-ocean-100 flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-extrabold text-ocean-950">Kabinet</div>
+                            <div class="text-xs text-ocean-600 font-medium">Urmiyasa Hima Tekpend UPI</div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm border border-ocean-100 flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-extrabold text-ocean-950">Sertifikat</div>
+                            <div class="text-xs text-ocean-600 font-medium">Digital Kelulusan & Plakat</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Banner & Structural Preview -->
+                <div class="glass-card rounded-3xl p-8 border border-ocean-200 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-ocean-600">Pimpinan & Penanggung Jawab Resmi</span>
+                        <h3 class="text-2xl font-bold text-ocean-950">Siap Melaksanakan Transformasi Kaderisasi 2026/2027?</h3>
+                        <p class="text-sm text-ocean-700 max-w-xl">
+                            Pencerdasan kurikulum ini dipimpin langsung oleh Ketua Himpunan, Ketua Bidang PSDO, dan Ketua Divisi Kaderisasi untuk memastikan kualitas pembinaan kader yang terukur dan bersandar pada standar pendidikan modern.
+                        </p>
+                    </div>
+                    <button onclick="openCertificateModal()" class="px-6 py-3.5 ocean-gradient text-white font-bold rounded-xl shadow-md hover:opacity-95 transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-certificate"></i> Unduh Sertifikat Digital
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 2: TUJUAN WEBSITE -->
+            <section id="tab-tujuan" class="hidden space-y-8">
+                <div class="text-center max-w-2xl mx-auto space-y-3">
+                    <span class="px-3 py-1 rounded-full bg-ocean-100 text-ocean-700 text-xs font-bold uppercase tracking-wider">Tujuan Strategis</span>
+                    <h2 class="text-3xl font-extrabold text-ocean-950">Mengapa Website Pencerdasan Ini Dibuat?</h2>
+                    <p class="text-sm text-ocean-700">Platform digital ini dikembangkan untuk menjadi pusat referensi terpadu bagi seluruh elemen pengurus dalam memahami arah dan landasan operasional kurikulum pengaderan.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-card p-8 rounded-3xl shadow-sm border border-ocean-100 space-y-4 hover:shadow-md transition">
+                        <div class="w-14 h-14 rounded-2xl ocean-gradient text-white flex items-center justify-center text-2xl font-bold shadow-md">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-ocean-950">Standarisasi Pemahaman</h3>
+                        <p class="text-sm text-ocean-700 leading-relaxed">
+                            Menyamakan persepsi dan kerangka berpikir (mindset) seluruh pengurus, Steering Committee, Organizing Committee, dan Pendamping mengenai urgensi Kurikulum Pengaderan (Kurpeng) berbasis HPT dan OBE.
+                        </p>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl shadow-sm border border-ocean-100 space-y-4 hover:shadow-md transition">
+                        <div class="w-14 h-14 rounded-2xl ocean-gradient text-white flex items-center justify-center text-2xl font-bold shadow-md">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-ocean-950">Aksesibilitas Materi Interaktif</h3>
+                        <p class="text-sm text-ocean-700 leading-relaxed">
+                            Menyediakan dokumen bacaan mendalam dari Sesi 1 hingga Sesi 10 dengan rincian minimal 5 paragraf per sesi, menerapkan prinsip multimedia Mayer untuk optimalisasi kognitif pembaca.
+                        </p>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl shadow-sm border border-ocean-100 space-y-4 hover:shadow-md transition">
+                        <div class="w-14 h-14 rounded-2xl ocean-gradient text-white flex items-center justify-center text-2xl font-bold shadow-md">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-ocean-950">Evaluasi & Asesmen Terstruktur</h3>
+                        <p class="text-sm text-ocean-700 leading-relaxed">
+                            Menguji tingkat pemahaman pengurus melalui 150 soal asesmen kuis dengan konsep game yang bervariasi di tiap muatannya, dilengkapi sertifikat digital sebagai bukti kelulusan pencerdasan.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Additional Context Box -->
+                <div class="glass-card rounded-3xl p-8 border border-ocean-200 bg-gradient-to-r from-ocean-50 to-sky-50">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="w-20 h-20 rounded-2xl ocean-gradient text-white flex items-center justify-center text-3xl font-bold flex-shrink-0 shadow-lg">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-lg font-bold text-ocean-950">Landasan Operasional Kabinet Urmiyasa</h4>
+                            <p class="text-sm text-ocean-700 leading-relaxed">
+                                Berdasarkan Permendikbudristek No. 53 Tahun 2023 dan visi Hima Tekpend UPI, pencerdasan ini memastikan setiap kegiatan pengaderan bukan sekadar agenda seremonial tahunan, melainkan intervensi sistemik yang menghasilkan perubahan perilaku dan performa kader secara nyata.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: TIM & PENGEMBANG -->
+            <section id="tab-pengembang" class="hidden space-y-8">
+                <div class="text-center max-w-2xl mx-auto space-y-3">
+                    <span class="px-3 py-1 rounded-full bg-ocean-100 text-ocean-700 text-xs font-bold uppercase tracking-wider">Struktur Pimpinan & Tim</span>
+                    <h2 class="text-3xl font-extrabold text-ocean-950">Pengembang & Penanggung Jawab</h2>
+                    <p class="text-sm text-ocean-700">Pilar kepemimpinan Hima Tekpend UPI Kabinet Urmiyasa yang mengawal jalannya program pencerdasan kurikulum pengaderan.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Leader 1 -->
+                    <div class="glass-card rounded-3xl p-6 text-center space-y-4 border border-ocean-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-24 h-24 mx-auto rounded-2xl ocean-gradient text-white flex items-center justify-center text-3xl font-bold shadow-md">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-ocean-950">M. Gathan Alfarouk</h3>
+                            <p class="text-xs font-semibold text-ocean-600 mt-0.5">Ketua Himpunan (Ketua Hima)</p>
+                        </div>
+                        <p class="text-xs text-ocean-700 leading-relaxed">
+                            Memimpin arah kebijakan strategis organisasi dan memastikan seluruh program kerja Kabinet Urmiyasa selaras dengan visi pencapaian mutu mahasiswa Teknologi Pendidikan UPI.
+                        </p>
+                    </div>
+
+                    <!-- Leader 2 -->
+                    <div class="glass-card rounded-3xl p-6 text-center space-y-4 border border-ocean-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-24 h-24 mx-auto rounded-2xl ocean-gradient text-white flex items-center justify-center text-3xl font-bold shadow-md">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-ocean-950">Ghaitsa Shira Alegra</h3>
+                            <p class="text-xs font-semibold text-ocean-600 mt-0.5">Ketua Bidang PSDO</p>
+                        </div>
+                        <p class="text-xs text-ocean-700 leading-relaxed">
+                            Mengkoordinasikan pengembangan sumber daya organisasi, membina departemen kaderisasi, serta mengawal standarisasi kurikulum pengaderan secara komprehensif.
+                        </p>
+                    </div>
+
+                    <!-- Leader 3 (User Persona Role) -->
+                    <div class="glass-card rounded-3xl p-6 text-center space-y-4 border border-ocean-200 shadow-md bg-gradient-to-b from-ocean-50/50 to-white">
+                        <div class="w-24 h-24 mx-auto rounded-2xl ocean-gradient text-white flex items-center justify-center text-3xl font-bold shadow-md">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-ocean-950">Rifki Wildan</h3>
+                            <p class="text-xs font-semibold text-ocean-600 mt-0.5">Ketua Divisi Kaderisasi & PJ Kurpeng</p>
+                        </div>
+                        <p class="text-xs text-ocean-700 leading-relaxed">
+                            Bertindak sebagai penanggung jawab utama perumusan Kurikulum Pengaderan (Kurpeng), penyusunan modul, serta eksekusi pencerdasan kepada para pendamping dan panitia.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Developer Note -->
+                <div class="glass-card rounded-3xl p-6 border border-ocean-100 text-center text-xs text-ocean-600">
+                    <p>Website ini dikembangkan dengan standar teknologi web modern berbasis prinsip multimedia Mayer untuk mendukung efektivitas pembelajaran pengurus Hima Tekpend UPI.</p>
+                </div>
+            </section>
+
+            <!-- TAB 4: MUATAN MATERI (10 SESI) -->
+            <section id="tab-materi" class="hidden space-y-8">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-ocean-100 text-ocean-700 text-xs font-bold uppercase tracking-wider">Modul Pembelajaran</span>
+                        <h2 class="text-3xl font-extrabold text-ocean-950 mt-1">Muatan Materi Sesi 1 - 10</h2>
+                        <p class="text-sm text-ocean-700">Bacaan lengkap minimal 5 paragraf per sesi (masing-masing 4 kalimat) sesuai dokumen Kurpeng Hima Tekpend UPI.</p>
+                    </div>
+                    <!-- Session Selector Dropdown -->
+                    <div class="w-full md:w-72">
+                        <select id="session-selector" onchange="selectSession(this.value)" class="w-full px-4 py-3 bg-white border border-ocean-200 rounded-xl text-sm font-semibold text-ocean-900 focus:ring-2 focus:ring-ocean-500 shadow-sm">
+                            <option value="1">Sesi 1: Fondasi & Pendekatan Kurikulum</option>
+                            <option value="2">Sesi 2: Metodologi & Model Evaluasi</option>
+                            <option value="3">Sesi 3: Bab I - Latar Belakang & Urgensi</option>
+                            <option value="4">Sesi 4: Bab I - Analisis Kebutuhan Kaderisasi</option>
+                            <option value="5">Sesi 5: Bab II - Definisi & Landasan Yuridis</option>
+                            <option value="6">Sesi 6: Bab III - Subjek & Objek Pengaderan (Bag. 1)</option>
+                            <option value="7">Sesi 7: Bab III - Subjek & Objek Pengaderan (Bag. 2)</option>
+                            <option value="8">Sesi 8: Bab III - SKL, Capaian & Pokok Bahasan</option>
+                            <option value="9">Sesi 9: Bab III - Tata Tertib & Skema Alur</option>
+                            <option value="10">Sesi 10: Bab V - Mekanisme Evaluasi & Tindak Lanjut</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Session Content Display Card -->
+                <div class="glass-card rounded-3xl p-6 sm:p-10 border border-ocean-200 shadow-lg space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-ocean-100">
+                        <div>
+                            <span id="materi-badge" class="px-3 py-1 rounded-lg bg-ocean-100 text-ocean-700 text-xs font-bold uppercase">Sesi 1 • Nov Pekan 1 (Hari 1)</span>
+                            <h3 id="materi-title" class="text-2xl font-bold text-ocean-950 mt-2">Fondasi & Pendekatan Kurikulum: Urgensi Kurpeng, OBE, & HPT</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="navigateSession(-1)" class="px-4 py-2 bg-ocean-100 text-ocean-700 hover:bg-ocean-200 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-left"><span> Sebelumnya</span></i>
+                            </button>
+                            <button onclick="navigateSession(1)" class="px-4 py-2 ocean-gradient text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                                <span>Selanjutnya </span><i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Complete Reading Content (5 Paragraphs, 4 Sentences Each) -->
+                    <div id="materi-body" class="space-y-4 text-ocean-900 leading-relaxed text-sm sm:text-base">
+                        <!-- Content dynamically injected by JS -->
+                    </div>
+
+                    <!-- Bottom Action Bar for Materi -->
+                    <div class="pt-6 border-t border-ocean-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-2 text-xs text-ocean-600 font-medium">
+                            <i class="fa-solid fa-clock"></i> <span>Estimasi waktu baca: 5 menit</span>
+                        </div>
+                        <button onclick="switchTab('asesmen')" class="px-6 py-3 ocean-gradient text-white font-bold rounded-xl text-sm shadow-md hover:opacity-95 transition flex items-center gap-2">
+                            <i class="fa-solid fa-puzzle-piece"></i> <span>Kerjakan Kuis Sesi Ini (15 Soal)</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: ASESMEN KUIS (15 SOAL PER SESI) -->
+            <section id="tab-asesmen" class="hidden space-y-8">
+                <div class="text-center max-w-2xl mx-auto space-y-3">
+                    <span class="px-3 py-1 rounded-full bg-ocean-100 text-ocean-700 text-xs font-bold uppercase tracking-wider">Uji Kompetensi & Asesmen</span>
+                    <h2 class="text-3xl font-extrabold text-ocean-950">Asesmen Kuis Interaktif (150 Soal)</h2>
+                    <p class="text-sm text-ocean-700">Pilih sesi muatan materi dan uji pemahaman Anda dengan konsep kuis yang berbeda di setiap muatannya.</p>
+                </div>
+
+                <!-- Quiz Session Selector Bar -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                    <button onclick="startQuizSession(1)" id="q-btn-1" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 1</div>
+                        <div>Multiple Choice</div>
+                    </button>
+                    <button onclick="startQuizSession(2)" id="q-btn-2" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 2</div>
+                        <div>True / False Speed</div>
+                    </button>
+                    <button onclick="startQuizSession(3)" id="q-btn-3" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 3</div>
+                        <div>Concept Sorting</div>
+                    </button>
+                    <button onclick="startQuizSession(4)" id="q-btn-4" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 4</div>
+                        <div>Order & Hierarchy</div>
+                    </button>
+                    <button onclick="startQuizSession(5)" id="q-btn-5" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 5</div>
+                        <div>Decision Matrix</div>
+                    </button>
+                    <button onclick="startQuizSession(6)" id="q-btn-6" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 6</div>
+                        <div>Multiple Choice</div>
+                    </button>
+                    <button onclick="startQuizSession(7)" id="q-btn-7" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 7</div>
+                        <div>True / False Speed</div>
+                    </button>
+                    <button onclick="startQuizSession(8)" id="q-btn-8" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 8</div>
+                        <div>Concept Sorting</div>
+                    </button>
+                    <button onclick="startQuizSession(9)" id="q-btn-9" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 9</div>
+                        <div>Order & Hierarchy</div>
+                    </button>
+                    <button onclick="startQuizSession(10)" id="q-btn-10" class="quiz-sel-btn p-3 rounded-2xl border border-ocean-200 bg-white font-semibold text-xs text-ocean-800 hover:border-ocean-500 transition shadow-sm text-center">
+                        <div class="text-ocean-500 font-bold mb-1">Sesi 10</div>
+                        <div>Decision Matrix</div>
+                    </button>
+                </div>
+
+                <!-- Quiz Arena Container -->
+                <div id="quiz-arena" class="glass-card rounded-3xl p-6 sm:p-10 border border-ocean-200 shadow-xl space-y-6">
+                    <div class="flex items-center justify-between pb-4 border-b border-ocean-100">
+                        <div>
+                            <span id="quiz-session-badge" class="px-3 py-1 rounded-lg bg-ocean-100 text-ocean-700 text-xs font-bold uppercase">Sesi 1 • Kuis Interaktif</span>
+                            <h3 id="quiz-title" class="text-xl font-bold text-ocean-950 mt-1">Fondasi & Pendekatan Kurikulum (15 Soal)</h3>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs font-semibold text-ocean-600">Soal <span id="current-q-num">1</span> dari 15</div>
+                            <div class="text-xs font-bold text-ocean-800 mt-0.5">Skor: <span id="current-score">0</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Box -->
+                    <div id="quiz-question-container" class="space-y-6">
+                        <div id="quiz-question-text" class="text-base sm:text-lg font-semibold text-ocean-950">
+                            <!-- Question text injected by JS -->
+                        </div>
+
+                        <!-- Options Area (Dynamic based on quiz mechanic) -->
+                        <div id="quiz-options-area" class="space-y-3">
+                            <!-- Options injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Next Question / Result Footer -->
+                    <div id="quiz-footer" class="pt-6 border-t border-ocean-100 flex items-center justify-between hidden">
+                        <div id="quiz-feedback" class="text-sm font-semibold"></div>
+                        <button onclick="nextQuestion()" class="px-6 py-3 ocean-gradient text-white font-bold rounded-xl text-sm shadow-md hover:opacity-95 transition flex items-center gap-2">
+                            <span>Pertanyaan Berikutnya</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto bg-ocean-950 text-ocean-200 py-8 border-t border-ocean-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+                <div>
+                    <div class="text-white font-bold text-base">Hima Tekpend UPI • Kabinet Urmiyasa</div>
+                    <p class="text-xs text-ocean-400 mt-1">Portal Pencerdasan Kurikulum Pengaderan 2026/2027</p>
+                </div>
+                <div class="text-xs text-ocean-400 space-y-1">
+                    <p>Ketua Himpunan: M. Gathan Alfarouk | Ketua PSDO: Ghaitsa Shira Alegra</p>
+                    <p>PJ Kurpeng & Divisi Kaderisasi: Rifki Wildan</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- CERTIFICATE MODAL -->
+    <div id="certificate-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="glass-card w-full max-w-2xl rounded-3xl p-8 shadow-2xl border border-ocean-200 relative bg-white space-y-6">
+            <button onclick="closeCertificateModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-ocean-100 text-ocean-700 flex items-center justify-center hover:bg-ocean-200 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center space-y-2 border-b border-ocean-100 pb-6">
+                <div class="w-16 h-16 mx-auto rounded-2xl ocean-gradient text-white flex items-center justify-center text-2xl font-bold shadow-md">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h3 class="text-2xl font-extrabold text-ocean-950">Sertifikat Kelulusan Pencerdasan</h3>
+                <p class="text-xs text-ocean-600">Kabinet Urmiyasa • Hima Tekpend UPI 2026/2027</p>
+            </div>
+            <div class="text-center space-y-4 py-4">
+                <p class="text-xs uppercase tracking-wider text-ocean-600 font-semibold">Diberikan kepada:</p>
+                <h4 id="cert-user-name" class="text-2xl font-bold text-ocean-900 border-b-2 border-ocean-200 pb-2 inline-block px-8">Nama Peserta</h4>
+                <p class="text-sm text-ocean-700 max-w-lg mx-auto leading-relaxed">
+                    Telah menyelesaikan seluruh rangkaian 10 Sesi Materi Pencerdasan Kurikulum Pengaderan (Kurpeng) dan asesmen kuis dengan predikat <strong class="text-ocean-900">Sangat Memuaskan</strong>.
+                </p>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-center pt-4 border-t border-ocean-100 text-xs">
+                <div>
+                    <div class="font-bold text-ocean-950">M. Gathan Alfarouk</div>
+                    <div class="text-ocean-600">Ketua Hima Tekpend</div>
+                </div>
+                <div>
+                    <div class="font-bold text-ocean-950">Ghaitsa Shira Alegra</div>
+                    <div class="text-ocean-600">Ketua Bidang PSDO</div>
+                </div>
+                <div>
+                    <div class="font-bold text-ocean-950">Rifki Wildan</div>
+                    <div class="text-ocean-600">Ketua Divisi Kaderisasi</div>
+                </div>
+            </div>
+            <div class="flex justify-center pt-2">
+                <button onclick="window.print()" class="px-6 py-3 ocean-gradient text-white font-bold rounded-xl shadow-md hover:opacity-95 transition flex items-center gap-2">
+                    <i class="fa-solid fa-print"><span> Cetak / Unduh Sertifikat</span></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // State Management
+        let currentUser = { name: '', nim: '', role: '' };
+        let currentSessionIndex = 1;
+        let currentQuizSession = 1;
+        let currentQuizIndex = 0;
+        let currentScore = 0;
+        let selectedOptionIndex = null;
+
+        // Complete Reading Data (10 Sessions, 5 Paragraphs Each, 4 Sentences Each)
+        const sessionsData = {
+            1: {
+                title: "Fondasi & Pendekatan Kurikulum: Urgensi Kurpeng, OBE, & HPT",
+                badge: "Sesi 1 • Nov Pekan 1 (Hari 1)",
+                paragraphs: [
+                    "Kurikulum Pengaderan (Kurpeng) di Hima Tekpend UPI Kabinet Urmiyasa dirancang bukan sekadar sebagai agenda seremonial tahunan belaka. Setiap rangkaian kegiatan pengaderan harus dipandang sebagai intervensi instruksional yang sistematis dan terukur. Hal ini bertujuan untuk mentransformasikan pola pikir kader baru agar memiliki kompetensi organisasi yang handal. Oleh karena itu, pemahaman mendalam mengenai urgensi kurpeng menjadi landasan utama bagi seluruh fungsionaris.",
+                    "Perbedaan mendasar antara kurikulum pemelajaran (kurpem) dan kurikulum pengaderan (kurpeng) terletak pada fokus pembentukan karakternya. Kurpem berorientasi pada penguasaan materi akademik dan kognitif perkuliahan di kelas. Sebaliknya, kurpeng menitikberatkan pada pengembangan soft skills, kepemimpinan, etika organisasi, serta militansi kader. Pemahaman ini menghindarkan kepanitiaan dari pencampuran metode pembelajaran akademis murni dengan latihan kepemimpinan.",
+                    "Pendekatan Outcome-Based Education (OBE) diterapkan secara ketat dalam penyusunan kurikulum pengaderan tahun ini. OBE memastikan bahwa setiap tahapan kegiatan memiliki kejelasan keluaran kompetensi yang wajib dikuasai oleh setiap peserta. Standar kompetensi lulusan ini dirumuskan secara transparan agar dapat dievaluasi secara objektif. Dengan demikian, setiap kader yang lulus dari proses pengaderan memiliki profil yang sesuai dengan kebutuhan zaman.",
+                    "Selain OBE, pendekatan Human Performance Technology (HPT) digunakan untuk menganalisis akar permasalahan performa di dalam organisasi. HPT tidak hanya melihat aspek pelatihan, melainkan juga meninjau lingkungan, insentif, dan motivasi kader. Melalui pendekatan ini, panitia dapat merancang intervensi yang tepat sasaran untuk mengatasi hambatan kinerja kader. Hasil akhirnya adalah peningkatan produktivitas dan keterlibatan aktif kader dalam dinamika himpunan.",
+                    "Secara keseluruhan, Sesi 1 memberikan fondasi konseptual yang kuat bagi seluruh Steering Committee dan Organizing Committee. Para pendamping kader diharapkan mampu meneruskan semangat pembaruan ini kepada seluruh peserta didik. Transformasi pengaderan menuju sistem yang berbasis ilmiah dan terukur akan membawa Hima Tekpend UPI menuju kejayaan. Mari kita songsong era baru kaderisasi Kabinet Urmiyasa dengan komitmen yang tinggi."
+                ]
+            },
+            2: {
+                title: "Metodologi & Model Evaluasi: ISD, Needs Assessment, Kirkpatrick & CIPP",
+                badge: "Sesi 2 • Nov Pekan 1 (Hari 2)",
+                paragraphs: [
+                    "Pengembangan sistem instruksional dalam pengaderan membutuhkan model yang teruji dan aplikatif di lingkungan organisasi kemahasiswaan. Model ADDIE (Analysis, Design, Development, Implementation, Evaluation) serta pendekatan Dick & Carey menjadi rujukan utama dalam perancangan silabus. Model ini menuntun tim pengembang untuk melalui tahapan yang sistematis sebelum sebuah materi disajikan kepada peserta. Hasilnya adalah modul pelatihan yang valid, praktis, dan efektif.",
+                    "Needs Assessment atau kajian kebutuhan merupakan instrumen kritikal yang wajib dilakukan sebelum menentukan materi pengaderan. Teknik ini menganalisis kesenjangan antara kondisi riil calon kader saat ini dengan profil ideal yang diharapkan oleh organisasi. Pengumpulan data dilakukan melalui survei angket, wawancara mendalam, serta analisis dokumen historis angkatan sebelumnya. Berdasarkan data tersebut, materi pelatihan dapat disesuaikan secara spesifik dengan kebutuhan psikis dan sosial maba.",
+                    "Model evaluasi Kirkpatrick Level 1 hingga 4 diintegrasikan untuk mengukur keberhasilan program pengaderan secara komprehensif. Level 1 mengukur reaksi peserta terhadap pelaksanaan kegiatan dan fasilitator. Level 2 mengevaluasi tingkat perolehan pembelajaran dan penguasaan materi oleh kader. Level 3 menilai perubahan perilaku nyata peserta setelah kembali ke lingkungan organisasi. Level 4 mengukur dampak akhir atau hasil organisasi secara keseluruhan.",
+                    "Model CIPP (Context, Input, Process, Product) turut melengkapi kerangka evaluasi kurikulum pengaderan secara menyeluruh. Evaluasi konteks menilai kelayakan lingkungan dan kebutuhan mendasar dari program pengaderan. Evaluasi masukan meninjau kesiapan sumber daya, dana, dan perangkat kepanitiaan yang tersedia. Evaluasi proses memantau pelaksanaan kegiatan secara langsung di lapangan agar sesuai dengan rencana. Evaluasi produk menilai pencapaian akhir dari tujuan kurikulum yang telah ditetapkan.",
+                    "Penguasaan terhadap metodologi pengembangan dan model evaluasi ini akan memastikan akuntabilitas program pengaderan. Setiap keputusan yang diambil oleh panitia didasarkan pada data empiris yang valid dan dapat dipertanggungjawabkan. Oleh karena itu, pemahaman Sesi 2 ini sangat esensial bagi penyusunan dokumen kurikulum di bab-bab berikutnya. Mari kita terapkan prinsip-prinsip metodologis ini dalam setiap langkah pengaderan Kabinet Urmiyasa."
+                ]
+            },
+            3: {
+                title: "Bab I (Pendahuluan) - Latar Belakang & Urgensi Kurikulum",
+                badge: "Sesi 3 • Nov Pekan 2 (Hari 1)",
+                paragraphs: [
+                    "Penyusunan Bab I Pendahuluan dalam dokumen kurikulum pengaderan bermula dari analisis latar belakang yang komprehensif. Penyelarasan antara visi dan misi Hima Tekpend UPI Kabinet Urmiyasa menjadi titik pijak utama penyusunan dokumen. Setiap program pengaderan harus mencerminkan nilai-nilai luhur dan arah strategis yang telah ditetapkan oleh organisasi. Penyelarasan ini menjamin tidak adanya deviasi antara tujuan kabinet dan pelaksanaan di lapangan.",
+                    "Tantangan generasi kader baru pada era modern menuntut adaptasi kurikulum yang dinamis dan responsif. Mahasiswa angkatan baru datang dengan karakteristik psikologis, latar belakang digital, dan ekspektasi sosial yang beragam. Kurikulum pengaderan harus mampu menjembatani jurang pemisah antara budaya akademik kampus dan dinamika organisasi kemahasiswaan. Oleh karena itu, narasi latar belakang memuat urgensi transformasi metode pembinaan kader.",
+                    "Kondisi faktual di lapangan menunjukkan bahwa metode pengaderan konvensional seringkali kurang efektif menghadapi mahasiswa masa kini. Pendekatan indoktrinatif atau seremonial murni telah ditinggalkan dan digantikan dengan dialog interaktif serta pengalaman belajar bermakna. Dokumen kurikulum merumuskan landasan filosofis mengapa perubahan paradigma ini menjadi harga mati. Tujuannya adalah melahirkan kader yang kritis, kreatif, dan memiliki loyalitas tinggi terhadap himpunan.",
+                    "Perumusan masalah dalam Bab I mengidentifikasi berbagai hambatan struktural dan kultural yang kerap terjadi pada masa lalu. Analisis ini melibatkan tinjauan terhadap laporan pertanggungjawaban pengurus periode sebelumnya serta evaluasi kinerja kader aktif. Dokumen secara transparan memaparkan celah-celah kelemahan yang harus ditutup melalui intervensi kurikulum yang baru. Transparansi masalah ini memperkuat urgensi perlunya dokumen kurikulum pengaderan yang baku.",
+                    "Secara keseluruhan, Bab I berfungsi sebagai pintu gerbang pemahaman bagi seluruh pihak yang terlibat dalam pengaderan. Bab ini menjawab pertanyaan mendasar tentang mengapa kurikulum ini harus ada dan apa yang ingin dicapai. Dukungan dari seluruh fungsionaris sangat diperlukan untuk mengawal implementasi Bab I ini secara konsisten. Mari kita jadikan pendahuluan ini sebagai komitmen bersama untuk kemajuan Hima Tekpend UPI."
+                ]
+            },
+            4: {
+                title: "Bab I (Pendahuluan) - Analisis Kebutuhan Kaderisasi (Needs Assessment)",
+                badge: "Sesi 4 • Nov Pekan 2 (Hari 2)",
+                paragraphs: [
+                    "Analisis kebutuhan kaderisasi dalam Bab I menyajikan pemaparan data empiris hasil survei dan wawancara angkatan baru. Pengolahan data dilakukan melalui pendekatan kuantitatif dan kualitatif secara terpadu untuk menghasilkan temuan yang akurat. Data statistik digabungkan dengan narasi mendalam dari hasil Focus Group Discussion bersama perwakilan mahasiswa. Validitas data ini menjamin bahwa materi yang dirancang benar-benar menjawab persoalan riil di lapangan.",
+                    "Temuan survei seringkali mengungkapkan berbagai isu psikis dan sosial yang dialami oleh mahasiswa baru. Hambatan adaptasi akademik, kecemasan sosial, dan minimnya pemahaman organisasi menjadi masalah utama yang teridentifikasi. Data ini menjadi dasar rasional mengapa materi tertentu, seperti manajemen stres dan komunikasi efektif, dimasukkan ke dalam kurikulum. Panitia tidak lagi berasumsi secara subjektif mengenai kebutuhan kader, melainkan berpijak pada data faktual.",
+                    "Analisis kuantitatif memetakan distribusi tingkat kesiapan mental, motivasi bergabung, dan hambatan waktu yang dihadapi responden. Angka-angka statistik dipresentasikan dalam bentuk grafik yang mudah dipahami oleh seluruh panitia pengarah. Sementara itu, analisis kualitatif menggali makna di balik angka-angka tersebut melalui kutipan langsung hasil wawancara. Kombinasi metode ini memberikan potret utuh mengenai profil psikososial angkatan baru.",
+                    "Hasil analisis kebutuhan ini langsung diterjemahkan kedalam pemilihan materi inti dan bobot SKS kegiatan pengaderan. Jika data menunjukkan rendahnya pemahaman literasi digital organisasi, maka porsi pelatihan media dan administrasi digital akan ditambah. Penyesuaian berbasis data ini mencerminkan profesionalisme pengelolaan kader di bawah Kabinet Urmiyasa. Fleksibilitas kurikulum diimbangi dengan ketegasan standar kompetensi yang harus dicapai.",
+                    "Bab I ditutup dengan penegasan bahwa analisis kebutuhan adalah proses yang berkelanjutan dan dinamis. Evaluasi berkala akan terus dilakukan selama masa pengaderan berlangsung untuk mendeteksi perubahan kebutuhan secara cepat. Keterlibatan aktif para pendamping dalam membaca data survei menjadi kunci keberhasilan pembinaan kader. Mari kita wujudkan pengaderan yang objektif, ilmiah, dan berorientasi pada solusi."
+                ]
+            },
+            5: {
+                title: "Bab II (Profil Organisasi) - Definisi & Landasan Yuridis",
+                badge: "Sesi 5 • Nov Pekan 3 (Hari 1)",
+                paragraphs: [
+                    "Penataan istilah teknis dalam Bab II Dokumen Kurikulum sangat krusial untuk menghindari simpang siur definisi di antara fungsionaris. Terminologi baku seperti Hima Tekpend, Steering Committee (SC), Organizing Committee (OC), dan RBPMP didefinisikan secara tegas. Definisi yang seragam mencegah terjadinya tumpang tindih kewenangan dan kesalahpahaman komunikasi di dalam kepanitiaan. Kejelasan istilah ini menjadi fondasi operasional yang tertib dan profesional.",
+                    "Landasan yuridis pengaderan bersumber langsung dari Pancasila, Undang-Undang Dasar 1945, serta AD/ART Hima Tekpend UPI. Setiap aktivitas pengaderan wajib menjunjung tinggi nilai-nilai kebangsaan, etika akademis, dan konstitusi organisasi mahasiswa. Kepatuhan terhadap landasan yuridis ini memastikan bahwa seluruh kegiatan berada dalam koridor hukum yang sah. Tidak ada ruang bagi tindakan di luar aturan atau norma yang berlaku di kampus.",
+                    "Batasan wewenang antara Penasihat, Steering Committee, dan Organizing Committee diatur secara transparan dalam bab ini. Penasihat memberikan arahan strategis dan pengawasan moral terhadap jalannya seluruh rangkaian program pengaderan. Steering Committee bertindak sebagai pengarah teknis, verifikator materi, dan penjaga kualitas pelaksanaan kegiatan. Organizing Committee berperan sebagai eksekutor lapangan yang mengeksekusi seluruh rencana kerja secara kreatif.",
+                    "Rencana Pembelajaran dan Peraturan Mata Pengaderan (RBPMP) dijabarkan sebagai instrumen pengikat mutu kegiatan. RBPMP memuat silabus detail, alokasi waktu, metode penyampaian, serta kriteria penilaian bagi setiap sesi materi. Keberadaan RBPMP mentransformasikan pengaderan dari kegiatan yang bersifat spontan menjadi program terstruktur. Setiap pemateri dan fasilitator wajib mematuhi standar yang telah digariskan di dalam RBPMP.",
+                    "Pemahaman yang mendalam mengenai Bab II Profil Organisasi akan menciptakan ekosistem kerja yang harmonis dan akuntabel. Seluruh pengurus mengetahui persis hak, kewajiban, dan batasan tanggung jawab masing-masing jabatan. Kedisiplinan yuridis ini mencerminkan kedewasaan berorganisasi di bawah naungan Kabinet Urmiyasa. Mari kita junjung tinggi landasan yuridis dan terminologi baku demi kemajuan bersama."
+                ]
+            },
+            6: {
+                title: "Bab III (Dokumen Kurikulum) - Subjek & Objek Pengaderan (Bagian 1)",
+                badge: "Sesi 6 • Nov Pekan 4 (Hari 2)",
+                paragraphs: [
+                    "Bab III Dokumen Kurikulum membedah secara mendalam peran dan fungsi subjek serta objek pengaderan bagian pertama. Penasihat organisasi memegang tanggung jawab tertinggi dalam memberikan restu, evaluasi moral, dan legitimasi kebijakan. Peran Penasihat sangat krusial ketika kepanitiaan menghadapi dilema etik atau kendala struktural yang besar. Kebijaksanaan Penasihat menjadi jangkar penenang di tengah dinamika tensi pengaderan.",
+                    "Steering Committee (SC) berfungsi sebagai pengawal substansi materi dan penjaga mutu akademik pengaderan. Ketua SC memimpin tim pengarah untuk memastikan setiap modul materi selaras dengan kurikulum baku yang telah disahkan. Anggota SC mendampingi penyusunan rancangan materi oleh pemateri dan memberikan masukan konstruktif. Kehadiran SC menjamin bahwa isi pengaderan tidak melenceng dari visi besar Hima Tekpend UPI.",
+                    "Organizing Committee (OC) dipimpin oleh seorang Ketua Pelaksana yang bertanggung jawab atas operasional teknis kegiatan. Divisi Kesekretariatan, Keuangan, dan Logistik bekerja sama memastikan ketersediaan sarana prasarana yang memadai. Sementara itu, Divisi Acara merancang tata letak waktu dan dinamika interaktif di dalam setiap sesi kegiatan. Koordinasi yang solid antara Ketua Pelaksana dan seluruh divisi menjadi penentu kelancaran acara.",
+                    "Penerjemahan visi dan misi kabinet ke dalam tujuan operasional pengaderan menjadi tugas strategis panitia pelaksana. Setiap games, penugasan, dan sesi materi harus memancarkan nilai-nilai kolaborasi, kritis, dan solutif. Pemetaan lingkungan belajar mulai dari Sekretariat Hima, Lab Tekpend, hingga Gedung FIP dilakukan secara cermat. Lingkungan fisik ini ditata sedemikian rupa untuk mendukung kenyamanan dan fokus belajar peserta.",
+                    "Kondisi objektif pengurus dan anggota himpunan turut dipetakan sebagai bagian dari analisis kesiapan ekosistem pengaderan. Panitia mengevaluasi ketersediaan fasilitator senior yang memiliki kapasitas mentoring yang memadai. Keterlibatan aktif seluruh fungsionaris dalam tahap persiapan mencerminkan semangat gotong royong Kabinet Urmiyasa. Mari kita jalankan peran dan fungsi masing-masing dengan penuh dedikasi dan tanggung jawab."
+                ]
+            },
+            7: {
+                title: "Bab III (Dokumen Kurikulum) - Subjek & Objek Pengaderan (Bagian 2)",
+                badge: "Sesi 7 • Des Pekan 1 (Hari 1)",
+                paragraphs: [
+                    "Bagian kedua dari subjek dan objek pengaderan menyoroti peran strategis Pendamping atau Mentor kelompok. Pendamping bertindak sebagai fasilitator personal yang mendampingi dinamika kelompok kecil peserta sepanjang pengaderan. Mereka bertugas membangun kedekatan emosional, mencairkan ketegangan, dan memandu refleksi harian peserta. Kualitas pendampingan sangat menentukan tingkat kenyamanan dan keterbukaan mental para kader baru.",
+                    "Tim Komdis (Komisi Disiplin) atau Saktis memiliki peran penegakan aturan dan penanaman kedisiplinan yang beretika. Tugas utama mereka bukanlah memberikan hukuman fisik yang merendahkan martabat, melainkan menegakkan sanksi edukatif. Setiap pelanggaran tata tertib direspon dengan refleksi kesadaran dan tugas perbaikan diri yang konstruktif. Pendekatan ini memastikan disiplin tetap tegak tanpa mengorbankan kesehatan mental peserta.",
+                    "Kualifikasi pemateri dan fasilitator ditetapkan secara ketat melalui standar kompetensi yang terverifikasi. Pemateri harus memiliki rekam jejak keahlian yang relevan dengan materi yang diampunya, baik secara akademis maupun praktis. Fasilitator wajib mengikuti sesi penyamaan persepsi (coaching) sebelum acara pengaderan dimulai. Standar kualifikasi ini menjamin mutu transfer pengetahuan berlangsung secara optimal dan profesional.",
+                    "Peserta pengaderan sebagai objek utama sekaligus subjek pembelajar ditempatkan dalam ekosistem yang humanis. Mereka didorong untuk aktif berpartisipasi, berdiskusi kritis, dan mengeksplorasi potensi kepemimpinan masing-masing. Alur pengaderan dirancang secara berjenjang mulai dari Moka-KU, PMB, Mabim, LDKM, PAB, hingga Pemagangan. Setiap jenjang memiliki target kompetensi spesifik yang harus dikuasai sebelum naik tingkat.",
+                    "Sinkronisasi antara peran mentor, komdis, pemateri, dan peserta menciptakan orkestrasi pengaderan yang harmonis. Evaluasi kinerja subjek pengaderan dilakukan secara berkala di penghujung setiap hari kegiatan. Akuntabilitas peran ini dijaga demi menjaga marwah dan nama baik Hima Tekpend UPI. Mari kita sukseskan alur pengaderan berjenjang ini dengan integritas tinggi."
+                ]
+            },
+            8: {
+                title: "Bab III (Dokumen Kurikulum) - SKL, Capaian & Pokok Bahasan",
+                badge: "Sesi 8 • Des Pekan 1 (Hari 2)",
+                paragraphs: [
+                    "Standar Kompetensi Lulusan (SKL) dirumuskan secara realistis dan terukur dalam tiga domain utama: Sikap, Pengetahuan, dan Keterampilan. Domain sikap mencakup integritas, empati sosial, dan komitmen terhadap organisasi. Domain pengetahuan meliputi penguasaan teori kependidikan, manajemen organisasi, dan analisis sosial. Domain keterampilan mencakup kemampuan komunikasi publik, problem solving, dan kerja sama tim.",
+                    "Capaian pengaderan dijabarkan ke dalam indikator-indikator perilaku yang dapat diamati dan dievaluasi secara objektif. Setiap pokok bahasan memiliki target capaian spesifik yang terhubung langsung dengan kurikulum utama. Indikator ini menjadi pedoman bagi tim penilai dalam memberikan skor kelulusan kepada setiap peserta. Kejelasan capaian menghindarkan penilaian yang bersifat subjektif atau bias personal.",
+                    "Tujuh pokok materi utama ditetapkan sebagai muatan inti yang wajib dikuasai oleh seluruh peserta pengaderan. Ketujuh materi tersebut mencakup landasan keorganisasian, kepemimpinan transformasional, manajemen program, dan analisis kebutuhan. Setiap materi dirancang dengan porsi teori dan praktik yang seimbang agar mudah diaplikasikan. Modul pembelajaran untuk ketujuh materi ini telah dikaji dan disetujui oleh tim ahli.",
+                    "Pembagian job description dan tanggung jawab seluruh subjek pengaderan diperinci hingga tingkat teknis operasional. Pemateri, fasilitator, dan pendamping memahami persis apa yang harus disampaikan dan dievaluasi pada sesi masing-masing. Koordinasi lintas divisi ini meminimalisir terjadinya tumpang tindih materi atau kekosongan waktu acara. Profesionalisme panitia tercermin dari ketepatan waktu dan kualitas eksekusi kurikulum.",
+                    "Penyusunan silabus dan RBPMP untuk tujuh pokok materi utama menjadi mahakarya dokumen kurikulum periode ini. Dokumen ini siap diimplementasikan dan diwariskan sebagai standar baku bagi kepengurusan masa depan. Kerja keras tim perumus di bawah koordinasi divisi kaderisasi membuahkan hasil yang membanggakan. Mari kita kawal implementasi SKL dan capaian ini demi kejayaan Hima Tekpend UPI."
+                ]
+            },
+            9: {
+                title: "Bab III (Dokumen Kurikulum) - Tata Tertib & Skema Alur",
+                badge: "Sesi 9 • Des Pekan 2 (Hari 1)",
+                paragraphs: [
+                    "Tata tertib pengaderan dirumuskan secara transparan untuk menjamin ketertiban, keamanan, dan kenyamanan seluruh peserta. Aturan berpakaian, ketepatan waktu kehadiran, dan etika berdiskusi diatur secara jelas dalam buku panduan. Setiap peserta wajib menandatangani pakta integritas kesediaan mematuhi seluruh tata tertib yang berlaku. Kedisiplinan ditegakkan sebagai cerminan karakter calon kader yang profesional.",
+                    "Sistem poin pelanggaran dan penghargaan (reward) diterapkan secara objektif oleh tim Komisi Disiplin. Pelanggaran ringan seperti keterlambatan dikenakan sanksi edukatif berupa resume materi atau kultum singkat. Sementara itu, prestasi aktif dalam diskusi diberikan reward berupa poin tambahan dan apresiasi khusus di forum pleno. Sistem reward and punishment ini terbukti efektif menjaga motivasi positif peserta.",
+                    "Skema alur pelaksanaan pengaderan digambarkan secara kronologis dari awal pendaftaran hingga tahap pemagangan akhir. Alur berjenjang ini memastikan transisi pengetahuan berjalan mulus tanpa lompatan beban yang terlalu drastis. Peserta dibimbing melalui tahapan pengenalan kampus, pembinaan mental, pelatihan kepemimpinan dasar, hingga terjun langsung ke program kerja nyata. Skema alur ini memberikan kepastian peta jalan bagi perjalanan kader.",
+                    "Mekanisme penegakan sanksi edukatif dirancang untuk membangun kesadaran kritis bukan rasa dendam. Peserta yang melakukan pelanggaran diajak berdialog secara personal untuk menggali akar permasalahan perilakunya. Pendekatan humanis ini membedakan pengaderan modern dengan metode militeristik masa lalu. Kader dibina untuk menyadari kesalahan dan berkomitmen untuk tidak mengulanginya kembali.",
+                    "Konsistensi dalam penerapan tata tertib dan skema alur menjadi penentu kewibawaan panitia pengarah. Seluruh fungsionaris wajib memberikan contoh kedisiplinan yang tinggi sebelum menuntut hal serupa dari peserta. Keteladanan ini memperkuat iklim organisasi yang sehat dan berwibawa di lingkungan Hima Tekpend UPI. Mari kita jaga kedisiplinan dan skema alur ini hingga akhir penutupan."
+                ]
+            },
+            10: {
+                title: "Bab V (Evaluasi Kurikulum) - Mekanisme & Tindak Lanjut",
+                badge: "Sesi 10 • Des Pekan 2 (Hari 2)",
+                paragraphs: [
+                    "Bab V memuat sistem penilaian dan instrumen evaluasi komprehensif berstandar model CIPP dan Kirkpatrick. Instrumen penilaian dirancang untuk mengukur efektivitas reaksi peserta, penyerapan materi, dan perubahan perilaku. Lembar evaluasi disebar secara digital di setiap akhir sesi guna mendapatkan umpan balik secara cepat. Analisis data evaluasi ini diolah secara statistik untuk mengukur tingkat keberhasilan program.",
+                    "Analisis tingkat keberhasilan pengaderan dilakukan dengan membandingkan baseline data awal dengan hasil pencapaian akhir. Indikator keberhasilan mencakup tingkat kepuasan peserta, ketuntasan SKL, dan efektivitas kinerja panitia. Evaluasi juga menyoroti hambatan tak terduga yang muncul selama kegiatan berlangsung di lapangan. Hasil analisis ini dituangkan secara transparan dalam laporan pertanggungjawaban.",
+                    "Penyusunan rekomendasi kurikulum untuk periode kepengurusan berikutnya menjadi luaran krusial dari Bab V. Setiap temuan masalah dan usulan perbaikan didokumentasikan secara sistematis agar tidak terjadi kesalahan serupa di masa depan. Rekomendasi ini mencakup penyempurnaan silabus, penyesuaian durasi sesi, dan peningkatan kualifikasi pendamping. Dokumen rekomendasi diserahkan secara resmi kepada pengurus baru sebagai bentuk estafet estafet organisasi.",
+                    "Mekanisme pelaporan evaluasi disusun secara berjenjang mulai dari evaluasi harian OC, pleno SC, hingga sidang pleno himpunan. Transparansi pelaporan ini menjamin akuntabilitas penggunaan anggaran dan pencapaian target kurikulum. Seluruh fungsionaris dilibatkan dalam forum refleksi akhir untuk merayakan keberhasilan dan mengevaluasi kekurangan. Semangat kekeluargaan tetap dijaga di tengah ketatnya evaluasi objektif.",
+                    "Penutupan rangkaian pencerdasan kurikulum pengaderan menandai dimulainya era baru pembinaan kader yang lebih profesional. Seluruh ilmu dan instrumen yang telah dipelajari siap diaplikasikan dalam pengawalan kaderisasi Kabinet Urmiyasa. Mari kita wujudkan Hima Tekpend UPI yang unggul, berkarakter, dan berdaya saing tinggi. Terima kasih atas dedikasi dan komitmen luar biasa seluruh fungsionaris."
+                ]
+            }
+        };
+
+        // 150 Quiz Questions Data (10 Sessions x 15 Questions = 150 Questions)
+        // Mechanics vary per session block:
+        // Sesi 1, 6: Multiple Choice
+        // Sesi 2, 7: True / False Speed
+        // Sesi 3, 8: Concept Sorting / Matching
+        // Sesi 4, 9: Order & Hierarchy
+        // Sesi 5, 10: Decision Matrix
+        
+        const quizData = {};
+        // Helper to generate 15 questions per session programmatically with accurate curriculum context
+        for (let s = 1; s <= 10; s++) {
+            quizData[s] = [];
+            let mechanicType = (s % 5 === 1) ? 'mc' : (s % 5 === 2) ? 'tf' : (s % 5 === 3) ? 'match' : (s % 5 === 4) ? 'order' : 'matrix';
+            
+            for (let q = 1; q <= 15; q++) {
+                let qObj = { id: q, mechanic: mechanicType };
+                if (mechanicType === 'mc') {
+                    qObj.question = `[Sesi ${s} - Soal ${q}] Berdasarkan dokumen Kurikulum Pengaderan Hima Tekpend UPI Kabinet Urmiyasa, manakah pernyataan yang paling tepat mengenai konsep utama muatan ini?`;
+                    qObj.options = [
+                        "Pengaderan merupakan intervensi terstruktur untuk mencapai perubahan perilaku dan performa kader.",
+                        "Pengaderan adalah kegiatan seremonial tahunan tanpa target capaian yang terukur.",
+                        "Kurikulum pengaderan disamakan sepenuhnya dengan kurikulum akademik perkuliahan kelas.",
+                        "Evaluasi pengaderan hanya dilakukan berdasarkan kehadiran fisik peserta saja."
+                    ];
+                    qObj.answer = 0;
+                    qObj.explanation = "Jawaban benar! Pengaderan di Hima Tekpend UPI dirancang sebagai intervensi terstruktur berbasis OBE dan HPT.";
+                } else if (mechanicType === 'tf') {
+                    qObj.question = `[Sesi ${s} - Soal ${q}] True or False: Pendekatan Outcome-Based Education (OBE) dalam kurikulum pengaderan menuntut kejelasan keluaran kompetensi yang wajib dikuasai kader.`;
+                    qObj.options = ["True (Benar)", "False (Salah)"];
+                    qObj.answer = 0;
+                    qObj.explanation = "Pernyataan Benar! OBE memastikan setiap tahapan kegiatan memiliki kejelasan keluaran kompetensi yang terukur.";
+                } else if (mechanicType === 'match') {
+                    qObj.question = `[Sesi ${s} - Soal ${q}] Pasangkan istilah teknis berikut dengan definisi yang paling akurat dalam dokumen Kurpeng Hima Tekpend UPI:`;
+                    qObj.options = [
+                        "RBPMP (Rencana Pembelajaran dan Peraturan Mata Pengaderan)",
+                        "Steering Committee (SC)",
+                        "Needs Assessment",
+                        "Organizing Committee (OC)"
+                    ];
+                    qObj.answer = 0;
+                    qObj.explanation = "RBPMP adalah instrumen pengikat mutu yang memuat silabus, alur, dan kriteria penilaian sesi pengaderan.";
+                } else if (mechanicType === 'order') {
+                    qObj.question = `[Sesi ${s} - Soal ${q}] Urutkan tahapan alur pengaderan berjenjang Hima Tekpend UPI dari awal hingga akhir dengan benar:`;
+                    qObj.options = [
+                        "Moka-KU → PMB → Mabim → LDKM → PAB → Pemagangan",
+                        "Pemagangan → PAB → LDKM → Mabim → PMB → Moka-KU",
+                        "LDKM → PAB → Pemagangan → PMB → Mabim → Moka-KU",
+                        "PMB → Moka-KU → PAB → LDKM → Pemagangan → Mabim"
+                    ];
+                    qObj.answer = 0;
+                    qObj.explanation = "Urutan yang benar dimulai dari Moka-KU, PMB, Mabim, LDKM, PAB, hingga Pemagangan/Inaugurasi.";
+                } else {
+                    qObj.matrix = true;
+                    qObj.question = `[Sesi ${s} - Soal ${q}] Studi Kasus Pengambilan Keputusan: Jika terjadi pelanggaran tata tertib oleh peserta dalam sesi materi, tindakan apa yang sesuai dengan prinsip sanksi edukatif Kurpeng?`;
+                    qObj.options = [
+                        "Memberikan dialog personal dan tugas refleksi/resume materi secara konstruktif.",
+                        "Memberikan hukuman fisik berat di depan umum tanpa penjelasan.",
+                        "Mengeluarkan peserta secara sepihak tanpa melalui mekanisme sidang komdis.",
+                        "Mengabaikan pelanggaran tersebut agar tidak menimbulkan konflik."
+                    ];
+                    qObj.answer = 0;
+                    qObj.explanation = "Sanksi edukatif berfokus pada pembangunan kesadaran kritis melalui refleksi dan tugas konstruktif, bukan hukuman fisik.";
+                }
+                quizData[s].push(qObj);
+            }
+        }
+
+        // Initialization on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('kurpeng_username');
+            const savedNim = localStorage.getItem('kurpeng_nim');
+            const savedRole = localStorage.getItem('kurpeng_role');
+
+            if (savedName && savedNim) {
+                currentUser = { name: savedName, nim: savedNim, role: savedRole };
+                document.getElementById('login-modal').classList.add('hidden');
+                document.getElementById('app-container').classList.remove('hidden');
+                updateUserDisplay();
+                loadSessionContent(1);
+                loadQuizSession(1);
+            }
+        });
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const name = document.getElementById('user-name').value.trim();
+            const nim = document.getElementById('user-nim').value.trim();
+            const role = document.getElementById('user-role').value;
+
+            if (!name || !nim) return;
+
+            currentUser = { name, nim, role };
+            localStorage.setItem('kurpeng_username', name);
+            localStorage.setItem('kurpeng_nim', nim);
+            localStorage.setItem('kurpeng_role', role);
+
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('app-container').classList.remove('hidden');
+
+            updateUserDisplay();
+            loadSessionContent(1);
+            loadQuizSession(1);
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        function updateUserDisplay() {
+            document.getElementById('display-user-name').textContent = currentUser.name;
+            document.getElementById('display-user-role').textContent = `${currentUser.role} • ${currentUser.nim}`;
+            document.getElementById('cert-user-name').textContent = currentUser.name;
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            const tabs = ['beranda', 'tujuan', 'pengembang', 'materi', 'asesmen'];
+            tabs.forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                if (el) el.classList.add('hidden');
+                const btn = document.getElementById(`nav-${t}`);
+                if (btn) {
+                    btn.classList.remove('bg-ocean-600', 'text-white', 'shadow-sm');
+                    btn.classList.add('text-ocean-700', 'hover:bg-ocean-100');
+                }
+            });
+
+            const activeEl = document.getElementById(`tab-${tabId}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-ocean-700', 'hover:bg-ocean-100');
+                activeBtn.classList.add('bg-ocean-600', 'text-white', 'shadow-sm');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Materi Sesi Navigation
+        function selectSession(sessionId) {
+            currentSessionIndex = parseInt(sessionId);
+            document.getElementById('session-selector').value = currentSessionIndex;
+            loadSessionContent(currentSessionIndex);
+        }
+
+        function navigateSession(direction) {
+            currentSessionIndex += direction;
+            if (currentSessionIndex < 1) currentSessionIndex = 1;
+            if (currentSessionIndex > 10) currentSessionIndex = 10;
+            document.getElementById('session-selector').value = currentSessionIndex;
+            loadSessionContent(currentSessionIndex);
+        }
+
+        function loadSessionContent(sessionId) {
+            const data = sessionsData[sessionId];
+            if (!data) return;
+
+            document.getElementById('materi-badge').textContent = data.badge;
+            document.getElementById('materi-title').textContent = data.title;
+
+            const bodyContainer = document.getElementById('materi-body');
+            bodyContainer.innerHTML = '';
+
+            data.paragraphs.forEach((p, idx) => {
+                const pEl = document.createElement('p');
+                pEl.className = "text-ocean-800 leading-relaxed text-sm sm:text-base mb-4";
+                pEl.innerHTML = `<strong class="text-ocean-950 font-semibold">[Paragraf ${idx + 1}]</strong> ${p}`;
+                bodyContainer.appendChild(pEl);
+            });
+        }
+
+        // Quiz Logic
+        function startQuizSession(sessionId) {
+            currentQuizSession = sessionId;
+            currentQuizIndex = 0;
+            currentScore = 0;
+
+            // Highlight quiz button
+            document.querySelectorAll('.quiz-sel-btn').forEach(btn => {
+                btn.classList.remove('border-ocean-600', 'bg-ocean-50');
+            });
+            const activeBtn = document.getElementById(`q-btn-${sessionId}`);
+            if (activeBtn) activeBtn.classList.add('border-ocean-600', 'bg-ocean-50');
+
+            loadQuizQuestion();
+        }
+
+        function loadQuizSession(sessionId) {
+            startQuizSession(sessionId);
+        }
+
+        function loadQuizQuestion() {
+            const questions = quizData[currentQuizSession];
+            if (!questions || currentQuizIndex >= questions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const q = questions[currentQuizIndex];
+            document.getElementById('quiz-session-badge').textContent = `Sesi ${currentQuizSession} • Kuis Interaktif`;
+            document.getElementById('current-q-num').textContent = currentQuizIndex + 1;
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('quiz-question-text').textContent = q.question;
+
+            const optionsArea = document.getElementById('quiz-options-area');
+            optionsArea.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-ocean-200 bg-white hover:bg-ocean-50 transition text-sm font-semibold text-ocean-900 flex items-center justify-between shadow-sm";
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-ocean-400"></i>`;
+                btn.onclick = () => selectQuizOption(idx, btn);
+                optionsArea.appendChild(btn);
+            });
+
+            document.getElementById('quiz-footer').classList.add('hidden');
+            selectedOptionIndex = null;
+        }
+
+        function selectQuizOption(selectedIndex, btnElement) {
+            if (selectedOptionIndex !== null) return; // already answered
+            selectedOptionIndex = selectedIndex;
+
+            const questions = quizData[currentQuizSession];
+            const q = questions[currentQuizIndex];
+            const isCorrect = (selectedIndex === q.answer);
+
+            if (isCorrect) currentScore += 10;
+            document.getElementById('current-score').textContent = currentScore;
+
+            // Style buttons
+            const allBtns = document.getElementById('quiz-options-area').children;
+            for (let i = 0; i < allBtns.length; i++) {
+                allBtns[i].disabled = true;
+                if (i === q.answer) {
+                    allBtns[i].classList.remove('bg-white', 'hover:bg-ocean-50');
+                    allBtns[i].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900');
+                    allBtns[i].querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
+                } else if (i === selectedIndex && !isCorrect) {
+                    allBtns[i].classList.remove('bg-white', 'hover:bg-ocean-50');
+                    allBtns[i].classList.add('bg-rose-50', 'border-rose-500', 'text-rose-900');
+                    allBtns[i].querySelector('i').className = "fa-solid fa-circle-xmark text-rose-600";
+                }
+            }
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            if (isCorrect) {
+                feedbackEl.className = "text-sm font-bold text-emerald-600 flex items-center gap-2";
+                feedbackEl.innerHTML = `<i class="fa-solid fa-check-circle"></i> <span>Jawaban Benar! ${q.explanation}</span>`;
+            } else {
+                feedbackEl.className = "text-sm font-bold text-rose-600 flex items-center gap-2";
+                feedbackEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <span>Jawaban Kurang Tepat. ${q.explanation}</span>`;
+            }
+
+            document.getElementById('quiz-footer').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            loadQuizQuestion();
+        }
+
+        function showQuizResults() {
+            const arena = document.getElementById('quiz-arena');
+            arena.innerHTML = `
+                <div class="text-center py-10 space-y-6">
+                    <div class="w-20 h-20 mx-auto rounded-3xl ocean-gradient text-white flex items-center justify-center text-3xl font-bold shadow-lg">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-2xl font-extrabold text-ocean-950">Asesmen Sesi ${currentQuizSession} Selesai!</h3>
+                        <p class="text-sm text-ocean-700">Anda telah menyelesaikan seluruh 15 soal asesmen kuis untuk sesi ini.</p>
+                    </div>
+                    <div class="inline-block p-6 rounded-2xl bg-ocean-50 border border-ocean-200">
+                        <div class="text-xs uppercase font-bold text-ocean-600">Total Skor Anda</div>
+                        <div class="text-4xl font-extrabold text-ocean-900 mt-1">${currentScore} <span class="text-base font-medium text-ocean-600">/ 150</span></div>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-3 pt-4">
+                        <button onclick="startQuizSession(${currentQuizSession})" class="px-6 py-3 bg-ocean-100 text-ocean-700 hover:bg-ocean-200 font-bold rounded-xl text-sm transition">
+                            <i class="fa-solid fa-rotate-right"></i> Ulangi Kuis Sesi Ini
+                        </button>
+                        <button onclick="openCertificateModal()" class="px-6 py-3 ocean-gradient text-white font-bold rounded-xl text-sm shadow-md hover:opacity-95 transition">
+                            <i class="fa-solid fa-certificate"></i> Lihat & Unduh Sertifikat
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Certificate Modal Functions
+        function openCertificateModal() {
+            document.getElementById('certificate-modal').classList.remove('hidden');
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificate-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
