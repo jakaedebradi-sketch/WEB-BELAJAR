@@ -88,7 +88,6 @@ body {
         <h2 class="font-rosalina text-3xl font-black text-amber-300">VyaghraGeoLab</h2>
         <p class="text-xs text-stone-400">Silakan Masuk untuk Memulai Petualangan</p>
       </div>
-      
       <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
         <div class="space-y-1">
           <label class="block text-xs font-bold text-orange-300 uppercase tracking-wider">Nama</label>
@@ -96,10 +95,9 @@ body {
             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-stone-500">
               <i class="fa-solid fa-user"></i>
             </span>
-            <input type="text" id="input-nama" required placeholder="Contoh: David Beckham" class="w-full pl-10 pr-4 py-3 rounded-xl bg-stone-900 border border-stone-800 text-sm text-white focus:outline-none focus:border-orange-500 font-medium">
+            <input type="text" id="input-nama" required placeholder="Contoh: Febri Haryadi" class="w-full pl-10 pr-4 py-3 rounded-xl bg-stone-900 border border-stone-800 text-sm text-white focus:outline-none focus:border-orange-500 font-medium">
           </div>
         </div>
-
         <div class="space-y-1">
           <label class="block text-xs font-bold text-orange-300 uppercase tracking-wider">Kata Sandi</label>
           <div class="relative">
@@ -109,14 +107,12 @@ body {
             <input type="password" id="input-password" required placeholder="••••••••" class="w-full pl-10 pr-4 py-3 rounded-xl bg-stone-900 border border-stone-800 text-sm text-white focus:outline-none focus:border-orange-500 font-medium">
           </div>
         </div>
-
         <button type="submit" class="w-full orange-gradient hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-orange-600/30 transition transform hover:-translate-y-0.5 text-sm">
           <i class="fa-solid fa-right-to-bracket mr-2"></i> Masuk ke Platform
         </button>
       </form>
-
       <div class="text-center text-[11px] text-stone-500 pt-2 border-t border-stone-900">
-        &copy; 2026 VyaghraGeoLab &bull; Dibuat oleh Rifki Wildan 
+        &copy; 2026 VyaghraGeoLab &bull; Dibuat oleh Rifki Wildan
       </div>
     </div>
   </div>
@@ -137,57 +133,54 @@ body {
             <span class="block text-[10px] tracking-widest uppercase text-orange-300 font-bold">Matematika Kelas 9</span>
           </div>
         </div>
-        
         <div class="flex items-center space-x-4">
-          <!-- User Greeting Badge -->
           <div class="hidden sm:flex items-center space-x-2 bg-stone-800/80 px-3.5 py-1.5 rounded-full border border-stone-700 text-xs font-semibold text-amber-300">
             <i class="fa-solid fa-user-graduate text-orange-400"></i>
             <span id="user-display-name">Siswa</span>
           </div>
-          
           <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 font-medium text-sm">
-            <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-orange-400 bg-orange-950/40 border border-orange-500/30 font-semibold">
-              <i class="fa-solid fa-house mr-1.5"></i> Beranda
+            <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-orange-400 bg-orange-950/40 border border-orange-500/30 font-semibold">
+              <i class="fa-solid fa-house mr-1"></i> Beranda
             </button>
-            <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
-              <i class="fa-solid fa-book-open-reader mr-1.5"></i> Video Pembelajaran
+            <button onclick="switchTab('tutorial')" id="nav-tutorial" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+              <i class="fa-solid fa-graduation-cap mr-1"></i> Tutorial
             </button>
-            <button onclick="switchTab('games')" id="nav-games" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
-              <i class="fa-solid fa-gamepad mr-1.5"></i> Games Seru2an
+            <button onclick="switchTab('simulasi')" id="nav-simulasi" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+              <i class="fa-solid fa-desktop mr-1"></i> Simulasi
             </button>
-            <button onclick="switchTab('h5p')" id="nav-h5p" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
-              <i class="fa-solid fa-puzzle-piece mr-1.5"></i> Latihan Ekstra
+            <button onclick="switchTab('drill')" id="nav-drill" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+              <i class="fa-solid fa-dumbbell mr-1"></i> Practice & Drill
             </button>
-            <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
-              <i class="fa-solid fa-user-graduate mr-1.5"></i> Tentang
+            <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+              <i class="fa-solid fa-book-open-reader mr-1"></i> Video
+            </button>
+            <button onclick="switchTab('games')" id="nav-games" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+              <i class="fa-solid fa-gamepad mr-1"></i> Games
+            </button>
+            <button onclick="switchTab('h5p')" id="nav-h5p" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+              <i class="fa-solid fa-puzzle-piece mr-1"></i> H5P
+            </button>
+            <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800">
+              <i class="fa-solid fa-user-graduate mr-1"></i> Tentang
             </button>
           </nav>
-          
           <button onclick="toggleMobileMenu()" class="md:hidden text-stone-300 hover:text-orange-400 p-2 rounded-lg text-xl">
             <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
           </button>
         </div>
       </div>
-      
       <div id="mobile-menu" class="hidden md:hidden bg-stone-950 border-b border-orange-500/30 px-4 py-4 space-y-2">
         <div class="px-4 py-2 text-xs text-amber-300 font-bold border-b border-stone-900 mb-2">
           Halo, <span id="mobile-user-name">Siswa</span>
         </div>
-        <button onclick="switchTab('beranda'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-orange-400 font-semibold bg-stone-900 flex items-center">
-          <i class="fa-solid fa-house w-6"></i> Beranda
-        </button>
-        <button onclick="switchTab('materi'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center">
-          <i class="fa-solid fa-book-open-reader w-6"></i> Video Pembelajaran
-        </button>
-        <button onclick="switchTab('games'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center">
-          <i class="fa-solid fa-gamepad w-6"></i> Games Seru2an
-        </button>
-        <button onclick="switchTab('h5p'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center">
-          <i class="fa-solid fa-puzzle-piece w-6"></i> Latihan Ekstra
-        </button>
-        <button onclick="switchTab('tentang'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center">
-          <i class="fa-solid fa-user-graduate w-6"></i> Tentang
-        </button>
+        <button onclick="switchTab('beranda'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-orange-400 font-semibold bg-stone-900 flex items-center"><i class="fa-solid fa-house w-6"></i> Beranda</button>
+        <button onclick="switchTab('tutorial'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center"><i class="fa-solid fa-graduation-cap w-6"></i> Tutorial (Petunjuk Website)</button>
+        <button onclick="switchTab('simulasi'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center"><i class="fa-solid fa-desktop w-6"></i> Simulasi Koordinat</button>
+        <button onclick="switchTab('drill'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center"><i class="fa-solid fa-dumbbell w-6"></i> Practice & Drill</button>
+        <button onclick="switchTab('materi'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center"><i class="fa-solid fa-book-open-reader w-6"></i> Video Pembelajaran</button>
+        <button onclick="switchTab('games'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center"><i class="fa-solid fa-gamepad w-6"></i> Games Seru2an</button>
+        <button onclick="switchTab('h5p'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center"><i class="fa-solid fa-puzzle-piece w-6"></i> Latihan Ekstra H5P</button>
+        <button onclick="switchTab('tentang'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-stone-300 hover:bg-stone-900 flex items-center"><i class="fa-solid fa-user-graduate w-6"></i> Tentang Pengembang</button>
       </div>
     </header>
 
@@ -216,15 +209,16 @@ body {
                 Kuasai Transformasi Geometri Lebih Seru & Menarik
               </h1>
               <p class="text-stone-300 text-base sm:text-lg leading-relaxed font-normal">
-                Selamat datang, <span id="welcome-user-name" class="font-bold text-amber-300">Siswa</span>! Jelajahi perubahan bentuk, pergeseran, pencerminan, perputaran, serta perkalian ukuran bangun datar didampingi oleh Sang Harimau "Vyaghra".
+                Selamat datang, <span id="welcome-user-name" class="font-bold text-amber-300">Siswa</span>! Pelajari petunjuk penggunaan website di menu <strong class="text-amber-300">Tutorial</strong> atau langsung eksplorasi fitur pembelajaran lainnya di bawah.
               </p>
               <div class="flex flex-wrap gap-4 pt-2">
-                <button onclick="switchTab('materi')" class="orange-gradient hover:brightness-110 text-white font-bold px-7 py-3.5 rounded-2xl shadow-lg shadow-orange-600/30 flex items-center space-x-2 transition transform hover:-translate-y-0.5">
-                  <span>Materi Dulu Yuk</span>
-                  <i class="fa-solid fa-arrow-right"></i>
+                <button onclick="switchTab('tutorial')" class="orange-gradient hover:brightness-110 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-orange-600/30 flex items-center space-x-2 transition transform hover:-translate-y-0.5 text-sm">
+                  <span>Baca Petunjuk Website</span>
+                  <i class="fa-solid fa-graduation-cap"></i>
                 </button>
-                <button onclick="switchTab('games')" class="bg-stone-800/80 hover:bg-stone-800 text-amber-400 border border-amber-500/40 font-semibold px-7 py-3.5 rounded-2xl backdrop-blur-sm transition transform hover:-translate-y-0.5">
-                  <i class="fa-solid fa-dice-five mr-2"></i> Langsung Main Games
+                <button onclick="switchTab('simulasi')" class="bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold px-6 py-3.5 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5 text-sm">
+                  <span>Buka Simulasi</span>
+                  <i class="fa-solid fa-desktop ml-1"></i>
                 </button>
               </div>
             </div>
@@ -240,12 +234,12 @@ body {
                 </div>
                 <h3 class="font-rosalina text-2xl font-bold text-amber-300">Vyaghra</h3>
                 <p class="text-xs text-stone-300 mt-2 italic">
-                  "Pahami prinsip dasar koordinat, kuasai rumusnya, dan taklukkan setiap soal dengan ketelitian seekor Harimau!"
+                  "Gunakan panduan tutorial di website ini untuk memaksimalkan pengalaman belajarmu!"
                 </p>
                 <div class="mt-4 pt-4 border-t border-stone-800 flex justify-around text-xs font-semibold text-orange-300">
                   <div><span class="block text-lg font-bold text-white">4</span> Sub-Bab</div>
-                  <div><span class="block text-lg font-bold text-white">7</span> Video YT</div>
-                  <div><span class="block text-lg font-bold text-white">65+</span> Soal Game</div>
+                  <div><span class="block text-lg font-bold text-white">Simulasi</span> Interaktif</div>
+                  <div><span class="block text-lg font-bold text-white">Drill</span> Mandiri</div>
                 </div>
               </div>
             </div>
@@ -255,9 +249,9 @@ body {
         <!-- 4 SUB-BAB DENGAN AUDIO -->
         <div class="space-y-6">
           <div class="text-center max-w-3xl mx-auto space-y-2">
-            <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Kurikulum Kelas 9 (Prinsip Multimedia)</span>
+            <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Kurikulum Kelas 9</span>
             <h2 class="font-rosalina text-3xl sm:text-4xl font-extrabold text-stone-900">4 Konsep Utama Transformasi Geometri</h2>
-            <p class="text-stone-600">Klik tombol audio 🔊 pada setiap kartu untuk mendengarkan penjelasan suara materi (Modalitas Mayer).</p>
+            <p class="text-stone-600">Klik tombol audio pada setiap kartu untuk mendengarkan penjelasan suara materi.</p>
           </div>
           <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- 1. TRANSLASI -->
@@ -352,19 +346,178 @@ body {
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- INFOGRAFIK -->
-        <div class="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-3xl p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="space-y-3 md:w-3/4">
-            <h3 class="font-rosalina text-2xl sm:text-3xl font-black">Siap Menguji Kemampuan Matematikamu?</h3>
-            <p class="text-orange-100 text-sm sm:text-base">
-              Tonton 7 video penjelasan materi lengkap dan uji kemampuamu dalam 3 mode game seru: Kuis 20 Soal, 15 Puzzle Match, dan 30 Soal Ular Tangga!
-            </p>
-          </div>
-          <div>
-            <button onclick="switchTab('games')" class="bg-stone-950 hover:bg-stone-900 text-amber-400 font-bold px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 whitespace-nowrap">
-              <i class="fa-solid fa-gamepad mr-2"></i> Siap Main Games?
+      <!-- TAB: TUTORIAL (PETUNJUK PENGGUNAAN WEBSITE) -->
+      <section id="tab-tutorial" class="tab-content hidden space-y-8">
+        <div class="bg-white p-8 sm:p-10 rounded-3xl border border-orange-200 shadow-xl max-w-4xl mx-auto space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-4 gap-4">
+            <div>
+              <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Panduan Pengguna</span>
+              <h2 class="font-rosalina text-2xl sm:text-3xl font-extrabold text-stone-900 mt-2">Tutorial Menggunakan Website VyaghraGeoLab</h2>
+              <p class="text-xs text-stone-500 mt-1">Ikuti langkah-langkah di bawah ini untuk memaksimalkan seluruh fitur pembelajaran yang tersedia.</p>
+            </div>
+            <button onclick="playVoiceDescription('Berikut adalah panduan petunjuk penggunaan website VyaghraGeoLab. Silakan ikuti setiap menu yang tersedia mulai dari Beranda, Simulasi, Practice and Drill, Video, Games, hingga H5P.')" class="bg-amber-100 text-amber-800 px-4 py-2 rounded-2xl text-xs font-bold hover:bg-amber-200 transition whitespace-nowrap">
+              <i class="fa-solid fa-volume-high mr-1"></i> Dengar Panduan Audio
             </button>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Poin 1 -->
+            <div class="p-5 rounded-2xl border border-amber-200 bg-amber-50/50 space-y-2">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 rounded-xl orange-gradient text-white flex items-center justify-center font-bold text-sm">1</span>
+                <h4 class="font-bold text-stone-900 text-base">Halaman Login / Masuk Website</h4>
+              </div>
+              <p class="text-xs text-stone-600 leading-relaxed pl-11">
+                Saat pertama kali membuka website ini, Anda akan melihat layar login/sign-in. Masukkan <strong>Nama Lengkap</strong> dan <strong>Kata Sandi</strong> Anda, lalu klik tombol <q>Masuk ke Platform</q>. Nama Anda akan langsung disapa secara personal di bagian header website.
+              </p>
+            </div>
+
+            <!-- Poin 2 -->
+            <div class="p-5 rounded-2xl border border-amber-200 bg-amber-50/50 space-y-2">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 rounded-xl orange-gradient text-white flex items-center justify-center font-bold text-sm">2</span>
+                <h4 class="font-bold text-stone-900 text-base">Menu Navigasi Atas (Header)</h4>
+              </div>
+              <p class="text-xs text-stone-600 leading-relaxed pl-11">
+                Gunakan tombol navigasi di bagian atas halaman untuk berpindah antar menu utama dengan cepat:
+              </p>
+              <ul class="list-disc list-inside text-xs text-stone-600 space-y-1 pl-11">
+                <li><strong>Beranda:</strong> Ringkasan materi 4 sub-bab transformasi geometri beserta tombol audio penjelasan materi.</li>
+                <li><strong>Tutorial:</strong> Halaman petunjuk penggunaan website ini.</li>
+                <li><strong>Simulasi:</strong> Lab interaktif untuk memasukkan titik koordinat (x,y) dan melihat hasil perhitungannya seketika.</li>
+                <li><strong>Practice & Drill:</strong> Latihan soal mandiri berulang dengan sistem pembahasan instan.</li>
+                <li><strong>Video:</strong> Kumpulan 7 video YouTube pembelajaran materi terkait.</li>
+                <li><strong>Games:</strong> 3 arena game seru (Kuis 20 Soal, Puzzle Matching, dan Ular Tangga).</li>
+                <li><strong>H5P:</strong> Modul latihan ekstra teka-teki silang dan kuis interaktif.</li>
+                <li><strong>Tentang:</strong> Profil pengembang website oleh Rifki Wildan (UPI).</li>
+              </ul>
+            </div>
+
+            <!-- Poin 3 -->
+            <div class="p-5 rounded-2xl border border-amber-200 bg-amber-50/50 space-y-2">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 rounded-xl orange-gradient text-white flex items-center justify-center font-bold text-sm">3</span>
+                <h4 class="font-bold text-stone-900 text-base">Menggunakan Fitur Simulasi Koordinat</h4>
+              </div>
+              <p class="text-xs text-stone-600 leading-relaxed pl-11">
+                Buka menu <strong class="text-orange-600">Simulasi</strong>, ketik angka pada kotak input nilai X dan Y awal, lalu pilih jenis transformasi (Translasi, Refleksi, Rotasi, atau Dilatasi) pada menu pilihan. Hasil koordinat bayangan 𝑃′(𝑥′,𝑦′) dan rumus penjelasannya akan otomatis tampil di layar.
+              </p>
+            </div>
+
+            <!-- Poin 4 -->
+            <div class="p-5 rounded-2xl border border-amber-200 bg-amber-50/50 space-y-2">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 rounded-xl orange-gradient text-white flex items-center justify-center font-bold text-sm">4</span>
+                <h4 class="font-bold text-stone-900 text-base">Menjalankan Practice & Drill serta Games</h4>
+              </div>
+              <p class="text-xs text-stone-600 leading-relaxed pl-11">
+                Pada menu <strong class="text-orange-600">Practice & Drill</strong> atau menu <strong class="text-orange-600">Games</strong>, klik salah satu pilihan jawaban yang menurut Anda benar. Website akan langsung memberikan umpan balik (feedback) berwarna hijau (benar) atau merah (serta pembahasan lengkapnya).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: SIMULASI INTERAKTIF TRANSFORMASI GEOMETRI -->
+      <section id="tab-simulasi" class="tab-content hidden space-y-8">
+        <div class="bg-white p-8 rounded-3xl border border-orange-200 shadow-xl max-w-4xl mx-auto space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-4 gap-4">
+            <div>
+              <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Laboratorium Visual</span>
+              <h2 class="font-rosalina text-2xl sm:text-3xl font-extrabold text-stone-900 mt-2">Simulasi Interaktif Koordinat</h2>
+              <p class="text-xs text-stone-500 mt-1">Ubah nilai titik P(x,y) dan pilih transformasi untuk melihat hasil bayangannya seketika!</p>
+            </div>
+            <button onclick="playVoiceDescription('Silakan atur koordinat titik awal dan pilih jenis transformasi geometri untuk melihat hasil simulasinya.')" class="bg-amber-100 text-amber-800 px-4 py-2 rounded-2xl text-xs font-bold hover:bg-amber-200 transition">
+              <i class="fa-solid fa-volume-high mr-1"></i> Dengarkan Panduan
+            </button>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6 items-center">
+            <!-- Panel Kontrol Input -->
+            <div class="bg-amber-50/60 p-6 rounded-3xl border border-amber-200 space-y-4">
+              <h3 class="font-bold text-stone-900 text-sm"><i class="fa-solid fa-sliders text-orange-600 mr-2"></i> Pengaturan Parameter</h3>
+              
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-bold text-stone-600 mb-1">Nilai X Awal:</label>
+                  <input type="number" id="sim-x" value="3" oninput="runSimulasi()" class="w-full p-2.5 rounded-xl border border-stone-300 font-mono text-sm font-bold bg-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-stone-600 mb-1">Nilai Y Awal:</label>
+                  <input type="number" id="sim-y" value="4" oninput="runSimulasi()" class="w-full p-2.5 rounded-xl border border-stone-300 font-mono text-sm font-bold bg-white">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-bold text-stone-600 mb-1">Pilih Jenis Transformasi:</label>
+                <select id="sim-type" onchange="runSimulasi()" class="w-full p-2.5 rounded-xl border border-stone-300 font-bold text-xs bg-white text-stone-800">
+                  <option value="translasi">Translasi T(a, b) [a=2, b=-3]</option>
+                  <option value="sumbu-x">Refleksi Terhadap Sumbu-X</option>
+                  <option value="sumbu-y">Refleksi Terhadap Sumbu-Y</option>
+                  <option value="garis-yx">Refleksi Garis y = x</option>
+                  <option value="rotasi-90">Rotasi +90&deg; Pusat O(0,0)</option>
+                  <option value="rotasi-180">Rotasi 180&deg; Pusat O(0,0)</option>
+                  <option value="dilatasi-2">Dilatasi [O, k=2]</option>
+                </select>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border border-amber-300 shadow-sm space-y-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 block">Hasil Perhitungan Bayangan</span>
+                <div id="sim-result-coord" class="text-xl font-black font-mono text-stone-900">P'(5, 1)</div>
+                <div id="sim-result-formula" class="text-xs text-stone-500 font-mono">Rumus: (x+2, y+(-3))</div>
+              </div>
+            </div>
+
+            <!-- Panel Visualisasi Kartesius Mini -->
+            <div class="bg-stone-900 text-white p-6 rounded-3xl border border-stone-800 flex flex-col items-center justify-center text-center space-y-4 min-h-[260px] shadow-inner">
+              <div class="w-16 h-16 rounded-2xl orange-gradient flex items-center justify-center text-3xl shadow-lg">
+                🎯
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-bold text-orange-400 tracking-widest block">Visualisasi Vektor & Titik</span>
+                <h4 id="sim-status-title" class="font-rosalina text-xl font-bold text-amber-300 mt-1">Translasi Aktif</h4>
+                <p id="sim-desc-text" class="text-xs text-stone-300 mt-2 max-w-xs leading-relaxed">
+                  Titik digeser mendatar sejauh 2 satuan dan vertikal sejauh -3 satuan.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: PRACTICE & DRILL (Latihan Soal Mandiri Berulang) -->
+      <section id="tab-drill" class="tab-content hidden space-y-8">
+        <div class="bg-white p-8 rounded-3xl border border-orange-200 shadow-xl max-w-4xl mx-auto space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-4 gap-4">
+            <div>
+              <span class="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Latihan Mandiri Terarah</span>
+              <h2 class="font-rosalina text-2xl sm:text-3xl font-extrabold text-stone-900 mt-2">Practice & Drill Geometri</h2>
+              <p class="text-xs text-stone-500 mt-1">Latih kemampuanmu menjawab soal acak secara berulang dengan pembahasan instan.</p>
+            </div>
+            <button onclick="loadNewDrillQuestion()" class="orange-gradient text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-md hover:brightness-110 flex items-center">
+              <i class="fa-solid fa-rotate mr-2"></i> Soal Baru (Drill)
+            </button>
+          </div>
+
+          <div class="bg-stone-50 p-6 sm:p-8 rounded-3xl border border-stone-200 space-y-6">
+            <div class="flex justify-between items-center text-xs font-bold text-stone-500">
+              <span id="drill-category-badge" class="bg-orange-100 text-orange-800 px-3 py-1 rounded-md">Translasi</span>
+              <span>Mode Latihan Bebas</span>
+            </div>
+
+            <h3 id="drill-question-text" class="text-lg sm:text-xl font-bold text-stone-900 leading-snug">
+              Memuat soal latihan...
+            </h3>
+
+            <div id="drill-options-container" class="grid sm:grid-cols-2 gap-3">
+              <!-- Opsi jawaban dimuat lewat JavaScript -->
+            </div>
+
+            <div id="drill-feedback-box" class="hidden p-4 rounded-2xl border text-xs leading-relaxed space-y-1">
+              <!-- Feedback pembahasan -->
+            </div>
           </div>
         </div>
       </section>
@@ -378,7 +531,7 @@ body {
           </div>
           <h2 class="font-rosalina text-3xl sm:text-4xl font-extrabold text-stone-900">Modul Pembelajaran & Video YouTube</h2>
           <p class="text-stone-600 text-sm sm:text-base">
-            Saksikan pembahasan materi dasar Transformasi Geometri Kelas 9 yang disajikan secara komunikatif
+            Saksikan pembahasan materi dasar Transformasi Geometri Kelas 9 yang disajikan secara komunikatif[cite: 44].
           </p>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -521,7 +674,7 @@ body {
             <div class="bg-orange-50 border border-orange-200 px-4 py-2 rounded-2xl text-xs font-bold text-orange-700 flex items-center space-x-2">
               <span>Skor Kamu:</span>
               <span id="quiz-score-num" class="text-lg font-black text-orange-600">0</span>
-              <span>/ 100</span>
+              <span>/100</span>
             </div>
           </div>
           <div class="flex justify-between items-center text-xs text-stone-500 font-bold">
@@ -611,7 +764,7 @@ body {
         </div>
       </section>
 
-      <!-- TAB 4: LATIHAN EKSTRA (H5P) - Diperbarui dengan iframe dan resizer skrip Anda -->
+      <!-- TAB 4: LATIHAN EKSTRA (H5P) -->
       <section id="tab-h5p" class="tab-content hidden space-y-10">
         <div class="bg-white p-8 rounded-3xl border border-orange-200 shadow-sm text-center max-w-4xl mx-auto space-y-3">
           <div class="inline-flex items-center space-x-2 bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-xs font-bold">
@@ -634,7 +787,7 @@ body {
             <h3 class="font-bold text-stone-900 text-xl mb-4 text-center border-b border-stone-100 pb-3">Teka-Teki Silang Part 2</h3>
             <iframe src="https://h5p.org/h5p/embed/1569142" width="1091" height="843" frameborder="0" allowfullscreen="allowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" title="Teka-Teki Silang: Transformasi Geometri Part 2" class="w-full max-w-full rounded-xl"></iframe>
           </div>
-          <!-- H5P 3: Kuis Interaktif (Diperbarui dengan kode baru Anda) -->
+          <!-- H5P 3: Kuis Interaktif -->
           <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-lg p-2 sm:p-6 transition-all hover:border-orange-400">
             <h3 class="font-bold text-stone-900 text-xl mb-4 text-center border-b border-stone-100 pb-3">Kuis Interaktif</h3>
             <iframe src="https://h5p.org/h5p/embed/1569139" width="1091" height="466" frameborder="0" allowfullscreen="allowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" title="Kuis Interaktif: Transformasi Geometri Kelas 9" class="w-full max-w-full rounded-xl"></iframe>
@@ -667,32 +820,7 @@ body {
               <p class="text-stone-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
                 Platform VyaghraGeoLab diciptakan khusus sebagai media pembelajaran interaktif berbasis web untuk membantu siswa Kelas 9 memahami materi Transformasi Geometri secara menyenangkan, dan berorientasi pada peningkatan hasil belajar siswa melalui pendekatan gamifikasi.
               </p>
-              <div class="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
-                <span class="bg-stone-900 border border-stone-700 text-stone-300 text-xs px-3 py-1.5 rounded-xl"><i class="fa-solid fa-code text-orange-400 mr-1"></i> Instructional Designer</span>
-                <span class="bg-stone-900 border border-stone-700 text-stone-300 text-xs px-3 py-1.5 rounded-xl"><i class="fa-solid fa-gamepad text-amber-400 mr-1"></i> Inovasi Teknologi Pembelajaran</span>
-                <span class="bg-stone-900 border border-stone-700 text-stone-300 text-xs px-3 py-1.5 rounded-xl"><i class="fa-solid fa-users text-orange-400 mr-1"></i> Pengalaman Organisasi & Kaderisasi</span>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-lg space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl font-bold">
-              <i class="fa-solid fa-lightbulb"></i>
-            </div>
-            <h3 class="font-rosalina text-2xl font-bold text-stone-900">Visi VyaghraGeoLab</h3>
-            <p class="text-stone-600 text-sm leading-relaxed">
-              Pembelajaran matematika seringkali dianggap abstrak oleh siswa SMP/SMA. Melalui integrasi Vyaghra yang merepresentasikan keberanian dan ketelitian, media ini dirancang untuk mengubah paradigma belajar menjadi lebih intuitif, menyenangkan, dan dapat diakses secara mandiri kapan saja.
-            </p>
-          </div>
-          <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-lg space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold">
-              <i class="fa-solid fa-award"></i>
-            </div>
-            <h3 class="font-rosalina text-2xl font-bold text-stone-900">Komitmen Akademik & Organisasi</h3>
-            <p class="text-stone-600 text-sm leading-relaxed">
-              Sebagai mahasiswa semester 5 Teknologi Pendidikan Universitas Pendidikan Indonesia, Rifki Wildan aktif dalam pengembangan media, kepengurusan organisasi mahasiswa, serta riset inovasi teknologi kurikulum berbasis digital.
-            </p>
           </div>
         </div>
       </section>
@@ -722,17 +850,12 @@ function handleLogin(event) {
   event.preventDefault();
   const nama = document.getElementById('input-nama').value.trim();
   const password = document.getElementById('input-password').value.trim();
-
   if (nama && password) {
-    // Set user name in header and welcome banner
     document.getElementById('user-display-name').innerText = nama;
     document.getElementById('mobile-user-name').innerText = nama;
     document.getElementById('welcome-user-name').innerText = nama;
-
-    // Hide auth screen and show main application
     document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('main-app').classList.remove('hidden');
-
     playVoiceDescription(`Selamat datang di VyaghraGeoLab, ${nama}! Mari belajar transformasi geometri.`);
   }
 }
@@ -745,7 +868,6 @@ function playVoiceDescription(text) {
   utterance.lang = 'id-ID';
   utterance.rate = 0.95;
   utterance.pitch = 1.0;
-  
   utterance.onstart = function() {
     document.getElementById('btn-stop-audio').classList.remove('hidden');
   };
@@ -770,11 +892,11 @@ function switchTab(tabName) {
   if(target) target.classList.remove('hidden');
   
   document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.className = 'nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800';
+    btn.className = 'nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-stone-300 hover:text-orange-400 hover:bg-stone-800';
   });
   const activeBtn = document.getElementById('nav-' + tabName);
   if(activeBtn) {
-    activeBtn.className = 'nav-btn px-4 py-2.5 rounded-xl transition-all duration-300 text-orange-400 bg-orange-950/40 border border-orange-500/30 font-semibold';
+    activeBtn.className = 'nav-btn px-3 py-2.5 rounded-xl transition-all duration-300 text-orange-400 bg-orange-950/40 border border-orange-500/30 font-semibold';
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -798,6 +920,114 @@ function activateGame(mode) {
   const activeBtn = document.getElementById(`btn-mode-${mode}`);
   if(activeBtn) {
     activeBtn.className = 'game-tab-btn px-5 py-3 rounded-2xl font-bold text-sm transition orange-gradient text-white shadow-lg';
+  }
+}
+
+/* ==================== SIMULASI INTERAKTIF LOGIC ==================== */
+function runSimulasi() {
+  const x = parseInt(document.getElementById('sim-x').value) || 0;
+  const y = parseInt(document.getElementById('sim-y').value) || 0;
+  const type = document.getElementById('sim-type').value;
+
+  let resX = x, resY = y;
+  let formulaStr = "";
+  let titleStr = "";
+  let descStr = "";
+
+  if (type === 'translasi') {
+    resX = x + 2;
+    resY = y + (-3);
+    formulaStr = `P'(x+2, y-3) = (${resX}, ${resY})`;
+    titleStr = "Translasi T(2, -3)";
+    descStr = `Titik awal P(${x},${y}) digeser horizontal +2 dan vertikal -3.`;
+  } else if (type === 'sumbu-x') {
+    resX = x;
+    resY = -y;
+    formulaStr = `P'(x, -y) = (${resX}, ${resY})`;
+    titleStr = "Refleksi Terhadap Sumbu-X";
+    descStr = `Dicerminkan terhadap sumbu X, nilai ordinat y berlawanan tanda.`;
+  } else if (type === 'sumbu-y') {
+    resX = -x;
+    resY = y;
+    formulaStr = `P'(-x, y) = (${resX}, ${resY})`;
+    titleStr = "Refleksi Terhadap Sumbu-Y";
+    descStr = `Dicerminkan terhadap sumbu Y, nilai absis x berlawanan tanda.`;
+  } else if (type === 'garis-yx') {
+    resX = y;
+    resY = x;
+    formulaStr = `P'(y, x) = (${resX}, ${resY})`;
+    titleStr = "Refleksi Garis y = x";
+    descStr = `Koordinat x dan y saling bertukar posisi.`;
+  } else if (type === 'rotasi-90') {
+    resX = -y;
+    resY = x;
+    formulaStr = `P'(-y, x) = (${resX}, ${resY})`;
+    titleStr = "Rotasi +90&deg; Pusat O(0,0)";
+    descStr = `Diputar berlawanan arah jarum jam sejauh 90 derajat.`;
+  } else if (type === 'rotasi-180') {
+    resX = -x;
+    resY = -y;
+    formulaStr = `P'(-x, -y) = (${resX}, ${resY})`;
+    titleStr = "Rotasi 180&deg; Pusat O(0,0)";
+    descStr = `Diputar 180 derajat, menghasilkan koordinat berlawanan tanda.`;
+  } else if (type === 'dilatasi-2') {
+    resX = x * 2;
+    resY = y * 2;
+    formulaStr = `P'(2x, 2y) = (${resX}, ${resY})`;
+    titleStr = "Dilatasi [O, k=2]";
+    descStr = `Ukuran diperbesar 2 kali lipat dari titik pusat asal.`;
+  }
+
+  document.getElementById('sim-result-coord').innerText = `P'(${resX}, ${resY})`;
+  document.getElementById('sim-result-formula').innerText = `Rumus: ${formulaStr}`;
+  document.getElementById('sim-status-title').innerHTML = titleStr;
+  document.getElementById('sim-desc-text').innerText = descStr;
+}
+
+/* ==================== PRACTICE & DRILL LOGIC ==================== */
+const drillPool = [
+  { q: "Titik A(4, -2) ditranslasikan dengan T(-3, 5). Koordinat bayangannya adalah...", opts: ["A'(1, 3)", "A'(-1, 3)", "A'(7, 3)", "A'(1, -7)"], ans: 0, cat: "Translasi", exp: "4+(-3) = 1 dan -2+5 = 3. Maka A'(1, 3)." },
+  { q: "Titik B(-5, 6) dicerminkan terhadap Sumbu-X. Koordinat bayangannya adalah...", opts: ["B'(-5, -6)", "B'(5, 6)", "B'(5, -6)", "B'(-6, -5)"], ans: 0, cat: "Refleksi", exp: "Cermin sumbu-X mengubah (x, y) menjadi (x, -y). Maka B'(-5, -6)." },
+  { q: "Titik C(2, -7) dicerminkan terhadap Sumbu-Y. Koordinat bayangannya adalah...", opts: ["C'(-2, -7)", "C'(2, 7)", "C'(-2, 7)", "C'(7, 2)"], ans: 0, cat: "Refleksi", exp: "Cermin sumbu-Y mengubah (x, y) menjadi (-x, y). Maka C'(-2, -7)." },
+  { q: "Titik D(3, 5) dirotasikan sebesar +90&deg; terhadap titik pusat O(0,0). Bayangannya adalah...", opts: ["D'(-5, 3)", "D'(5, -3)", "D'(-3, -5)", "D'(3, -5)"], ans: 0, cat: "Rotasi", exp: "Rotasi +90&deg; mengubah (x, y) menjadi (-y, x). Maka D'(-5, 3)." },
+  { q: "Titik E(-4, 2) didilatasi dengan pusat O(0,0) dan faktor skala k = 3. Bayangannya adalah...", opts: ["E'(-12, 6)", "E'(12, -6)", "E'(-4, 6)", "E'(4, 6)"], ans: 0, cat: "Dilatasi", exp: "Dilatasi [O, k] mengalikan koordinat dengan k. E'(-4*3, 2*3) = E'(-12, 6)." }
+];
+
+let currentDrill = null;
+
+function loadNewDrillQuestion() {
+  const randomIndex = Math.floor(Math.random() * drillPool.length);
+  currentDrill = drillPool[randomIndex];
+  
+  document.getElementById('drill-category-badge').innerText = currentDrill.cat;
+  document.getElementById('drill-question-text').innerText = currentDrill.q;
+  
+  const optsContainer = document.getElementById('drill-options-container');
+  optsContainer.innerHTML = '';
+  
+  currentDrill.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-stone-200 bg-white text-stone-700 hover:border-orange-300 text-xs font-semibold transition";
+    btn.innerText = opt;
+    btn.onclick = () => checkDrillAnswer(idx);
+    optsContainer.appendChild(btn);
+  });
+  
+  document.getElementById('drill-feedback-box').classList.add('hidden');
+}
+
+function checkDrillAnswer(selectedIndex) {
+  const fbBox = document.getElementById('drill-feedback-box');
+  fbBox.classList.remove('hidden');
+  
+  if (selectedIndex === currentDrill.ans) {
+    fbBox.className = "p-4 rounded-2xl border text-xs leading-relaxed space-y-1 bg-emerald-50 border-emerald-300 text-emerald-900";
+    fbBox.innerHTML = `<span class="font-bold text-emerald-700"><i class="fa-solid fa-circle-check"></i> BENAR!</span><br>${currentDrill.exp}`;
+    playVoiceDescription(`Benar! ${currentDrill.exp}`);
+  } else {
+    fbBox.className = "p-4 rounded-2xl border text-xs leading-relaxed space-y-1 bg-rose-50 border-rose-300 text-rose-900";
+    fbBox.innerHTML = `<span class="font-bold text-rose-700"><i class="fa-solid fa-circle-xmark"></i> KURANG TEPAT.</span><br>${currentDrill.exp}`;
+    playVoiceDescription(`Kurang tepat. ${currentDrill.exp}`);
   }
 }
 
@@ -1077,6 +1307,8 @@ window.onload = function() {
   renderQuizQuestion();
   renderPuzzleCard();
   renderSnakeBoard();
+  runSimulasi();
+  loadNewDrillQuestion();
 };
 </script>
 </body>
